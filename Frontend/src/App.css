@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.border-gradient {
+  border-image: linear-gradient(to right, #ff69b4, #8a2be2) 1;
+  transition: border-image 0.3s ease;
+}
+
+.border-gradient:hover {
+  border-image: linear-gradient(to right, #ff69b4, #8a2be2) 1;
+  
+}

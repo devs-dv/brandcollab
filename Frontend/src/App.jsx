@@ -5,13 +5,9 @@ import Button from './customComponents/Button'
 
 function App() {
 
-  const handleClick = () => {
-    console.log("hello world")
-  }
-
   return (
     <>
-      <Button>Click Here</Button>
+      
     </>
   );
 }
