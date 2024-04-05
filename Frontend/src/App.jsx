@@ -8,7 +8,6 @@ function App() {
 
   return (
     <>
-      <Text weight="bold" className="text-xl">Hello User</Text>
     </>
   );
 }
