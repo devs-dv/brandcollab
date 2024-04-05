@@ -9,9 +9,9 @@ const text = cva("div", {
       secondary: ["text-gray-800"],
     },
     size: {
-      small: ["text-sm"],
-      medium: ["text-base"],
-      large: ["text-lg"],
+      small: ["text-md"],
+      medium: ["text-xl"],
+      large: ["text-3xl"],
     },
     weight: {
       regular: ["font-normal barlowFont"],
