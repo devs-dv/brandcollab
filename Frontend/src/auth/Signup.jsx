@@ -2,8 +2,15 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "../customComponents/Button";
+import { useLocation } from "react-router-dom";
 
 const Signup = () => {
+
+  const location = useLocation();
+  console.log(location.state)
+  const role = location.state;
+
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -12,6 +19,7 @@ const Signup = () => {
       password: "",
       confirmPassword: "",
       consent: false,
+      role:role|| ""
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
