@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { createContext, useState, useContext } from "react";
 import Text from "../customComponents/Text";
 import Button from "../customComponents/Button";
 
 const AuthLayout = () => {
+  const context = createContext()
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleOptionChange = (event) => {
@@ -16,6 +17,8 @@ const AuthLayout = () => {
     } else {
       console.log("Please select an option");
     }
+    <context.Provider value={selectedOption}>
+    </context.Provider>
   };
 
   return (

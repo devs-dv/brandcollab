@@ -2,8 +2,11 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "../customComponents/Button";
+import { useState, createContext, useContext } from "react";
 
 const Login = () => {
+  const user = useContext()
+  console.log(user)
   const formik = useFormik({
     initialValues: {
       usernameOrEmail: "",
