@@ -1,10 +1,12 @@
 import React, { createContext, useState, useContext } from "react";
 import Text from "../customComponents/Text";
 import Button from "../customComponents/Button";
+import { useNavigate } from "react-router-dom"; 
 
 const AuthLayout = () => {
   const context = createContext()
   const [selectedOption, setSelectedOption] = useState(null);
+  const navigate = useNavigate(); 
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -13,7 +15,7 @@ const AuthLayout = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (selectedOption) {
-      console.log("Selected option:", selectedOption);
+      navigate(`/signup`, { state: selectedOption });
     } else {
       console.log("Please select an option");
     }
@@ -31,14 +33,14 @@ const AuthLayout = () => {
             <input
               type="radio"
               name="option"
-              value="option1"
-              checked={selectedOption === "option1"}
+              value="Influencer"
+              checked={selectedOption === "Influencer"}
               onChange={handleOptionChange}
               className="absolute top-0 left-0 mt-9 ml-2 w-4 h-4"
             />
             <img
               src="/assets/brand.jpg"
-              alt="Option 1"
+              alt="Influencer"
               className="h-auto w-[20vw] rounded-xl"
             />
           </label>
@@ -47,14 +49,14 @@ const AuthLayout = () => {
             <input
               type="radio"
               name="option"
-              value="option2"
-              checked={selectedOption === "option2"}
+              value="Promoter"
+              checked={selectedOption === "Promoter"}
               onChange={handleOptionChange}
               className="absolute top-0 left-0 mt-9 ml-2 w-4 h-4"
             />
             <img
               src="/assets/influencer.jpg"
-              alt="Option 2"
+              alt="Promoter"
               className="h-auto w-[20vw] rounded-xl"
             />
           </label>
