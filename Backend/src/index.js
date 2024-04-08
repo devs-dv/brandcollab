@@ -1,16 +1,19 @@
-const express = require('express');
-const Connection = require('./config/db')
-require('dotenv').config();
-const PORT = process.env.PORT || 3000; 
+const app = require('./app');
+const PORT = process.env.PORT || 9000;
 
-const app = express();
+process.on('uncaughtException', (err) => {
+    console.log(`Error: ${err.message}`);
+    process.exit(1);
+});
 
-app.use('/',(req,res)=>{
-    res.send("Working fine");
-})
 
-Connection();
+const server = app.listen(PORT, () => {
+    console.log(`Server running on PORT http://localhost:${PORT}`)
+});
 
-app.listen(PORT,()=>{
-    console.log(`Server is running on PORT:-${PORT}`);
-})
+process.on('unhandledRejection', (err) => {
+    console.log(`Error: ${err.message}`);
+    server.close(() => {
+        process.exit(1);
+    });
+});
