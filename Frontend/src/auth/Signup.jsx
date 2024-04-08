@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "../customComponents/Button";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import AuthContext from './AuthLayout'
 
 const Signup = () => {
 
-  const location = useLocation();
-  console.log(location.state)
-  const role = location.state;
-
+  const selectedOption = useContext(AuthContext);
+  console.log(selectedOption);
 
   const formik = useFormik({
     initialValues: {
@@ -19,7 +18,7 @@ const Signup = () => {
       password: "",
       confirmPassword: "",
       consent: false,
-      role:role|| ""
+      role: role || "",
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
@@ -52,169 +51,188 @@ const Signup = () => {
   });
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <form
-        onSubmit={formik.handleSubmit}
-        className="w-full max-w-md p-6 bg-white rounded-lg shadow-md"
-      >
-        <div className="flex gap-2">
-          <div className="mb-4">
-            <label
-              htmlFor="firstName"
-              className="block text-sm font-medium text-gray-700"
-            >
-              First Name
-            </label>
-            <input
-              id="firstName"
-              name="firstName"
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.firstName}
-              className={`mt-1 p-2 w-full border rounded-md ${
-                formik.touched.firstName && formik.errors.firstName
-                  ? "border-red-500"
-                  : ""
-              }`}
-            />
-            {formik.touched.firstName && formik.errors.firstName ? (
-              <div className="text-red-500 text-sm">
-                {formik.errors.firstName}
+    <>
+      <div className="">
+        
+        <div className="flex flex-col items-center justify-center h-screen gap-5">
+          <form
+            onSubmit={formik.handleSubmit}
+            className="w-full max-w-md p-6 bg-white rounded-lg shadow-md"
+          >
+            <div className="flex gap-2">
+              <div className="mb-4">
+                <label
+                  htmlFor="firstName"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  First Name
+                </label>
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.firstName}
+                  className={`mt-1 p-2 w-full border rounded-md ${
+                    formik.touched.firstName && formik.errors.firstName
+                      ? "border-red-500"
+                      : ""
+                  }`}
+                />
+                {formik.touched.firstName && formik.errors.firstName ? (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.firstName}
+                  </div>
+                ) : null}
               </div>
-            ) : null}
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="lastName"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Last Name
-            </label>
-            <input
-              id="lastName"
-              name="lastName"
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.lastName}
-              className={`mt-1 p-2 w-full border rounded-md ${
-                formik.touched.lastName && formik.errors.lastName
-                  ? "border-red-500"
-                  : ""
-              }`}
-            />
-            {formik.touched.lastName && formik.errors.lastName ? (
-              <div className="text-red-500 text-sm">
-                {formik.errors.lastName}
+              <div className="mb-4">
+                <label
+                  htmlFor="lastName"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Last Name
+                </label>
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.lastName}
+                  className={`mt-1 p-2 w-full border rounded-md ${
+                    formik.touched.lastName && formik.errors.lastName
+                      ? "border-red-500"
+                      : ""
+                  }`}
+                />
+                {formik.touched.lastName && formik.errors.lastName ? (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.lastName}
+                  </div>
+                ) : null}
               </div>
-            ) : null}
-          </div>
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email Address
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-            className={`mt-1 p-2 w-full border rounded-md ${
-              formik.touched.email && formik.errors.email
-                ? "border-red-500"
-                : ""
-            }`}
-          />
-          {formik.touched.email && formik.errors.email ? (
-            <div className="text-red-500 text-sm">{formik.errors.email}</div>
-          ) : null}
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Password
-          </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-            className={`mt-1 p-2 w-full border rounded-md ${
-              formik.touched.password && formik.errors.password
-                ? "border-red-500"
-                : ""
-            }`}
-          />
-          {formik.touched.password && formik.errors.password ? (
-            <div className="text-red-500 text-sm">{formik.errors.password}</div>
-          ) : null}
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="confirmPassword"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Confirm Password
-          </label>
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.confirmPassword}
-            className={`mt-1 p-2 w-full border rounded-md ${
-              formik.touched.confirmPassword && formik.errors.confirmPassword
-                ? "border-red-500"
-                : ""
-            }`}
-          />
-          {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-            <div className="text-red-500 text-sm">
-              {formik.errors.confirmPassword}
             </div>
-          ) : null}
+            <div className="mb-4">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email Address
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+                className={`mt-1 p-2 w-full border rounded-md ${
+                  formik.touched.email && formik.errors.email
+                    ? "border-red-500"
+                    : ""
+                }`}
+              />
+              {formik.touched.email && formik.errors.email ? (
+                <div className="text-red-500 text-sm">
+                  {formik.errors.email}
+                </div>
+              ) : null}
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+                className={`mt-1 p-2 w-full border rounded-md ${
+                  formik.touched.password && formik.errors.password
+                    ? "border-red-500"
+                    : ""
+                }`}
+              />
+              {formik.touched.password && formik.errors.password ? (
+                <div className="text-red-500 text-sm">
+                  {formik.errors.password}
+                </div>
+              ) : null}
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Confirm Password
+              </label>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.confirmPassword}
+                className={`mt-1 p-2 w-full border rounded-md ${
+                  formik.touched.confirmPassword &&
+                  formik.errors.confirmPassword
+                    ? "border-red-500"
+                    : ""
+                }`}
+              />
+              {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword ? (
+                <div className="text-red-500 text-sm">
+                  {formik.errors.confirmPassword}
+                </div>
+              ) : null}
+            </div>
+            <div className="mb-4">
+              <label htmlFor="consent" className="flex items-center">
+                <input
+                  id="consent"
+                  name="consent"
+                  type="checkbox"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  checked={formik.values.consent}
+                  className="mr-2"
+                />
+                <span className="text-sm text-gray-700">
+                  I agree to the terms and conditions
+                </span>
+              </label>
+              {formik.touched.consent && formik.errors.consent ? (
+                <div className="text-red-500 text-sm">
+                  {formik.errors.consent}
+                </div>
+              ) : null}
+            </div>
+            <Button
+              type="submit"
+              disabled={!formik.isValid}
+              className={`w-full ${
+                !formik.isValid ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+            >
+              Submit
+            </Button>
+          </form>
+          <div>
+            Already have an account ??{" "}
+            <Link to="/login" className=" text-blue-500">
+              Login
+            </Link>
+          </div>
         </div>
-        <div className="mb-4">
-          <label htmlFor="consent" className="flex items-center">
-            <input
-              id="consent"
-              name="consent"
-              type="checkbox"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              checked={formik.values.consent}
-              className="mr-2"
-            />
-            <span className="text-sm text-gray-700">
-              I agree to the terms and conditions
-            </span>
-          </label>
-          {formik.touched.consent && formik.errors.consent ? (
-            <div className="text-red-500 text-sm">{formik.errors.consent}</div>
-          ) : null}
-        </div>
-        <Button
-          type="submit"
-          disabled={!formik.isValid}
-          className={`w-full ${
-            !formik.isValid ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          Submit
-        </Button>
-      </form>
-    </div>
+      </div>
+    </>
   );
 };
 
