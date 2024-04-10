@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "../customComponents/Button";
-import { useState, createContext, useContext } from "react";
+import { valContext } from "../context/context";
 
 const Login = () => {
-
-  
+  const data = useContext(valContext)
+  console.log(data)
   
   const formik = useFormik({
     initialValues: {
@@ -31,71 +31,76 @@ const Login = () => {
   });
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <form
-        onSubmit={formik.handleSubmit}
-        className="w-full max-w-md p-6 bg-white rounded-lg shadow-md"
-      >
-        <div className="mb-4">
-          <label
-            htmlFor="usernameOrEmail"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Username or Email
-          </label>
-          <input
-            id="usernameOrEmail"
-            name="usernameOrEmail"
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.usernameOrEmail}
-            className={`mt-1 p-2 w-full border rounded-md ${
-              formik.touched.usernameOrEmail && formik.errors.usernameOrEmail
-                ? "border-red-500"
-                : ""
-            }`}
-          />
-          {formik.touched.usernameOrEmail && formik.errors.usernameOrEmail ? (
-            <div className="text-red-500 text-sm">
-              {formik.errors.usernameOrEmail}
-            </div>
-          ) : null}
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Password
-          </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-            className={`mt-1 p-2 w-full border rounded-md ${
-              formik.touched.password && formik.errors.password
-                ? "border-red-500"
-                : ""
-            }`}
-          />
-          {formik.touched.password && formik.errors.password ? (
-            <div className="text-red-500 text-sm">{formik.errors.password}</div>
-          ) : null}
-        </div>
-        <Button
-          type="submit"
-          disabled={!formik.isValid}
-          className={`w-full ${
-            !formik.isValid ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+    <div className="lg:grid lg:grid-cols-3">
+      <div className=" max-lg:hidden bg-[url('/assets/login.jpg')] bg-cover bg-center bg-no-repeat" />
+      <div className=" lg:col-start-2 lg:col-end-4 flex items-center justify-center h-screen max-lg:bg-[url('/assets/login.jpg')] bg-cover bg-center bg-no-repeat">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="w-full max-w-md p-6 bg-white rounded-lg shadow-md"
         >
-          Submit
-        </Button>
-      </form>
+          <div className="mb-4">
+            <label
+              htmlFor="usernameOrEmail"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Username or Email
+            </label>
+            <input
+              id="usernameOrEmail"
+              name="usernameOrEmail"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.usernameOrEmail}
+              className={`mt-1 p-2 w-full border rounded-md ${
+                formik.touched.usernameOrEmail && formik.errors.usernameOrEmail
+                  ? "border-red-500"
+                  : ""
+              }`}
+            />
+            {formik.touched.usernameOrEmail && formik.errors.usernameOrEmail ? (
+              <div className="text-red-500 text-sm">
+                {formik.errors.usernameOrEmail}
+              </div>
+            ) : null}
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              className={`mt-1 p-2 w-full border rounded-md ${
+                formik.touched.password && formik.errors.password
+                  ? "border-red-500"
+                  : ""
+              }`}
+            />
+            {formik.touched.password && formik.errors.password ? (
+              <div className="text-red-500 text-sm">
+                {formik.errors.password}
+              </div>
+            ) : null}
+          </div>
+          <Button
+            type="submit"
+            disabled={!formik.isValid}
+            className={`w-full ${
+              !formik.isValid ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
+            Submit
+          </Button>
+        </form>
+      </div>
     </div>
   );
 };
