@@ -15,6 +15,7 @@ function App() {
       <valContext.Provider value={{data,setData}}>
         <Routing />
       </valContext.Provider>
+      
     </>
   );
 }
