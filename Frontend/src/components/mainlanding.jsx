@@ -1,8 +1,8 @@
 import React from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button"; // Import Button component
-
-export const mainlanding = () => {
+import { Link } from "react-router-dom";
+import Button from "../customComponents/Button";
+import "../App.css"
+export const Mainlanding = () => {
   return (
     <div>
       <div className="bg-black text-white">

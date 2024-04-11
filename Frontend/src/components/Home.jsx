@@ -11,6 +11,7 @@ function Home() {
         <Link to="/login">Login</Link>
         <Link to="/signup">Signup</Link>
         <Link to='/verify'>Verification</Link>
+        <Link to ='/mainlanding' > Landing </Link>
       </div>
     </div>
   );

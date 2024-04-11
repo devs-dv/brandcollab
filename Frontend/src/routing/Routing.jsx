@@ -5,6 +5,7 @@ import Signup from "../auth/Signup";
 import Login from "../auth/Login";
 import {AuthLayout} from "../auth/AuthLayout";
 import MailVerify from "../auth/MailVerify";
+import { Mainlanding } from "../components/Mainlanding";
 
 const Routing = () => {
   return (
@@ -14,6 +15,7 @@ const Routing = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/layout" element={<AuthLayout />} />
       <Route path='/verify' element={<MailVerify/>} />
+      <Route path="/mainlanding" element={<Mainlanding/>} />
     </Routes>
   );
 };
