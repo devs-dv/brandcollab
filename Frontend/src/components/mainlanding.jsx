@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Button from "../customComponents/Button";
-import "../App.css"
-export const Mainlanding = () => {
+import "../App.css";
+const MainLanding = () => {
   return (
     <div>
-      <div className="bg-black text-white">
+      <div className="bg-black text-white h-screen">
         <nav className="flex justify-between items-center py-4 px-8">
           <span className="text-xl font-bold">BrandCollab</span>
           <div className="flex space-x-4">
@@ -46,3 +46,5 @@ export const Mainlanding = () => {
     </div>
   );
 };
+
+export default MainLanding;
