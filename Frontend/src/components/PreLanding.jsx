@@ -194,8 +194,7 @@ const PreLanding = () => {
           <br />
           <div className="mx-auto max-w-5xl lg:text-center flex flex-col justify-center items-center">
             <h2 className="text-base font-semibold leading-7 text-blue-100 bg-blue-600 px-3 rounded-lg uppercase mb-4 lg:mb-8">
-              How it Works !
-              {/* Add Icon Here for here UI */}
+              How it Works !{/* Add Icon Here for here UI */}
             </h2>
           </div>
           <div className="h-32 md:h-40" />
@@ -574,9 +573,9 @@ const PreLanding = () => {
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
               <div className="mx-auto max-w-5xl lg:text-center flex flex-col justify-center items-center">
                 <h1 className="lg:text-7xl text-4xl md:text-5xl font-bold tracking-tight from-yellow-600  to-pink-600 text-center">
-                  Enhanced
+                  "Unlock
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-800 to-purple-900">
-                    Insurance Solutions
+                    Your Advantages"{" "}
                   </span>
                 </h1>
               </div>
