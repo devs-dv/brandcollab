@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Button from "../customComponents/Button";
 import price from "./assets/pricing.png";
 import '../App.css'
+import TopNav from "./navigation/TopNav";
 
 const PreLanding = () => {
  const words = [
@@ -97,7 +98,7 @@ const PreLanding = () => {
       </div> */}
 
       {/* new Landing with animation and creation  */}
-
+      
       <div className="bg-gradient-to-br from-gray-900 to-black">
         <div className="text-gray-300 container mx-auto p-8 overflow-hidden md:rounded-lg md:p-10 lg:p-12">
           <div className="flex justify-between">
