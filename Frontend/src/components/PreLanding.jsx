@@ -144,7 +144,7 @@ const PreLanding = () => {
                 Simple and easy
               </p>
               <h2 className="text-4xl font-bold">
-                Made for Brands and Influencers
+                Made for Brands & Influencers
               </h2>
               <div className="h-6" />
               <p className="font-serif text-xl text-gray-400 md:pr-10">
@@ -161,18 +161,18 @@ const PreLanding = () => {
                   <p className="font-semibold text-gray-400">Made with love</p>
                   <div className="h-4" />
                   <p className="font-serif text-gray-400">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Delectus labor.
+                    "CollabHub: Where genuine connections are made with love,
+                    shaping impactful brand-influencer collaborations."{" "}
                   </p>
                 </div>
                 <div>
                   <p className="font-semibold text-gray-400">
-                    It's easy to build
+                    It's easy to Use
                   </p>
                   <div className="h-4" />
                   <p className="font-serif text-gray-400">
-                    Ipsum dolor sit, amet consectetur adipisicing elit. Delectus
-                    amet consectetur.
+                    "CollabHub: Making impactful collaborations effortless with
+                    its user-friendly interface."
                   </p>
                 </div>
               </div>
@@ -185,37 +185,54 @@ const PreLanding = () => {
           <p className="font-serif text-4xl">
             <span className="text-gray-400">If we work all together</span>
             <span className="text-gray-600">
-              consectetur adipisicing elit. Consectetur atque molestiae omnis
-              excepturi enim!
+              &nbsp;Unlocking boundless potential, together we forge a path to
+              success, where collaboration knows no bounds!
             </span>
           </p>
+          <br />
+          <br />
+          <br />
+          <div className="mx-auto max-w-5xl lg:text-center flex flex-col justify-center items-center">
+            <h2 className="text-base font-semibold leading-7 text-blue-100 bg-blue-600 px-3 rounded-lg uppercase mb-4 lg:mb-8">
+              How it Works !
+              {/* Add Icon Here for here UI */}
+            </h2>
+          </div>
           <div className="h-32 md:h-40" />
+          <h1 className="lg:text-7xl text-4xl md:text-5xl font-bold tracking-tight text-center">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-800 to-purple-900">
+              Step Into Success:
+            </span>
+          </h1>
+          <br />
+
           <div className="grid gap-4 md:grid-cols-3">
-            <div className="flex-col p-8 py-16 rounded-lg shadow-2xl md:p-12 bg-gradient-to-br from-gray-900 to-black">
+            <div className="flex-col p-8 py-16 rounded-lg shadow-2xl md:p-12 bg-gradient-to-br from-gray-900 to-black transform hover:scale-105 transition duration-300 ">
               <p className="flex items-center justify-center text-4xl font-semibold text-green-400 bg-green-800 rounded-full shadow-lg w-14 h-14">
                 1
               </p>
               <div className="h-6" />
               <p className="font-serif text-3xl">
-                We build products with UX in mind
+                "Unlock opportunities: Sign up or log in to get started."{" "}
               </p>
             </div>
-            <div className="flex-col p-8 py-16 rounded-lg shadow-2xl md:p-12 bg-gradient-to-b from-gray-900 to-black">
+            <div className="flex-col p-8 py-16 rounded-lg shadow-2xl md:p-12 bg-gradient-to-b from-gray-900 to-black transform hover:scale-105 transition duration-300">
               <p className="flex items-center justify-center text-4xl font-semibold text-indigo-400 bg-indigo-800 rounded-full shadow-lg w-14 h-14">
                 2
               </p>
               <div className="h-6" />
               <p className="font-serif text-3xl">
-                You can trust us to deliver super fast
+                "Craft your profile: Showcase your unique brand or personality."{" "}
               </p>
             </div>
-            <div className="flex-col p-8 py-16 rounded-lg shadow-2xl md:p-12 bg-gradient-to-bl from-gray-900 to-black">
+            <div className="flex-col p-8 py-16 rounded-lg shadow-2xl md:p-12 bg-gradient-to-bl from-gray-900 to-black transform hover:scale-105 transition duration-300">
               <p className="flex items-center justify-center text-4xl font-semibold text-teal-400 bg-teal-800 rounded-full shadow-lg w-14 h-14">
                 3
               </p>
               <div className="h-6" />
               <p className="font-serif text-3xl">
-                We made it simple and easy to do
+                "Watch your influence soar: Connect and grow with our vibrant
+                community."{" "}
               </p>
             </div>
           </div>
@@ -556,9 +573,6 @@ const PreLanding = () => {
           <div>
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
               <div className="mx-auto max-w-5xl lg:text-center flex flex-col justify-center items-center">
-                <h2 className="text-base font-semibold leading-7 text-blue-100 bg-blue-600 px-3 rounded-lg uppercase mb-4 lg:mb-8">
-                  Key Features
-                </h2>
                 <h1 className="lg:text-7xl text-4xl md:text-5xl font-bold tracking-tight from-yellow-600  to-pink-600 text-center">
                   Enhanced
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-800 to-purple-900">
