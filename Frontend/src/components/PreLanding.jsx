@@ -98,17 +98,21 @@ const PreLanding = () => {
       </div> */}
 
       {/* new Landing with animation and creation  */}
-      
+
       <div className="bg-gradient-to-br from-gray-900 to-black">
         <div className="text-gray-300 container mx-auto p-8 overflow-hidden md:rounded-lg md:p-10 lg:p-12">
           <div className="flex justify-between">
             <h1 className="font-serif text-3xl font-medium">BrandCollab</h1>
-            <a
-              href="#"
-              className="self-start px-3 py-2 leading-none text-gray-200 border border-gray-800 rounded-lg focus:outline-none focus:shadow-outline bg-gradient-to-b hover:from-indigo-500 from-gray-900 to-black"
-            >
-              Get Started!
-            </a>
+
+            <div className=" flex gap-5 items-center">
+              <Link to='/login' className="">Login</Link>
+              <Link
+                to="/signup"
+                className="self-start px-3 py-2 leading-none text-gray-200 border border-gray-800 rounded-lg focus:outline-none focus:shadow-outline bg-gradient-to-b hover:from-indigo-500 from-gray-900 to-black"
+              >
+                Signup
+              </Link>
+            </div>
           </div>
           <div className="h-32 md:h-40" />
           <>
@@ -645,8 +649,8 @@ const PreLanding = () => {
                       </h3>
                       <p className="mt-6 text-base text-gray-600">
                         Collaborate in realtime with other Brands in a project.
-                        See what othe Influencers are doing and edit even a simple
-                        text together
+                        See what othe Influencers are doing and edit even a
+                        simple text together
                       </p>
                     </div>
                   </div>
@@ -825,8 +829,8 @@ const PreLanding = () => {
                       Collab With Brands
                     </h3>
                     <p className="mt-6 text-base text-gray-600">
-                      Effortlessly publish your profile to our platform and make it
-                      available to the world with a click of a button
+                      Effortlessly publish your profile to our platform and make
+                      it available to the world with a click of a button
                     </p>
                   </div>
                 </div>
@@ -876,11 +880,12 @@ const PreLanding = () => {
                         />
                       </svg>
                       <h3 className="mt-6 text-2xl font-bold text-gray-900 sm:mt-10">
-                         Data Collection for Brands
+                        Data Collection for Brands
                       </h3>
                       <p className="mt-6 text-base text-gray-600">
-                        Collect data and information from influencers with forms built
-                        on our platform and sort through them in a nice interface
+                        Collect data and information from influencers with forms
+                        built on our platform and sort through them in a nice
+                        interface
                       </p>
                     </div>
                   </div>
@@ -939,7 +944,7 @@ const PreLanding = () => {
                       />
                     </svg>
                     <h3 className="mt-6 text-2xl font-bold text-gray-900 sm:mt-10">
-                      Custom Requests 
+                      Custom Requests
                     </h3>
                     <p className="mt-6 text-base text-gray-600">
                       Attach your own custom Message to your published Profile
