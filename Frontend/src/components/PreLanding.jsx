@@ -643,8 +643,8 @@ const PreLanding = () => {
                         Realtime Collaboration
                       </h3>
                       <p className="mt-6 text-base text-gray-600">
-                        Collaborate in realtime with other editors in a project.
-                        See what othe editors are doing and edit even a simple
+                        Collaborate in realtime with other Brands in a project.
+                        See what othe Influencers are doing and edit even a simple
                         text together
                       </p>
                     </div>
@@ -708,7 +708,7 @@ const PreLanding = () => {
                     </h3>
                     <p className="mt-6 text-base text-gray-600">
                       Go back and forth your history of changes and restore your
-                      designs to any point in time
+                      profile to any point in time
                     </p>
                   </div>
                 </div>
@@ -761,8 +761,8 @@ const PreLanding = () => {
                         Integrations
                       </h3>
                       <p className="mt-6 text-base text-gray-600">
-                        Step up your designs and workflow with integrations with
-                        your favourite tools such as mailchimp, slack, jira etc
+                        Step up your profile and brand with integrations with
+                        your favourite tools.
                       </p>
                     </div>
                   </div>
@@ -821,10 +821,10 @@ const PreLanding = () => {
                       />
                     </svg>
                     <h3 className="mt-6 text-2xl font-bold text-gray-900 sm:mt-10">
-                      Publish webpage online
+                      Collab With Brands
                     </h3>
                     <p className="mt-6 text-base text-gray-600">
-                      Effortlessly publish your webpages online and make it
+                      Effortlessly publish your profile to our platform and make it
                       available to the world with a click of a button
                     </p>
                   </div>
@@ -875,11 +875,11 @@ const PreLanding = () => {
                         />
                       </svg>
                       <h3 className="mt-6 text-2xl font-bold text-gray-900 sm:mt-10">
-                        Forms and Data Collection
+                         Data Collection for Brands
                       </h3>
                       <p className="mt-6 text-base text-gray-600">
-                        Collect data and information from users with forms built
-                        on windframe and sort through them in a nice interface
+                        Collect data and information from influencers with forms built
+                        on our platform and sort through them in a nice interface
                       </p>
                     </div>
                   </div>
@@ -938,11 +938,11 @@ const PreLanding = () => {
                       />
                     </svg>
                     <h3 className="mt-6 text-2xl font-bold text-gray-900 sm:mt-10">
-                      Custom Domains
+                      Custom Requests 
                     </h3>
                     <p className="mt-6 text-base text-gray-600">
-                      Attach your own custom domain to your published projects
-                      or website on windframe
+                      Attach your own custom Message to your published Profile
+                      or Brand on our platform
                     </p>
                   </div>
                 </div>
