@@ -1,9 +1,9 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/user.model");
-const ErrorHandler = require("../utils/errorHandler");
-const asyncErrorHandler = require('./asyncErrorHandler')
+import jwt from "jsonwebtoken";
+import User from "../models/user.model.js";
+import ErrorHandler from "../utils/errorHandler.js";
+import asyncErrorHandler from "./asyncErrorHandler.js";
 
-exports.isAuthenticatedUser = asyncErrorHandler(async (req, res, next) => {
+export const isAuthenticatedUser = asyncErrorHandler(async (req, res, next) => {
   const token = req.header("Authorization");
   // console.log("authentication token", token);
   if (!token) {
@@ -22,7 +22,7 @@ exports.isAuthenticatedUser = asyncErrorHandler(async (req, res, next) => {
   next();
 });
 
-exports.authorizeRoles = (...roles) => {
+export const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return next(

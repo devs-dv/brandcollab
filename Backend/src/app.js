@@ -1,12 +1,14 @@
-const express = require("express");
-require("dotenv").config();
-const ejs = require("ejs");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const fileUpload = require("express-fileupload");
+import express from "express";
+import dotenv from "dotenv";
+import ejs from "ejs";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import fileUpload from "express-fileupload";
+import Connection from "./config/db.js";
+import userRouter from "./routes/user.route.js";
 
-const Connection = require("./config/db.js");
-const userRouter = require('./routes/user.route.js')
+dotenv.config();
+
 const app = express();
 
 app.use(express.static("public"));
@@ -21,12 +23,11 @@ app.use(
 );
 app.use(cors());
 
-
 Connection();
-app.use('/api/v1',userRouter)
+app.use("/api/v1", userRouter);
 
 app.get("/", (req, res) => {
   res.send("Server is Running! 🚀");
 });
 
-module.exports = app;
+export default app;
