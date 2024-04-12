@@ -5,7 +5,11 @@ import Signup from "../auth/Signup";
 import Login from "../auth/Login";
 import {AuthLayout} from "../auth/AuthLayout";
 import MailVerify from "../auth/MailVerify";
-import MainLanding from "../components/MainLanding";
+import PreLanding from "../components/PreLanding";
+import PostLanding from "../components/PostLanding";
+import TopNav from '../components/navigation/TopNav';
+import SideNav from '../components/navigation/SideNav'
+
 const Routing = () => {
   return (
     <Routes>
@@ -14,7 +18,10 @@ const Routing = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/layout" element={<AuthLayout />} />
       <Route path='/verify' element={<MailVerify/>} />
-      <Route path="/landing" element={<MainLanding/>}></Route>
+      <Route path='/prelanding' element={<PreLanding/>} />
+      <Route path="/postlanding" element={<PostLanding/>} />
+      <Route path='/topnav' element={<TopNav/>} />
+      <Route path="/sidenav" element={<SideNav/>} />
     </Routes>
   );
 };

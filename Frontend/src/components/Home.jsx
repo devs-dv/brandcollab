@@ -10,8 +10,11 @@ function Home() {
         <Link to="/layout">Layout</Link>
         <Link to="/login">Login</Link>
         <Link to="/signup">Signup</Link>
-        <Link to='/verify'>Verification</Link>
-        <Link to ='/landing' > Landing </Link>
+        <Link to="/verify">Verification</Link>
+        <Link to="/prelanding"> Pre Landing </Link>
+        <Link to="/postlanding"> Post Landing </Link>
+        <Link to="/topnav">Top Nav</Link>
+        <Link to="/sidenav">Side Nav</Link>
       </div>
     </div>
   );
