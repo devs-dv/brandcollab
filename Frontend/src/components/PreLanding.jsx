@@ -103,9 +103,13 @@ const PreLanding = () => {
         <div className="text-gray-300 container mx-auto p-8 overflow-hidden md:rounded-lg md:p-10 lg:p-12">
           <div className="flex justify-between">
             <h1 className="font-serif text-3xl font-medium">BrandCollab</h1>
-
-            <div className=" flex gap-5 items-center">
-              <Link to='/login' className="">Login</Link>
+            <div className="flex gap-5">
+              <Link
+                to="/login"
+                className="self-start px-3 py-2 leading-none text-gray-200 border border-gray-800 rounded-lg focus:outline-none focus:shadow-outline bg-gradient-to-b hover:from-indigo-500 from-gray-900 to-black"
+              >
+                Login
+              </Link>
               <Link
                 to="/signup"
                 className="self-start px-3 py-2 leading-none text-gray-200 border border-gray-800 rounded-lg focus:outline-none focus:shadow-outline bg-gradient-to-b hover:from-indigo-500 from-gray-900 to-black"
