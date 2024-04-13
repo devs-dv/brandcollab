@@ -1,4 +1,4 @@
-import app from './app.js';
+import runServer from './app.js';
 import cloudinary from 'cloudinary';
 
 import dotenv from 'dotenv';
@@ -18,7 +18,7 @@ cloudinary.v2.config({
     api_secret: process.env.CLOUDINARY_SECRET_KEY
 });
 
-const server = app.listen(PORT, () => {
+const server = runServer.listen(PORT, () => {
     console.log(`Server running on PORT http://localhost:${PORT}`);
 });
 
