@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Button from "../customComponents/Button";
 import price from "./assets/pricing.png";
 import '../App.css'
-import TopNav from "./navigation/TopNav";
 
 const PreLanding = () => {
  const words = [
@@ -98,7 +97,7 @@ const PreLanding = () => {
       </div> */}
 
       {/* new Landing with animation and creation  */}
-      
+
       <div className="bg-gradient-to-br from-gray-900 to-black">
         <div className="text-gray-300 container mx-auto p-8 overflow-hidden md:rounded-lg md:p-10 lg:p-12">
           <div className="flex justify-between">
@@ -208,7 +207,7 @@ const PreLanding = () => {
 
           <div className="grid gap-4 md:grid-cols-3">
             <div className="flex-col p-8 py-16 rounded-lg shadow-2xl md:p-12 bg-gradient-to-br from-gray-900 to-black transform hover:scale-105 transition duration-300 ">
-              <p className="flex items-center justify-center text-4xl font-semibold text-green-400 bg-green-800 rounded-full shadow-lg w-14 h-14">
+              <p className="flex items-center justify-center text-4xl font-semibold text-green-300 bg-green-600 rounded-full shadow-lg w-14 h-14">
                 1
               </p>
               <div className="h-6" />
@@ -217,7 +216,7 @@ const PreLanding = () => {
               </p>
             </div>
             <div className="flex-col p-8 py-16 rounded-lg shadow-2xl md:p-12 bg-gradient-to-b from-gray-900 to-black transform hover:scale-105 transition duration-300">
-              <p className="flex items-center justify-center text-4xl font-semibold text-indigo-400 bg-indigo-800 rounded-full shadow-lg w-14 h-14">
+              <p className="flex items-center justify-center text-4xl font-semibold text-indigo-300 bg-indigo-700 rounded-full shadow-lg w-14 h-14">
                 2
               </p>
               <div className="h-6" />
@@ -226,7 +225,7 @@ const PreLanding = () => {
               </p>
             </div>
             <div className="flex-col p-8 py-16 rounded-lg shadow-2xl md:p-12 bg-gradient-to-bl from-gray-900 to-black transform hover:scale-105 transition duration-300">
-              <p className="flex items-center justify-center text-4xl font-semibold text-teal-400 bg-teal-800 rounded-full shadow-lg w-14 h-14">
+              <p className="flex items-center justify-center text-4xl font-semibold text-teal-300 bg-teal-600 rounded-full shadow-lg w-14 h-14">
                 3
               </p>
               <div className="h-6" />
