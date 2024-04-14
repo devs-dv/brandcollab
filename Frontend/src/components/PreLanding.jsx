@@ -212,7 +212,7 @@ const PreLanding = () => {
             </span>
           </h1>
           <br />
-
+ 
           <div className="grid gap-4 md:grid-cols-3">
             <div className="flex-col p-8 py-16 rounded-lg shadow-2xl md:p-12 bg-gradient-to-br from-gray-900 to-black transform hover:scale-105 transition duration-300 ">
               <p className="flex items-center justify-center text-4xl font-semibold text-green-300 bg-green-600 rounded-full shadow-lg w-14 h-14">
