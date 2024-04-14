@@ -1,11 +1,11 @@
-const User = require("../models/user.model");
-const asyncErrorHandler = require("../middlewares/asyncErrorHandler");
-const sendToken = require("../utils/sendToken");
-const ErrorHandler = require("../utils/errorHandler");
-const cloudinary = require("cloudinary");
+import User from "../models/user.model.js";
+import asyncErrorHandler from "../middlewares/asyncErrorHandler.js";
+import sendToken from "../utils/sendToken.js";
+import ErrorHandler from "../utils/errorHandler.js";
+import cloudinary from "cloudinary";
 
 const registerUser = asyncErrorHandler(async (req, res, next) => {
-  const { firstName,lastName, email, gender, password } = req.body;
+  const { firstName, lastName, email, gender, password } = req.body;
 
   const myCloud = await cloudinary.uploader.upload(
     req.files.avatar.tempFilePath,
@@ -56,9 +56,4 @@ const logoutUser = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-
-module.exports = {
-  registerUser,
-  loginUser,
-  logoutUser
-};
+export { registerUser, loginUser, logoutUser };

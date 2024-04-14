@@ -7,7 +7,7 @@ import { valContext } from "../context/context";
 
 const Signup = () => {
   const data = useContext(valContext);
-
+  console.log(data.data)
   const formik = useFormik({
     initialValues: {
       firstName: "",

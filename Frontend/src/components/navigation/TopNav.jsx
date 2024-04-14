@@ -31,8 +31,8 @@ const TopNav = () => {
           <div
             className={`lg:flex lg:flex-row lg:items-center lg:justify-end lg:w-auto w-full ${
               isOpen
-                ? "flex flex-col absolute top-14 w-screen h-[90vh] text-lg items-center right-0 bg-gray-800 transition-all duration-500"
-                : "hidden"
+                ? "flex flex-col absolute top-14 w-screen h-[100vh] text-lg items-center right-0 translate-x-0 bg-gray-800 transition-all duration-500"
+                : " max-lg:absolute max-lg:translate-x-[-100%] max-lg:w-screen max-lg:h-[100vh] max-lg:top-14 max-lg:flex max-lg:flex-col max-lg:items-center max-lg:right-0 transition-all duration-500"
             }`}
           >
             <div className="flex flex-col items-end lg:flex-row">
