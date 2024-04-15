@@ -9,6 +9,8 @@ import PreLanding from "../components/PreLanding";
 import PostLanding from "../components/PostLanding";
 import TopNav from '../components/navigation/TopNav';
 import SideNav from '../components/navigation/SideNav'
+import InfluencerDashboard from '../components/InfluencerDashboard'
+import Chat from "../components/Chat";
 
 const Routing = () => {
   return (
@@ -22,6 +24,8 @@ const Routing = () => {
       <Route path="/postlanding" element={<PostLanding/>} />
       <Route path='/topnav' element={<TopNav/>} />
       <Route path="/sidenav" element={<SideNav/>} />
+      <Route path='/infdash' element={<InfluencerDashboard/>} />
+      <Route path='/chat' element={<Chat/>} />
     </Routes>
   );
 };
