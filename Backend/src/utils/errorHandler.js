@@ -1,8 +1,7 @@
-function createErrorHandler(message, statusCode) {
+function ErrorHandler(message, statusCode) {
   const error = new Error(message);
   error.statusCode = statusCode;
-  Error.captureStackTrace(error, createErrorHandler);
   return error;
 }
 
-export default createErrorHandler;
+export default ErrorHandler;

@@ -43,6 +43,12 @@ const userSchema = new Schema({
         type: String,
         default: "user",
     },
+    isAdmin: {
+        type: Boolean,
+        required: true,
+        default: false,
+      },
+    
     createdAt: {
         type: Date,
         default: Date.now,

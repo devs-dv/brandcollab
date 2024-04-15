@@ -4,21 +4,24 @@ import ErrorHandler from "../utils/errorHandler.js";
 import asyncErrorHandler from "./asyncErrorHandler.js";
 
 export const isAuthenticatedUser = asyncErrorHandler(async (req, res, next) => {
-  const token = req.header("Authorization");
-  // console.log("authentication token", token);
-  if (!token) {
-    return res.status(401).json({ error: "Authorization token missing" });
-  }
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
-    if (!user) {
+  let token;
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  )
+    try {
+      token = req.headers.authorization.split(" ")[1];
+      console.log("Autherization Token", token);
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findById(decoded.id).select("-password");
+      if (!user) {
+        return res.status(401).json({ error: "Invalid token" });
+      }
+      req.user = user;
+    } catch (error) {
       return res.status(401).json({ error: "Invalid token" });
     }
-    req.user = user;
-  } catch (error) {
-    return res.status(401).json({ error: "Invalid token" });
-  }
   next();
 });
 
