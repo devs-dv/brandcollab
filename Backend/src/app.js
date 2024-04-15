@@ -3,9 +3,12 @@ import dotenv from "dotenv";
 import ejs from "ejs";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import errorHandler from "./utils/errorHandler.js";
 import fileUpload from "express-fileupload";
 import Connection from "./config/db.js";
-import userRouter from "./routes/user.route.js";
+import userRouter from "./routes/user.route.js"
+import chatRouter from "./routes/chat.route.js";
+import messageRouter from "./routes/message.route.js";
 import http from "http";
 import { Server as SocketIOServer } from "socket.io"; 
 dotenv.config();
@@ -26,17 +29,17 @@ app.use(
     useTempFiles: true,
   })
 );
-const corsOptions = {
-  origin: 'http://localhost:3000/',
-};
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 Connection();
 app.use("/api/v1", userRouter);
+app.use('/api/v1',chatRouter);
+app.use('/api/v1',messageRouter)
 
 app.get("/", (req, res) => {
   res.send("Server is Running! 🚀");
 });
 
+app.use(errorHandler);
 export default runServer;

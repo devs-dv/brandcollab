@@ -6,7 +6,10 @@ import cloudinary from "cloudinary";
 
 const registerUser = asyncErrorHandler(async (req, res, next) => {
   const { firstName, lastName, email, gender, password } = req.body;
-
+  const userExist = await User.findOne({ email });
+  if (userExist) {
+    return next(new ErrorHandler("User with this email already exists", 400));
+  }
   const myCloud = await cloudinary.uploader.upload(
     req.files.avatar.tempFilePath,
     {
@@ -56,4 +59,24 @@ const logoutUser = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-export { registerUser, loginUser, logoutUser };
+
+const getAllUsersExceptCurrentUser = asyncErrorHandler(async (req, res, next) => {
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  res.status(200).json({
+    success: true,
+    users
+  });
+});
+
+
+
+export { registerUser, loginUser, logoutUser,getAllUsersExceptCurrentUser };
