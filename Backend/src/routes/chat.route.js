@@ -11,8 +11,8 @@ import {
 
 const chatRouter = express.Router();
 
-chatRouter.route("/").post(isAuthenticatedUser, accessChat);
-chatRouter.route("/").get(isAuthenticatedUser, fetchChats);
+chatRouter.route("/access").post(isAuthenticatedUser, accessChat);
+chatRouter.route("/fetch").get(isAuthenticatedUser, fetchChats);
 chatRouter.route("/group").post(isAuthenticatedUser, createGroupChat);
 chatRouter.route("/rename").put(isAuthenticatedUser, renameGroup);
 chatRouter.route("/groupremove").put(isAuthenticatedUser, removeFromGroup);
