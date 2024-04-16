@@ -11,6 +11,7 @@ import TopNav from '../components/navigation/TopNav';
 import SideNav from '../components/navigation/SideNav'
 import InfluencerDashboard from '../components/InfluencerDashboard'
 import Chat from "../components/Chat";
+import BrandDashboard from "../components/BrandDashboard";
 
 const Routing = () => {
   return (
@@ -25,6 +26,7 @@ const Routing = () => {
       <Route path='/topnav' element={<TopNav/>} />
       <Route path="/sidenav" element={<SideNav/>} />
       <Route path='/infdash' element={<InfluencerDashboard/>} />
+      <Route path='/brandash' element={<BrandDashboard/>} />
       <Route path='/chat' element={<Chat/>} />
     </Routes>
   );

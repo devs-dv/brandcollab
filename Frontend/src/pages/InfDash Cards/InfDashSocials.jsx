@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import Text from "../customComponents/Text";
+import Text from "../../customComponents/Text";
 import { FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
 
 const InfDashSocials = () => {
@@ -59,7 +59,7 @@ const InfDashSocials = () => {
                 <div className="mb-4">
                   <label
                     htmlFor="instagram"
-                    className="block text-sm font-medium text-gray-700 flex items-center"
+                    className="text-sm font-medium text-gray-700 flex items-center"
                   >
                     <FaInstagram className="mr-2" />
                     Instagram

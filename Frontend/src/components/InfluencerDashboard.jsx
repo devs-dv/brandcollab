@@ -1,6 +1,6 @@
 import React from "react";
-import InfDashAbout from "../pages/InfDashAbout";
-import InfDashSocials from "../pages/InfDashSocials";
+import InfDashAbout from "../pages/InfDash Cards/InfDashAbout";
+import InfDashSocials from "../pages/InfDash Cards/InfDashSocials";
 import TopNav from "./navigation/TopNav";
 import SideNav from "./navigation/SideNav";
 
