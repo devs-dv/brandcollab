@@ -28,7 +28,7 @@ const Routing = () => {
       <Route path="/sidenav" element={<SideNav />} />
       <Route path="/infdash">
         <Route index={true} element={<InfluencerDashboard />} />
-        {/* <Route path="/infdash/about" element={<InfDashAbout />} /> */}
+        <Route path="/infdash/socials" element={<InfDashAbout />} />
       </Route>
       <Route path="/brandash" element={<BrandDashboard />} />
       <Route path="/chat" element={<Chat />} />

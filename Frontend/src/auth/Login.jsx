@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "../customComponents/Button";
 import { valContext } from "../context/context";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const data = useContext(valContext);
@@ -104,6 +105,9 @@ const Login = () => {
             >
               Submit
             </Button>
+            <div className="flex mt-4 justify-center">
+              <p>Do not have an account ??</p> <Link to="/signup" className=" text-blue-500 hover:text-blue-700 hover:underline"> Signup</Link>
+            </div>
           </form>
         </div>
       </div>
