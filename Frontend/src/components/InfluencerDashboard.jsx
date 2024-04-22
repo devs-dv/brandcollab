@@ -3,6 +3,7 @@ import InfDashAbout from "../pages/InfDash Cards/InfDashAbout";
 import InfDashSocials from "../pages/InfDash Cards/InfDashSocials";
 import TopNav from "./navigation/TopNav";
 import SideNav from "./navigation/SideNav";
+import InfDashRoute from "../routing/InfDashRoute";
 
 const InfluencerDashboard = () => {
   return (
@@ -13,8 +14,7 @@ const InfluencerDashboard = () => {
           <SideNav />
         </div>
         <div className="flex-1">
-          <InfDashAbout />
-          <InfDashSocials />
+          <InfDashAbout/>
         </div>
       </div>
     </div>
