@@ -12,22 +12,26 @@ import SideNav from '../components/navigation/SideNav'
 import InfluencerDashboard from '../components/InfluencerDashboard'
 import Chat from "../components/Chat";
 import BrandDashboard from "../components/BrandDashboard";
+import InfDashAbout from "../pages/InfDash Cards/InfDashAbout";
 
 const Routing = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/signup" element={<Signup />} /> 
+      <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
       <Route path="/layout" element={<AuthLayout />} />
-      <Route path='/verify' element={<MailVerify/>} />
-      <Route path='/prelanding' element={<PreLanding/>} />
-      <Route path="/postlanding" element={<PostLanding/>} />
-      <Route path='/topnav' element={<TopNav/>} />
-      <Route path="/sidenav" element={<SideNav/>} />
-      <Route path='/infdash' element={<InfluencerDashboard/>} />
-      <Route path='/brandash' element={<BrandDashboard/>} />
-      <Route path='/chat' element={<Chat/>} />
+      <Route path="/verify" element={<MailVerify />} />
+      <Route path="/prelanding" element={<PreLanding />} />
+      <Route path="/postlanding" element={<PostLanding />} />
+      <Route path="/topnav" element={<TopNav />} />
+      <Route path="/sidenav" element={<SideNav />} />
+      <Route path="/infdash">
+        <Route index={true} element={<InfluencerDashboard />} />
+        <Route path="/infdash/socials" element={<InfDashAbout />} />
+      </Route>
+      <Route path="/brandash" element={<BrandDashboard />} />
+      <Route path="/chat" element={<Chat />} />
     </Routes>
   );
 };

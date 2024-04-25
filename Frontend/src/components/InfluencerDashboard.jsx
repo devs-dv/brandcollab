@@ -13,8 +13,7 @@ const InfluencerDashboard = () => {
           <SideNav />
         </div>
         <div className="flex-1">
-          <InfDashAbout />
-          <InfDashSocials />
+          <InfDashAbout/>
         </div>
       </div>
     </div>

@@ -3,9 +3,18 @@ import asyncErrorHandler from "../middlewares/asyncErrorHandler.js";
 import sendToken from "../utils/sendToken.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import cloudinary from "cloudinary";
+import crypto from "crypto";
+import sendEmail from "../utils/sendEmail.js";
 
 const registerUser = asyncErrorHandler(async (req, res, next) => {
-  const { firstName, lastName, email, gender, password } = req.body;
+  const { firstName, lastName, email, gender, password, confirmPassword } =
+    req.body;
+
+  // Check if password and confirmPassword match
+  if (password !== confirmPassword) {
+    return next(new ErrorHandler("Passwords do not match", 400));
+  }
+
   const userExist = await User.findOne({ email });
   if (userExist) {
     return next(new ErrorHandler("User with this email already exists", 400));
@@ -59,24 +68,116 @@ const logoutUser = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
+const forgetPassword = asyncErrorHandler(async (req, res, next) => {
+  const email = req.body.email;
+  const user = await User.findOne({ email: email });
+  if (!user) {
+    return next(new ErrorHandler("Invalid Email", 404));
+  }
+  const resetToken = await user.getResetPasswordToken();
+  user.save({ validateBeforeSave: false });
+  const resetUrl = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/resetPassword/${resetToken}`;
+  const message = `We have received a password reset request. Please use the following link to reset your password:\n\n${resetUrl}\n\nThis reset password link will be valid only for 10 minutes.`;
 
-const getAllUsersExceptCurrentUser = asyncErrorHandler(async (req, res, next) => {
-  const keyword = req.query.search
-    ? {
-        $or: [
-          { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
-        ],
-      }
-    : {};
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Password change request received",
+      message: message,
+    });
+    res.status(200).json({
+      status: "success",
+      message: "Password reset link sent to the user",
+    });
+  } catch (error) {
+    return next(
+      new ErrorHandler(
+        "There was an error sending the password link. Please try again later.",
+        500
+      )
+    );
+  }
+});
 
-  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+const resetPassword = asyncErrorHandler(async (req, res, next) => {
+  const token = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+  const user = await User.findOne({
+    resetPasswordToken: token,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+  if (!user) {
+    return next(new ErrorHandler("Token is Invalid or has expired", 404));
+  }
+  console.log(token);
+  console.log(user);
+  user.password = req.body.password;
+  user.confirmPassword = req.body.confirmPassword;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+  user.passwordChangedAt = Date.now();
+  user.save();
+
+  //write code here to login automatically
+  const authToken = user.getJWTToken();
+
   res.status(200).json({
     success: true,
-    users
+    message: "Password has been reset successfully",
+    token: authToken,
   });
 });
 
+const updatePassword = asyncErrorHandler(async (req,res,next)=>{
+   const user = await User.findById(req.user._id).select('+password');
+   if(!(await user.comparePassword(req.body.currentPassword,user.password))){
+    return next(new ErrorHandler("The Current password you provided is wrong", 401));
+   }
+   user.password = req.body.password;
+   user.confirmPassword = req.body.confirmPassword;
+   await user.save();
 
+   const authToken = user.getJWTToken();
 
-export { registerUser, loginUser, logoutUser,getAllUsersExceptCurrentUser };
+   res.status(200).json({
+     success: true,
+     message: "Password has been updated successfully",
+     token: authToken,
+     data:{
+      user
+     }
+   });
+})
+
+const getAllUsersExceptCurrentUser = asyncErrorHandler(
+  async (req, res, next) => {
+    const keyword = req.query.search
+      ? {
+          $or: [
+            { name: { $regex: req.query.search, $options: "i" } },
+            { email: { $regex: req.query.search, $options: "i" } },
+          ],
+        }
+      : {};
+
+    const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+    res.status(200).json({
+      success: true,
+      users,
+    });
+  }
+);
+
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  forgetPassword,
+  resetPassword,
+  updatePassword,
+  getAllUsersExceptCurrentUser,
+};
