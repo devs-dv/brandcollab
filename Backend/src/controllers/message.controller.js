@@ -6,7 +6,7 @@ import asyncErrorHandler from "../middlewares/asyncErrorHandler.js";
 const allMessages = asyncErrorHandler(async (req, res) => {
   try {
     const messages = await Message.find({ chat: req.params.chatId })
-      .populate("sender", "name pic email")
+      .populate("sender", "firstName avatar email")
       .populate("chat");
     res.json(messages);
   } catch (error) {
@@ -36,7 +36,7 @@ const sendMessage = asyncErrorHandler(async (req, res) => {
     message = await message.populate("chat")
     message = await User.populate(message, {
       path: "chat.users",
-      select: "firstname avatar email",
+      select: "firstName avatar email",
     });
 
     await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });
