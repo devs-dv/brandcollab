@@ -100,7 +100,7 @@ const InfDashSocials = () => {
                 <div className="mb-4">
                   <label
                     htmlFor="twitter"
-                    className="block text-sm font-medium text-gray-700 flex items-center"
+                    className=" text-sm font-medium text-gray-700 flex items-center"
                   >
                     <FaTwitter className="mr-2" />
                     Twitter
@@ -141,7 +141,7 @@ const InfDashSocials = () => {
                 <div className="mb-4">
                   <label
                     htmlFor="facebook"
-                    className="block text-sm font-medium text-gray-700 flex items-center"
+                    className=" text-sm font-medium text-gray-700 flex items-center"
                   >
                     <FaFacebook className="mr-2" />
                     Facebook
