@@ -3,13 +3,13 @@ import Text from "../customComponents/Text";
 import Button from "../customComponents/Button";
 import { useNavigate } from "react-router-dom";
 import Signup from "./Signup";
-import { valContext } from "../context/context";
+
 
 const AuthLayout = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const navigate = useNavigate();
 
-  const {data,setData} = useContext(valContext)
+  
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -18,7 +18,7 @@ const AuthLayout = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (selectedOption) {
-      setData(selectedOption)
+      
       navigate(`/signup`);
     } else {
       console.log("Please select an option");

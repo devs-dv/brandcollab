@@ -3,11 +3,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "../customComponents/Button";
 import { Link } from "react-router-dom";
-import { valContext } from "../context/context";
 
 const Signup = () => {
-  const data = useContext(valContext);
-  console.log(data.data);
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -16,7 +14,7 @@ const Signup = () => {
       password: "",
       confirmPassword: "",
       consent: false,
-      role: data.data,
+      role: "user",
     },
     validationSchema: Yup.object({
       firstName: Yup.string()

@@ -9,7 +9,7 @@ import PreLanding from "../components/PreLanding";
 import PostLanding from "../components/PostLanding";
 import TopNav from "../components/navigation/TopNav";
 import SideNav from "../components/navigation/SideNav";
-import Chat from "../components/Chat";
+import ChatPage from "../components/ChatPage";
 import InfluencerDashboard from "../components/Influencer Dashboard/InfluencerDashboard";
 import BrandDashboard from "../components/Brand Dashboard/BrandDashboard";
 import InfDashAbout from "../pages/InfDash Cards/InfDashAbout";
@@ -44,7 +44,7 @@ const Routing = () => {
         <Route index={true} element={<BrandDashboard />}/>
         <Route path="/brandash/post" element={<BrandCreatePost/>} />
       </Route>
-      <Route path="/chat" element={<Chat />} />
+      <Route path="/chat" element={<ChatPage />} />
       <Route path="/changePassword" element={<ChangePassword />} />
     </Routes>
   );

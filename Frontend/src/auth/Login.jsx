@@ -2,12 +2,10 @@ import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "../customComponents/Button";
-import { valContext } from "../context/context";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-  const data = useContext(valContext);
-  console.log(data);
+  
 
   const formik = useFormik({
     initialValues: {
