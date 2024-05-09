@@ -12,15 +12,15 @@ const ContextProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  //   const token = localStorage.getItem("userToken");
-  //   setUserToken(token);
-  //   setUser(userInfo);
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const token = localStorage.getItem("userToken");
+    setUserToken(token);
+    setUser(userInfo);
 
-  //   if (!userInfo) navigate("/");
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [navigate]);
+    if (!userInfo) navigate("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate]);
 
   return (
     <ChatContext.Provider
