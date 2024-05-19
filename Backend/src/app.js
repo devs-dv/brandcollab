@@ -12,8 +12,50 @@ import messageRouter from "./routes/message.route.js";
 import http from "http";
 import { Server as SocketIOServer } from "socket.io"; 
 dotenv.config();
-
 const app = express();
+
+import swaggerJsdoc from "swagger-jsdoc"
+import swaggerUi from "swagger-ui-express"
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Brand Collab by Promoter',
+      version: '1.0.0',
+    },
+    servers:[
+      {
+         url:'http://localhost:8000'
+      },
+      {
+        url:"https://digitalpaani-book-management.onrender.com"
+      }
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
+  },
+  apis: ['./src/routes/*.js'],
+};
+
+const openapiSpecification = swaggerJsdoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
+
+
+
+
 const runServer = http.createServer(app, {
   pingTimeout: 60000,
   cors: {
