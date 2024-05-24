@@ -19,6 +19,7 @@ import InfluencerChangePassword from "../components/Influencer Dashboard/Influen
 import InfluencerSocials from "../components/Influencer Dashboard/InfluencerSocials";
 import BranCreatePost from "../pages/BranDash Cards/BranCreatePost";
 import BrandCreatePost from "../components/Brand Dashboard/BrandCreatePost";
+import BrandPostLanding from "../components/BrandPostLanding";
 
 const Routing = () => {
   return (
@@ -30,6 +31,7 @@ const Routing = () => {
       <Route path="/verify" element={<MailVerify />} />
       <Route path="/prelanding" element={<PreLanding />} />
       <Route path="/postlanding" element={<PostLanding />} />
+      <Route path='/BrandPostLanding' element={<BrandPostLanding/>} />
       <Route path="/topnav" element={<TopNav />} />
       <Route path="/sidenav" element={<SideNav />} />
       <Route path="/infdash">
