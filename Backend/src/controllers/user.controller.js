@@ -132,26 +132,28 @@ const resetPassword = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-const updatePassword = asyncErrorHandler(async (req,res,next)=>{
-   const user = await User.findById(req.user._id).select('+password');
-   if(!(await user.comparePassword(req.body.currentPassword,user.password))){
-    return next(new ErrorHandler("The Current password you provided is wrong", 401));
-   }
-   user.password = req.body.password;
-   user.confirmPassword = req.body.confirmPassword;
-   await user.save();
+const updatePassword = asyncErrorHandler(async (req, res, next) => {
+  const user = await User.findById(req.user._id).select("+password");
+  if (!(await user.comparePassword(req.body.currentPassword, user.password))) {
+    return next(
+      new ErrorHandler("The Current password you provided is wrong", 401)
+    );
+  }
+  user.password = req.body.password;
+  user.confirmPassword = req.body.confirmPassword;
+  await user.save();
 
-   const authToken = user.getJWTToken();
+  const authToken = user.getJWTToken();
 
-   res.status(200).json({
-     success: true,
-     message: "Password has been updated successfully",
-     token: authToken,
-     data:{
-      user
-     }
-   });
-})
+  res.status(200).json({
+    success: true,
+    message: "Password has been updated successfully",
+    token: authToken,
+    data: {
+      user,
+    },
+  });
+});
 
 const getAllUsersExceptCurrentUser = asyncErrorHandler(
   async (req, res, next) => {

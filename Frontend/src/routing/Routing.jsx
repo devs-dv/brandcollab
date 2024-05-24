@@ -3,16 +3,22 @@ import Home from "../components/Home";
 import { Route, Routes } from "react-router-dom";
 import Signup from "../auth/Signup";
 import Login from "../auth/Login";
-import {AuthLayout} from "../auth/AuthLayout";
+import { AuthLayout } from "../auth/AuthLayout";
 import MailVerify from "../auth/MailVerify";
 import PreLanding from "../components/PreLanding";
 import PostLanding from "../components/PostLanding";
-import TopNav from '../components/navigation/TopNav';
-import SideNav from '../components/navigation/SideNav'
-import InfluencerDashboard from '../components/InfluencerDashboard'
-import Chat from "../components/Chat";
-import BrandDashboard from "../components/BrandDashboard";
+import TopNav from "../components/navigation/TopNav";
+import SideNav from "../components/navigation/SideNav";
+import ChatPage from "../components/ChatPage";
+import InfluencerDashboard from "../components/Influencer Dashboard/InfluencerDashboard";
+import BrandDashboard from "../components/Brand Dashboard/BrandDashboard";
 import InfDashAbout from "../pages/InfDash Cards/InfDashAbout";
+import InfDashSocials from "../pages/InfDash Cards/InfDashSocials";
+import ChangePassword from "../pages/InfDash Cards/ChangePassword";
+import InfluencerChangePassword from "../components/Influencer Dashboard/InfluencerChangePassword";
+import InfluencerSocials from "../components/Influencer Dashboard/InfluencerSocials";
+import BranCreatePost from "../pages/BranDash Cards/BranCreatePost";
+import BrandCreatePost from "../components/Brand Dashboard/BrandCreatePost";
 
 const Routing = () => {
   return (
@@ -28,10 +34,18 @@ const Routing = () => {
       <Route path="/sidenav" element={<SideNav />} />
       <Route path="/infdash">
         <Route index={true} element={<InfluencerDashboard />} />
-        <Route path="/infdash/socials" element={<InfDashAbout />} />
+        <Route path="/infdash/socials" element={<InfluencerSocials />} />
+        <Route
+          path="/infdash/changePassword"
+          element={<InfluencerChangePassword />}
+        />
       </Route>
-      <Route path="/brandash" element={<BrandDashboard />} />
-      <Route path="/chat" element={<Chat />} />
+      <Route path="/brandash" >
+        <Route index={true} element={<BrandDashboard />}/>
+        <Route path="/brandash/post" element={<BrandCreatePost/>} />
+      </Route>
+      <Route path="/chat" element={<ChatPage />} />
+      <Route path="/changePassword" element={<ChangePassword />} />
     </Routes>
   );
 };
