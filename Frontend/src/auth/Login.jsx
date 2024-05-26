@@ -3,29 +3,32 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "../customComponents/Button";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
-  
-
   const formik = useFormik({
     initialValues: {
-      usernameOrEmail: "",
+      email: "",
       password: "",
     },
     validationSchema: Yup.object({
-      usernameOrEmail: Yup.string().required("Username or Email is required"),
+      email: Yup.string().required("Username or Email is required"),
       password: Yup.string()
         .required("Password is required")
-        .min(8, "Password must be at least 8 characters")
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
-        ),
+        .min(8, "Password must be at least 8 characters"),
     }),
     onSubmit: (values, { resetForm }) => {
       console.log(values);
       // Reset the form to its initial state
       resetForm();
+      axios
+        .post("http://localhost:8000/api/v1/login", values)
+        .then((response) => {
+          console.log("Data sent successfully:", response.data);
+        })
+        .catch((error) => {
+          console.error("There was an error sending the data!", error);
+        });
     },
   });
 
@@ -42,29 +45,29 @@ const Login = () => {
           >
             <div className="mb-4">
               <label
-                htmlFor="usernameOrEmail"
+                htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
               >
                 Username or Email
               </label>
               <input
-                id="usernameOrEmail"
-                name="usernameOrEmail"
+                id="email"
+                name="email"
                 type="text"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.usernameOrEmail}
+                value={formik.values.email}
                 className={`mt-1 p-2 w-full border-b border-gray-300 focus:outline-none focus:border-blue-500 ${
-                  formik.touched.usernameOrEmail &&
-                  formik.errors.usernameOrEmail
+                  formik.touched.email &&
+                  formik.errors.email
                     ? "border-red-500"
                     : ""
                 }`}
               />
-              {formik.touched.usernameOrEmail &&
-              formik.errors.usernameOrEmail ? (
+              {formik.touched.email &&
+              formik.errors.email ? (
                 <div className="text-red-500 text-sm">
-                  {formik.errors.usernameOrEmail}
+                  {formik.errors.email}
                 </div>
               ) : null}
             </div>
@@ -104,7 +107,14 @@ const Login = () => {
               Submit
             </Button>
             <div className="flex mt-4 justify-center">
-              <p>Do not have an account ??</p> <Link to="/signup" className=" text-blue-500 hover:text-blue-700 hover:underline"> Signup</Link>
+              <p>Do not have an account ??</p>{" "}
+              <Link
+                to="/signup"
+                className=" text-blue-500 hover:text-blue-700 hover:underline"
+              >
+                {" "}
+                Signup
+              </Link>
             </div>
           </form>
         </div>
