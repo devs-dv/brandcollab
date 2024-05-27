@@ -414,7 +414,7 @@ const handleNavToggle = () => {
         {/* Your main content starts here */}
         <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900 p-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-            <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4 m-8">
+            <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4 ">               
               <select className="p-2 border border-zinc-300 rounded-md w-full sm:w-auto">
                 <option value="">Most Relevant</option>
                 <option value="">Most Recent</option>
