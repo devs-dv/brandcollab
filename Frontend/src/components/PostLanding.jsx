@@ -1,688 +1,419 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const PostLanding = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    const setDark = (val) => {
+      if (val === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    };
+
+    // Initially set the theme based on the state
+    setDark(isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
+
+  const handleDarkModeToggle = (mode) => {
+    setIsDarkMode(mode === "dark");
+  };
+
+  const handleNavToggle = () => {
+    const sidebar = document.querySelector("aside");
+    const maxSidebar = document.querySelector(".max");
+    const miniSidebar = document.querySelector(".mini");
+    const maxToolbar = document.querySelector(".max-toolbar");
+    const logo = document.querySelector(".logo");
+    const content = document.querySelector(".content");
+
+    if (sidebar.classList.contains("-translate-x-48")) {
+      // max sidebar
+      sidebar.classList.remove("-translate-x-48");
+      sidebar.classList.add("translate-x-none");
+      maxSidebar.classList.remove("hidden");
+      maxSidebar.classList.add("flex");
+      miniSidebar.classList.remove("flex");
+      miniSidebar.classList.add("hidden");
+      maxToolbar.classList.add("translate-x-0");
+      maxToolbar.classList.remove("translate-x-24", "scale-x-0");
+      logo.classList.remove("ml-12");
+      content.classList.remove("ml-12");
+      content.classList.add("ml-12", "md:ml-60");
+    } else {
+      // mini sidebar
+      sidebar.classList.add("-translate-x-48");
+      sidebar.classList.remove("translate-x-none");
+      maxSidebar.classList.add("hidden");
+      maxSidebar.classList.remove("flex");
+      miniSidebar.classList.add("flex");
+      miniSidebar.classList.remove("hidden");
+      maxToolbar.classList.add("translate-x-24", "scale-x-0");
+      maxToolbar.classList.remove("translate-x-0");
+      logo.classList.add("ml-12");
+      content.classList.remove("ml-12", "md:ml-60");
+      content.classList.add("ml-12");
+    }
+  };
 
   return (
-    <div className="bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 min-h-screen">
-      <header className="flex justify-between items-center p-4 border-b dark:border-zinc-700">
-        <img src="https://placehold.co/50" alt="Logo" className="h-8" />
-        <img
-          src="https://placehold.co/40"
-          alt="Profile"
-          className="h-8 rounded-full"
-        />
-        <button className="p-2 rounded-full bg-blue-500 text-white">
-          Logout
-        </button>
-      </header>
-      {/* main dash board */}
-      <div className="bg-orange-100 min-h-screen">
-        <div className="fixed bg-white text-blue-800 px-10 py-1 z-10 w-full">
-          <div className="flex items-center justify-between py-2 text-5x1">
-            <div className="font-bold text-blue-900 text-xl">
-              Admin<span className="text-orange-600">Panel</span>
+    <div>
+      <div className="fixed w-full z-30 flex bg-white dark:bg-[#0F172A] p-2 items-center justify-center h-16 px-10">
+        <div className="logo ml-12 dark:text-white transform ease-in-out duration-500 flex-none h-full flex items-center justify-center">
+          NERVE
+        </div>
+        {/* SPACER */}
+        <div className="grow h-full flex items-center justify-center" />
+        <div className="flex-none h-full text-center flex items-center justify-center">
+          <div className="flex space-x-3 items-center px-3">
+            <div className="flex-none flex justify-center">
+              <div className="w-8 h-8 flex ">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShta_GXR2xdnsxSzj_GTcJHcNykjVKrCBrZ9qouUl0usuJWG2Rpr_PbTDu3sA9auNUH64&usqp=CAU"
+                  alt="profile"
+                  className="shadow rounded-full object-cover"
+                />
+              </div>
             </div>
-            <div className="flex items-center text-gray-500">
-              <span
-                className="material-icons-outlined p-2"
-                style={{ fontSize: 30 }}
-              >
-                search
-              </span>
-              <span
-                className="material-icons-outlined p-2"
-                style={{ fontSize: 30 }}
-              >
-                notifications
-              </span>
-              <div
-                className="bg-center bg-cover bg-no-repeat rounded-full inline-block h-12 w-12 ml-2"
-                style={{
-                  backgroundImage:
-                    "url(https://i.pinimg.com/564x/de/0f/3d/de0f3d06d2c6dbf29a888cf78e4c0323.jpg)",
-                }}
-              />
+            <div className="hidden md:block text-sm md:text-md text-black dark:text-white">
+              John Doe
             </div>
           </div>
         </div>
-        <div className="flex flex-row pt-24 px-10 pb-4">
-          <div className="w-2/12 mr-6">
-            <div className="bg-white rounded-xl shadow-lg mb-6 px-6 py-4">
-              <a
-                href=""
-                className="inline-block text-gray-600 hover:text-black my-4 w-full"
-              >
-                <span className="material-icons-outlined float-left pr-2">
-                  dashboard
-                </span>
-                Home
-              </a>
-              <a
-                href=""
-                className="inline-block text-gray-600 hover:text-black my-4 w-full"
-              >
-                <span className="material-icons-outlined float-left pr-2">
-                  tune
-                </span>
-                Some menu item
-                <span className="material-icons-outlined float-right">
-                  keyboard_arrow_right
-                </span>
-              </a>
-              <a
-                href=""
-                className="inline-block text-gray-600 hover:text-black my-4 w-full"
-              >
-                <span className="material-icons-outlined float-left pr-2">
-                  file_copy
-                </span>
-                Another menu item
-                <span className="material-icons-outlined float-right">
-                  keyboard_arrow_right
-                </span>
-              </a>
-            </div>
-            <div className="bg-white rounded-xl shadow-lg mb-6 px-6 py-4">
-              <a
-                href=""
-                className="inline-block text-gray-600 hover:text-black my-4 w-full"
-              >
-                <span className="material-icons-outlined float-left pr-2">
-                  face
-                </span>
-                Profile
-                <span className="material-icons-outlined float-right">
-                  keyboard_arrow_right
-                </span>
-              </a>
-              <a
-                href=""
-                className="inline-block text-gray-600 hover:text-black my-4 w-full"
-              >
-                <span className="material-icons-outlined float-left pr-2">
-                  settings
-                </span>
-                Settings
-                <span className="material-icons-outlined float-right">
-                  keyboard_arrow_right
-                </span>
-              </a>
-              <a
-                href=""
-                className="inline-block text-gray-600 hover:text-black my-4 w-full"
-              >
-                <span className="material-icons-outlined float-left pr-2">
-                  power_settings_new
-                </span>
-                Log out
-                <span className="material-icons-outlined float-right">
-                  keyboard_arrow_right
-                </span>
-              </a>
-            </div>
-          </div>
-          <div className="w-10/12">
-            <div className="flex flex-row">
+      </div>
+      <aside className="w-60 -translate-x-48 fixed transition transform ease-in-out duration-1000 z-50 flex h-screen bg-[#1E293B] ">
+        {/* open sidebar button */}
+        <div className="max-toolbar translate-x-24 scale-x-0 w-full -right-6 transition transform ease-in duration-300 flex items-center justify-between border-4 border-white dark:border-[#0F172A] bg-[#1E293B] absolute top-2 rounded-full h-12">
+          <div className="flex pl-4 items-center space-x-2 ">
+            <div>
               <div
-                className="bg-no-repeat bg-red-200 border border-red-300 rounded-xl w-7/12 mr-2 p-6"
-                style={{
-                  backgroundImage:
-                    "url(https://previews.dropbox.com/p/thumb/AAvyFru8elv-S19NMGkQcztLLpDd6Y6VVVMqKhwISfNEpqV59iR5sJaPD4VTrz8ExV7WU9ryYPIUW8Gk2JmEm03OLBE2zAeQ3i7sjFx80O-7skVlsmlm0qRT0n7z9t07jU_E9KafA9l4rz68MsaZPazbDKBdcvEEEQPPc3TmZDsIhes1U-Z0YsH0uc2RSqEb0b83A1GNRo86e-8TbEoNqyX0gxBG-14Tawn0sZWLo5Iv96X-x10kVauME-Mc9HGS5G4h_26P2oHhiZ3SEgj6jW0KlEnsh2H_yTego0grbhdcN1Yjd_rLpyHUt5XhXHJwoqyJ_ylwvZD9-dRLgi_fM_7j/p.png?fv_content=true&size_mode=5)",
-                  backgroundPosition: "90% center",
-                }}
+                onClick={() => handleDarkModeToggle("dark")}
+                className="moon text-white hover:text-blue-500 dark:hover:text-[#38BDF8]"
               >
-                <p className="text-5xl text-indigo-900">
-                  Welcome <br />
-                  <strong>Lorem Ipsum</strong>
-                </p>
-                <span className="bg-red-300 text-xl text-white inline-block rounded-full mt-12 px-8 py-2">
-                  <strong>01:51</strong>
-                </span>
-              </div>
-              <div
-                className="bg-no-repeat bg-orange-200 border border-orange-300 rounded-xl w-5/12 ml-2 p-6"
-                style={{
-                  backgroundImage:
-                    "url(https://previews.dropbox.com/p/thumb/AAuwpqWfUgs9aC5lRoM_f-yi7OPV4txbpW1makBEj5l21sDbEGYsrC9sb6bwUFXTSsekeka5xb7_IHCdyM4p9XCUaoUjpaTSlKK99S_k4L5PIspjqKkiWoaUYiAeQIdnaUvZJlgAGVUEJoy-1PA9i6Jj0GHQTrF_h9MVEnCyPQ-kg4_p7kZ8Yk0TMTL7XDx4jGJFkz75geOdOklKT3GqY9U9JtxxvRRyo1Un8hOObbWQBS1eYE-MowAI5rNqHCE_e-44yXKY6AKJocLPXz_U4xp87K4mVGehFKC6dgk_i5Ur7gspuD7gRBDvd0sanJ9Ybr_6s2hZhrpad-2WFwWqSNkh/p.png?fv_content=true&size_mode=5)",
-                  backgroundPosition: "100% 40%",
-                }}
-              >
-                <p className="text-5xl text-indigo-900">
-                  Inbox <br />
-                  <strong>23</strong>
-                </p>
-                <a
-                  href=""
-                  className="bg-orange-300 text-xl text-white underline hover:no-underline inline-block rounded-full mt-12 px-8 py-2"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={3}
+                  stroke="currentColor"
+                  className="w-4 h-4"
                 >
-                  <strong>See messages</strong>
-                </a>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+                  />
+                </svg>
+              </div>
+              <div
+                onClick={() => handleDarkModeToggle("light")}
+                className="sun hidden text-white hover:text-blue-500 dark:hover:text-[#38BDF8]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-4 h-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                  />
+                </svg>
               </div>
             </div>
-            <div className="flex flex-row h-64 mt-6">
-              <div className="bg-white rounded-xl shadow-lg px-6 py-4 w-4/12">
-                a
-              </div>
-              <div className="bg-white rounded-xl shadow-lg mx-6 px-6 py-4 w-4/12">
-                b
-              </div>
-              <div className="bg-white rounded-xl shadow-lg px-6 py-4 w-4/12">
-                c
-              </div>
+            <div className="text-white hover:text-blue-500 dark:hover:text-[#38BDF8]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={3}
+                stroke="currentColor"
+                className="w-4 h-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+                />
+              </svg>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3 group bg-gradient-to-r dark:from-cyan-500 dark:to-blue-500 from-indigo-500 via-purple-500 to-purple-500 pl-10 pr-2 py-1 rounded-full text-white">
+            <div className="transform ease-in-out duration-300 mr-12">
+              NERVE
             </div>
           </div>
         </div>
-      </div>
-
-      {/* main dash board */}
-
-      <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100">
-        <div className="flex flex-col md:flex-row">
-          <div className="w-full md:w-1/4 bg-white dark:bg-zinc-800 p-4">
-            <div className="flex items-center justify-center mb-6">
-              <img
-                src="https://placehold.co/40x40"
-                alt="Logo"
-                className="mr-2"
+        <div
+          onClick={handleNavToggle}
+          className="-right-6 transition transform ease-in-out duration-500 flex border-4 border-white dark:border-[#0F172A] bg-[#1E293B] dark:hover:bg-blue-500 hover:bg-purple-500 absolute top-2 rounded-full h-12 w-12"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={3}
+            stroke="currentColor"
+            className="text-white w-6 h-6 m-auto"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19.5 12h-15"
+            />
+          </svg>
+        </div>
+        <div className="max hidden flex-col h-full w-full">
+          <div className="h-16" />
+          {/* <div className="text-white p-3 uppercase font-bold">Full Sidebar</div> */}
+          {/* MAX SIDEBAR*/}
+          <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokewidth="{2}"
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokelinecap="round"
+                strokelinejoin="round"
+                strokewidth="{2}"
+                d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
               />
-              <span className="text-xl font-bold">BrandCollab</span>
-            </div>
-            <nav className="space-y-2">
-              <a
-                href="#"
-                className="flex items-center p-2 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded"
-              >
-                <img
-                  src="https://placehold.co/20x20"
-                  alt="Home"
-                  className="mr-2"
-                />
-                Home
-              </a>
-              <a
-                href="#"
-                className="flex items-center p-2 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded"
-              >
-                <img
-                  src="https://placehold.co/20x20"
-                  alt="Popular"
-                  className="mr-2"
-                />
-                Popular
-              </a>
-              <a
-                href="#"
-                className="flex items-center p-2 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded"
-              >
-                <img
-                  src="https://placehold.co/20x20"
-                  alt="Communities"
-                  className="mr-2"
-                />
-                Communities
-              </a>
-              <a
-                href="#"
-                className="flex items-center p-2 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded"
-              >
-                <img
-                  src="https://placehold.co/20x20"
-                  alt="Trending"
-                  className="mr-2"
-                />
-                Trending
-              </a>
-            </nav>
+            </svg>
+            <div>Home</div>
           </div>
-          <div className="w-full md:w-3/4 p-4">
-            <div className="flex justify-between items-center mb-4">
-              <div className="flex items-center space-x-4">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="p-2 border border-zinc-300 dark:border-zinc-700 rounded"
-                />
-                <button className="bg-red-500 text-white px-4 py-2 rounded">
-                  New Post
-                </button>
-              </div>
-              <div className="flex items-center space-x-4">
-                <button className="bg-zinc-200 dark:bg-zinc-700 p-2 rounded-full">
-                  <img src="https://placehold.co/20x20" alt="Notifications" />
-                </button>
-                <div className="relative">
-                  <img
-                    src="https://placehold.co/40x40"
-                    alt="Profile"
-                    className="rounded-full cursor-pointer"
-                  />
-                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-zinc-800 rounded shadow-lg hidden">
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-zinc-700 dark:text-zinc-300"
-                    >
-                      Your Profile
-                    </a>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-zinc-700 dark:text-zinc-300"
-                    >
-                      Settings
-                    </a>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-zinc-700 dark:text-zinc-300"
-                    >
-                      Sign out
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white dark:bg-zinc-800 rounded shadow p-4 mb-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <img
-                    src="https://placehold.co/40x40"
-                    alt="User"
-                    className="rounded-full mr-4"
-                  />
-                  <div>
-                    <p className="font-bold">Dries Vincent</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                      December 9 at 11:43 AM
-                    </p>
-                  </div>
-                </div>
-                <button className="text-zinc-600 dark:text-zinc-400">
-                  <img src="https://placehold.co/20x20" alt="More options" />
-                </button>
-              </div>
-              <div className="mt-4">
-                <p className="font-bold">You should use alpinejs framework</p>
-                <p className="text-zinc-700 dark:text-zinc-300">
-                  Arradawark touches Spark was an incredible idea and...
-                </p>
-              </div>
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center space-x-4">
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Like"
-                      className="mr-2"
-                    />
-                    29
-                  </button>
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Comment"
-                      className="mr-2"
-                    />
-                    11
-                  </button>
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Share"
-                      className="mr-2"
-                    />
-                    2.7k
-                  </button>
-                </div>
-                <button className="text-zinc-600 dark:text-zinc-400">
-                  <img src="https://placehold.co/20x20" alt="Share" />
-                </button>
-              </div>
-            </div>
-            <div className="bg-white dark:bg-zinc-800 rounded shadow p-4 mb-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <img
-                    src="https://placehold.co/40x40"
-                    alt="User"
-                    className="rounded-full mr-4"
-                  />
-                  <div>
-                    <p className="font-bold">Dries Vincent</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                      December 9 at 11:43 AM
-                    </p>
-                  </div>
-                </div>
-                <button className="text-zinc-600 dark:text-zinc-400">
-                  <img src="https://placehold.co/20x20" alt="More options" />
-                </button>
-              </div>
-              <div className="mt-4">
-                <p className="font-bold">You should use alpinejs framework</p>
-                <p className="text-zinc-700 dark:text-zinc-300">
-                  Arradawark touches Spark was an incredible idea and...
-                </p>
-              </div>
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center space-x-4">
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Like"
-                      className="mr-2"
-                    />
-                    29
-                  </button>
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Comment"
-                      className="mr-2"
-                    />
-                    11
-                  </button>
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Share"
-                      className="mr-2"
-                    />
-                    2.7k
-                  </button>
-                </div>
-                <button className="text-zinc-600 dark:text-zinc-400">
-                  <img src="https://placehold.co/20x20" alt="Share" />
-                </button>
-              </div>
-            </div>
-            <div className="bg-white dark:bg-zinc-800 rounded shadow p-4 mb-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <img
-                    src="https://placehold.co/40x40"
-                    alt="User"
-                    className="rounded-full mr-4"
-                  />
-                  <div>
-                    <p className="font-bold">Dries Vincent</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                      December 9 at 11:43 AM
-                    </p>
-                  </div>
-                </div>
-                <button className="text-zinc-600 dark:text-zinc-400">
-                  <img src="https://placehold.co/20x20" alt="More options" />
-                </button>
-              </div>
-              <div className="mt-4">
-                <p className="font-bold">You should use alpinejs framework</p>
-                <p className="text-zinc-700 dark:text-zinc-300">
-                  Arradawark touches Spark was an incredible idea and...
-                </p>
-              </div>
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center space-x-4">
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Like"
-                      className="mr-2"
-                    />
-                    29
-                  </button>
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Comment"
-                      className="mr-2"
-                    />
-                    11
-                  </button>
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Share"
-                      className="mr-2"
-                    />
-                    2.7k
-                  </button>
-                </div>
-                <button className="text-zinc-600 dark:text-zinc-400">
-                  <img src="https://placehold.co/20x20" alt="Share" />
-                </button>
-              </div>
-            </div>
-            <div className="bg-white dark:bg-zinc-800 rounded shadow p-4 mb-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <img
-                    src="https://placehold.co/40x40"
-                    alt="User"
-                    className="rounded-full mr-4"
-                  />
-                  <div>
-                    <p className="font-bold">Dries Vincent</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                      December 9 at 11:43 AM
-                    </p>
-                  </div>
-                </div>
-                <button className="text-zinc-600 dark:text-zinc-400">
-                  <img src="https://placehold.co/20x20" alt="More options" />
-                </button>
-              </div>
-              <div className="mt-4">
-                <p className="font-bold">You should use alpinejs framework</p>
-                <p className="text-zinc-700 dark:text-zinc-300">
-                  Arradawark touches Spark was an incredible idea and...
-                </p>
-              </div>
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center space-x-4">
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Like"
-                      className="mr-2"
-                    />
-                    29
-                  </button>
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Comment"
-                      className="mr-2"
-                    />
-                    11
-                  </button>
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Share"
-                      className="mr-2"
-                    />
-                    2.7k
-                  </button>
-                </div>
-                <button className="text-zinc-600 dark:text-zinc-400">
-                  <img src="https://placehold.co/20x20" alt="Share" />
-                </button>
-              </div>
-            </div>
-            <div className="bg-white dark:bg-zinc-800 rounded shadow p-4 mb-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <img
-                    src="https://placehold.co/40x40"
-                    alt="User"
-                    className="rounded-full mr-4"
-                  />
-                  <div>
-                    <p className="font-bold">Dries Vincent</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                      December 9 at 11:43 AM
-                    </p>
-                  </div>
-                </div>
-                <button className="text-zinc-600 dark:text-zinc-400">
-                  <img src="https://placehold.co/20x20" alt="More options" />
-                </button>
-              </div>
-              <div className="mt-4">
-                <p className="font-bold">You should use alpinejs framework</p>
-                <p className="text-zinc-700 dark:text-zinc-300">
-                  Arradawark touches Spark was an incredible idea and...
-                </p>
-              </div>
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center space-x-4">
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Like"
-                      className="mr-2"
-                    />
-                    29
-                  </button>
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Comment"
-                      className="mr-2"
-                    />
-                    11
-                  </button>
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Share"
-                      className="mr-2"
-                    />
-                    2.7k
-                  </button>
-                </div>
-                <button className="text-zinc-600 dark:text-zinc-400">
-                  <img src="https://placehold.co/20x20" alt="Share" />
-                </button>
-              </div>
-            </div>
-            <div className="bg-white dark:bg-zinc-800 rounded shadow p-4 mb-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <img
-                    src="https://placehold.co/40x40"
-                    alt="User"
-                    className="rounded-full mr-4"
-                  />
-                  <div>
-                    <p className="font-bold">Dries Vincent</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                      December 9 at 11:43 AM
-                    </p>
-                  </div>
-                </div>
-                <button className="text-zinc-600 dark:text-zinc-400">
-                  <img src="https://placehold.co/20x20" alt="More options" />
-                </button>
-              </div>
-              <div className="mt-4">
-                <p className="font-bold">You should use alpinejs framework</p>
-                <p className="text-zinc-700 dark:text-zinc-300">
-                  Arradawark touches Spark was an incredible idea and...
-                </p>
-              </div>
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center space-x-4">
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Like"
-                      className="mr-2"
-                    />
-                    29
-                  </button>
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Comment"
-                      className="mr-2"
-                    />
-                    11
-                  </button>
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Share"
-                      className="mr-2"
-                    />
-                    2.7k
-                  </button>
-                </div>
-                <button className="text-zinc-600 dark:text-zinc-400">
-                  <img src="https://placehold.co/20x20" alt="Share" />
-                </button>
-              </div>
-            </div>
-            <div className="bg-white dark:bg-zinc-800 rounded shadow p-4 mb-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <img
-                    src="https://placehold.co/40x40"
-                    alt="User"
-                    className="rounded-full mr-4"
-                  />
-                  <div>
-                    <p className="font-bold">Lindsay Walton</p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                      December 8 at 10:45 PM
-                    </p>
-                  </div>
-                </div>
-                <button className="text-zinc-600 dark:text-zinc-400">
-                  <img src="https://placehold.co/20x20" alt="More options" />
-                </button>
-              </div>
-              <div className="mt-4">
-                <p className="font-bold">
-                  What's it like to be a golden retriever?
-                </p>
-                <p className="text-zinc-700 dark:text-zinc-300">
-                  Man I am glad you asked this question...
-                </p>
-              </div>
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center space-x-4">
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Like"
-                      className="mr-2"
-                    />
-                    29
-                  </button>
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Comment"
-                      className="mr-2"
-                    />
-                    11
-                  </button>
-                  <button className="flex items-center text-zinc-600 dark:text-zinc-400">
-                    <img
-                      src="https://placehold.co/20x20"
-                      alt="Share"
-                      className="mr-2"
-                    />
-                    2.7k
-                  </button>
-                </div>
-                <button className="text-zinc-600 dark:text-zinc-400">
-                  <img src="https://placehold.co/20x20" alt="Share" />
-                </button>
-              </div>
-            </div>
+          <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="1.7"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 21l-5.192-5.192m-8.192 0A7.75 7.75 0 1119.243 6.75 7.75 7.75 0 0112 17.5zm0 0l-5.192-5.192"
+              />
+            </svg>
+            <div>Search</div>
+          </div>
+
+          <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.7"
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 10c0 5.523-4.477 10-10 10S1 15.523 1 10 5.477 0 11 0s10 4.477 10 10zm-3.25-1.625l-5.5-3.25-5.5 3.25M3.257 7.86L12 12.25l8.743-4.39"
+              />
+            </svg>
+            <div>Message</div>
+          </div>
+
+          <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.7"
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 4h12M6 8h12m-6 4h6M4 4h1m0 8h1m0 8h1m2-16h10a2 2 0 012 2v12a2 2 0 01-2 2H8a2 2 0 01-2-2V6a2 2 0 012-2z"
+              />
+            </svg>
+            <div>On going Collab</div>
+          </div>
+
+          <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.7"
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+            <div>Completed Collab</div>
+          </div>
+
+          <div className="mb-80"></div>
+          <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.7"
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+            <div>Set Up</div>
+          </div>
+          <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+            <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+              Logout
+            </button>
           </div>
         </div>
-      </div>
+
+        {/* Mini sidebar starts here  */}
+        <div className="mini flex-col h-full w-full flex">
+          <div className="h-16" />
+          {/* <div className="text-white p-3 uppercase font-bold">Mini Sidebar</div> */}
+          <div className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokewidth="{2}"
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokelinecap="round"
+                strokelinejoin="round"
+                d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+              />
+            </svg>
+          </div>
+          <div className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 21l-5.192-5.192m-8.192 0A7.75 7.75 0 1119.243 6.75 7.75 7.75 0 0112 17.5zm0 0l-5.192-5.192"
+              />
+            </svg>
+          </div>
+          <div className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 10c0 5.523-4.477 10-10 10S1 15.523 1 10 5.477 0 11 0s10 4.477 10 10zm-3.25-1.625l-5.5-3.25-5.5 3.25M3.257 7.86L12 12.25l8.743-4.39"
+              />
+            </svg>
+          </div>
+          <div className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 4h12M6 8h12m-6 4h6M4 4h1m0 8h1m0 8h1m2-16h10a2 2 0 012 2v12a2 2 0 01-2 2H8a2 2 0 01-2-2V6a2 2 0 012-2z"
+              />
+            </svg>
+          </div>
+
+          <div className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          </div>
+          <div className="mb-80"></div>
+          <div className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </div>
+          <div className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </div>
+        </div>
+      </aside>
+      <main className="content ml-12 transition-all ease-in-out duration-500">
+        <div className="h-16" />
+        {/* Your main content starts here */}
+
+        {/* Your main content ends here */}
+      </main>
     </div>
   );
 };
