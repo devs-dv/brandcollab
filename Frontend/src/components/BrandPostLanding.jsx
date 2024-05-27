@@ -238,7 +238,6 @@ const BrandPostLanding = () => {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-               
                 d="M6 4h12M6 8h12m-6 4h6M4 4h1m0 8h1m0 8h1m2-16h10a2 2 0 012 2v12a2 2 0 01-2 2H8a2 2 0 01-2-2V6a2 2 0 012-2z"
               />
             </svg>
@@ -282,26 +281,9 @@ const BrandPostLanding = () => {
             <div>Table</div>
           </div>
           <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.7"
-              stroke="currentColor"
-              className="w-5 h-5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z"
-              />
-            </svg>
-            <div>Graph</div>
+            <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+              Logout
+            </button>
           </div>
         </div>
 
