@@ -19,6 +19,7 @@ function Home() {
         <Link to='/brandash'>Brand Dashboard</Link>
         <Link to='/chat'>Chat</Link>
         <Link to='/BrandPostLanding'>Brand Post Landing</Link>
+        <Link to='/Joblisting'>Job Listing</Link>
       </div>
     </div>
   );
