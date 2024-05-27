@@ -3,7 +3,18 @@ import React, { useState } from "react";
 const PostLanding = () => {
 
   return (
-    <div>
+    <div className="bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 min-h-screen">
+      <header className="flex justify-between items-center p-4 border-b dark:border-zinc-700">
+        <img src="https://placehold.co/50" alt="Logo" className="h-8" />
+        <img
+          src="https://placehold.co/40"
+          alt="Profile"
+          className="h-8 rounded-full"
+        />
+        <button className="p-2 rounded-full bg-blue-500 text-white">
+          Logout
+        </button>
+      </header>
       {/* main dash board */}
       <div className="bg-orange-100 min-h-screen">
         <div className="fixed bg-white text-blue-800 px-10 py-1 z-10 w-full">
@@ -45,7 +56,6 @@ const PostLanding = () => {
                   dashboard
                 </span>
                 Home
-                
               </a>
               <a
                 href=""
