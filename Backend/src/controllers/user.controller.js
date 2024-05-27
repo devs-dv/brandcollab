@@ -19,24 +19,24 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
   if (userExist) {
     return next(new ErrorHandler("User with this email already exists", 400));
   }
-  const myCloud = await cloudinary.uploader.upload(
-    req.files.avatar.tempFilePath,
-    {
-      folder: "avatars",
-      width: 150,
-      crop: "scale",
-    }
-  );
+  // const myCloud = await cloudinary.uploader.upload(
+  //   req.files.avatar.tempFilePath,
+  //   {
+  //     folder: "avatars",
+  //     width: 150,
+  //     crop: "scale",
+  //   }
+  // );
   const user = await User.create({
     firstName,
     lastName,
     email,
     gender,
     password,
-    avatar: {
-      public_id: myCloud.public_id,
-      url: myCloud.secure_url,
-    },
+    // avatar: {
+    //   public_id: myCloud.public_id,
+    //   url: myCloud.secure_url,
+    // },
   });
   sendToken(user, 200, res);
 });
@@ -56,6 +56,41 @@ const loginUser = asyncErrorHandler(async (req, res, next) => {
   }
   sendToken(user, 201, res);
 });
+
+const updateAvatar = asyncErrorHandler(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+
+  if (!req.files || !req.files.avatar) {
+    return next(new ErrorHandler("Please upload an avatar", 400));
+  }
+
+  const myCloud = await cloudinary.uploader.upload(
+    req.files.avatar.tempFilePath,
+    {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    }
+  );
+
+  user.avatar = {
+    public_id: myCloud.public_id,
+    url: myCloud.secure_url,
+  };
+
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Avatar updated successfully",
+    avatar: user.avatar,
+  });
+});
+
 
 const logoutUser = asyncErrorHandler(async (req, res, next) => {
   res.cookie("token", null, {
@@ -182,4 +217,5 @@ export {
   resetPassword,
   updatePassword,
   getAllUsersExceptCurrentUser,
+  updateAvatar 
 };

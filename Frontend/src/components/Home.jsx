@@ -18,6 +18,7 @@ function Home() {
         <Link to='/infdash'>Influecer Dashboard</Link>
         <Link to='/brandash'>Brand Dashboard</Link>
         <Link to='/chat'>Chat</Link>
+        <Link to='/BrandPostLanding'>Brand Post Landing</Link>
       </div>
     </div>
   );

@@ -3,9 +3,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "../customComponents/Button";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Signup = () => {
-
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -43,6 +43,15 @@ const Signup = () => {
       console.log(values);
       // Reset the form to its initial state
       resetForm();
+      
+      axios
+        .post("http://localhost:8000/api/v1/register", values)
+        .then((response) => {
+          console.log("Data sent successfully:", response.data);
+        })
+        .catch((error) => {
+          console.error("There was an error sending the data!", error);
+        });
     },
   });
 

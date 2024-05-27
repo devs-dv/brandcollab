@@ -7,6 +7,7 @@ import {
   resetPassword,
   updatePassword,
   getAllUsersExceptCurrentUser,
+  updateAvatar 
 } from "../controllers/user.controller.js";
 import { isAuthenticatedUser } from "../middlewares/auth.js";
 
@@ -261,5 +262,77 @@ userRouter.route("/updatePassword").patch(isAuthenticatedUser, updatePassword);
  *                 $ref: '#/components/schemas/User'
  */
 userRouter.route("/getUser").get(isAuthenticatedUser, getAllUsersExceptCurrentUser);
+
+/**
+ * @swagger
+ * /api/v1/avatar/update:
+ *   put:
+ *     summary: Update user avatar
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               avatar:
+ *                 type: string
+ *                 format: binary
+ *                 description: The avatar image to be uploaded
+ *     responses:
+ *       200:
+ *         description: Avatar updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Avatar updated successfully
+ *                 avatar:
+ *                   type: object
+ *                   properties:
+ *                     public_id:
+ *                       type: string
+ *                       example: sample_public_id
+ *                     url:
+ *                       type: string
+ *                       example: https://res.cloudinary.com/sample_avatar_url.jpg
+ *       400:
+ *         description: Bad request, e.g., missing avatar file
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Please upload an avatar
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: User not found
+ */
+userRouter.route("/avatar/update").put(isAuthenticatedUser, updateAvatar);
+
 
 export default userRouter;
