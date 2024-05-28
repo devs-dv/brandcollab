@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import JobListing from "./JobListing";
 
 const PostLanding = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -69,7 +70,7 @@ const PostLanding = () => {
       case "Home":
         return <div>Home Content</div>;
       case "Search":
-        return <div>Search Content</div>;
+        return <div> <JobListing /> </div>;
       case "Message":
         return <div>Message Content</div>;
       case "OngoingCollab":
