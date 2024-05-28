@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const PostLanding = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("Home"); // New state for selected option
 
   useEffect(() => {
     const setDark = (val) => {
@@ -57,11 +58,36 @@ const PostLanding = () => {
     }
   };
 
+  // Function to handle option selection
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+  };
+
+  // Function to render main content based on selected option
+  const renderMainContent = () => {
+    switch (selectedOption) {
+      case "Home":
+        return <div>Home Content</div>;
+      case "Search":
+        return <div>Search Content</div>;
+      case "Message":
+        return <div>Message Content</div>;
+      case "OngoingCollab":
+        return <div>Ongoing Collaboration Content</div>;
+      case "CompletedCollab":
+        return <div>Completed Collaboration Content</div>;
+      case "Setup":
+        return <div>Setup Content</div>;
+      default:
+        return <div>Home Content</div>;
+    }
+  };
+
   return (
     <div>
       <div className="fixed w-full z-30 flex bg-white dark:bg-[#0F172A] p-2 items-center justify-center h-16 px-10">
         <div className="logo ml-12 dark:text-white transform ease-in-out duration-500 flex-none h-full flex items-center justify-center">
-          NERVE
+          BrandCollab
         </div>
         {/* SPACER */}
         <div className="grow h-full flex items-center justify-center" />
@@ -145,7 +171,7 @@ const PostLanding = () => {
           </div>
           <div className="flex items-center space-x-3 group bg-gradient-to-r dark:from-cyan-500 dark:to-blue-500 from-indigo-500 via-purple-500 to-purple-500 pl-10 pr-2 py-1 rounded-full text-white">
             <div className="transform ease-in-out duration-300 mr-12">
-              NERVE
+              BrandCollab
             </div>
           </div>
         </div>
@@ -172,7 +198,10 @@ const PostLanding = () => {
           <div className="h-16" />
           {/* <div className="text-white p-3 uppercase font-bold">Full Sidebar</div> */}
           {/* MAX SIDEBAR*/}
-          <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+          <div
+            onClick={() => handleOptionSelect("Home")}
+            className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -190,7 +219,10 @@ const PostLanding = () => {
             </svg>
             <div>Home</div>
           </div>
-          <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+          <div
+            onClick={() => handleOptionSelect("Search")}
+            className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -206,10 +238,13 @@ const PostLanding = () => {
                 d="M21 21l-5.192-5.192m-8.192 0A7.75 7.75 0 1119.243 6.75 7.75 7.75 0 0112 17.5zm0 0l-5.192-5.192"
               />
             </svg>
-            <div>Search</div>
+            <div>Explore</div>
           </div>
 
-          <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+          <div
+            onClick={() => handleOptionSelect("Message")}
+            className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -227,7 +262,10 @@ const PostLanding = () => {
             <div>Message</div>
           </div>
 
-          <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+          <div
+            onClick={() => handleOptionSelect("OngoingCollab")}
+            className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -245,7 +283,10 @@ const PostLanding = () => {
             <div>On going Collab</div>
           </div>
 
-          <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+          <div
+            onClick={() => handleOptionSelect("CompletedCollab")}
+            className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -264,7 +305,10 @@ const PostLanding = () => {
           </div>
 
           <div className="mb-80"></div>
-          <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+          <div
+            onClick={() => handleOptionSelect("Setup")}
+            className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -292,7 +336,10 @@ const PostLanding = () => {
         <div className="mini flex-col h-full w-full flex">
           <div className="h-16" />
           {/* <div className="text-white p-3 uppercase font-bold">Mini Sidebar</div> */}
-          <div className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+          <div
+            onClick={() => handleOptionSelect("Home")}
+            className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -308,7 +355,10 @@ const PostLanding = () => {
               />
             </svg>
           </div>
-          <div className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+          <div
+            onClick={() => handleOptionSelect("Search")}
+            className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -324,7 +374,10 @@ const PostLanding = () => {
               />
             </svg>
           </div>
-          <div className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+          <div
+            onClick={() => handleOptionSelect("Message")}
+            className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -340,7 +393,10 @@ const PostLanding = () => {
               />
             </svg>
           </div>
-          <div className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+          <div
+            onClick={() => handleOptionSelect("OngoingCollab")}
+            className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -357,7 +413,10 @@ const PostLanding = () => {
             </svg>
           </div>
 
-          <div className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+          <div
+            onClick={() => handleOptionSelect("CompletedCollab")}
+            className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -374,7 +433,10 @@ const PostLanding = () => {
             </svg>
           </div>
           <div className="mb-80"></div>
-          <div className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+          <div
+            onClick={() => handleOptionSelect("Setup")}
+            className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -408,9 +470,10 @@ const PostLanding = () => {
           </div>
         </div>
       </aside>
-      <main className="content ml-12 transition-all ease-in-out duration-500">
+      <main className="content ml-12 transition-all ease-in-out duration-500 ">
         <div className="h-16" />
         {/* Your main content starts here */}
+        {renderMainContent()}
 
         {/* Your main content ends here */}
       </main>
