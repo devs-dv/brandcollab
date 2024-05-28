@@ -5,7 +5,7 @@ const StatsDashboardInfluencer = () => {
     <div>
       {/* Dashboard with the numbers starts here  */}
       <div className="min-h-screen bg-gray-50/50">
-        {/* <div className="p-4 xl:ml-80"> */}
+        <div className="p-4 xl:ml-16 ">
           <div className="mt-12">
             <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
               <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
@@ -343,13 +343,13 @@ const StatsDashboardInfluencer = () => {
             </div>
           </div>
         </div>
-      {/* </div> */}
+      </div>
 
       {/* Dashboard with the numbers ends here  */}
 
       {/* Main Stats Starts here  */}
-      <div className="px-6 pt-6 2xl:container">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="px-6 pt-6 2xl:container mb-10">
+        <div className="grid gap-6  md:grid-cols-2 lg:grid-cols-3">
           <div className="md:col-span-2 lg:col-span-1">
             <div className="h-full py-8 px-6 space-y-6 rounded-xl border border-gray-200 bg-white">
               <svg
