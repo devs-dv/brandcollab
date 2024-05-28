@@ -28,7 +28,7 @@ const StatsDashboardInfluencer = () => {
                 </div>
                 <div className="p-4 text-right">
                   <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                    Today's Money
+                    Collab's Earning
                   </p>
                   <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
                     $53k
@@ -37,7 +37,7 @@ const StatsDashboardInfluencer = () => {
                 <div className="border-t border-blue-gray-50 p-4">
                   <p className="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
                     <strong className="text-green-500">+55%</strong>&nbsp;than
-                    last week
+                    last 28 days
                   </p>
                 </div>
               </div>
@@ -59,7 +59,7 @@ const StatsDashboardInfluencer = () => {
                 </div>
                 <div className="p-4 text-right">
                   <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                    Today's Users
+                    Followers
                   </p>
                   <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
                     2,300
@@ -68,7 +68,7 @@ const StatsDashboardInfluencer = () => {
                 <div className="border-t border-blue-gray-50 p-4">
                   <p className="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
                     <strong className="text-green-500">+3%</strong>&nbsp;than
-                    last month
+                    last 28 days
                   </p>
                 </div>
               </div>
@@ -86,7 +86,7 @@ const StatsDashboardInfluencer = () => {
                 </div>
                 <div className="p-4 text-right">
                   <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                    New Clients
+                    New Followers
                   </p>
                   <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
                     3,462
@@ -113,10 +113,10 @@ const StatsDashboardInfluencer = () => {
                 </div>
                 <div className="p-4 text-right">
                   <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                    Sales
+                    Impresions
                   </p>
                   <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                    $103,430
+                    -103,430
                   </h4>
                 </div>
                 <div className="border-t border-blue-gray-50 p-4">

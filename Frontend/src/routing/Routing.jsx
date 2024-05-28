@@ -22,6 +22,7 @@ import BrandCreatePost from "../components/Brand Dashboard/BrandCreatePost";
 import BrandPostLanding from "../components/BrandPostLanding";
 import JobListing from "../components/JobListing";
 import StatsDashboardInfluencer from "../components/StatsDashboardInfluencer";
+import CollabComplete from "../components/CollabComplete";
 
 const Routing = () => {
   return (
@@ -36,6 +37,7 @@ const Routing = () => {
       <Route path='/BrandPostLanding' element={<BrandPostLanding/>} />
       <Route path= '/JobListing' element ={<JobListing />} />
       <Route path='/StatsDashboardInfluencer' element ={<StatsDashboardInfluencer />} />
+      <Route path= '/CompleteCollab' element = {<CollabComplete />} />
       <Route path="/topnav" element={<TopNav />} />
       <Route path="/sidenav" element={<SideNav />} />
       <Route path="/infdash">

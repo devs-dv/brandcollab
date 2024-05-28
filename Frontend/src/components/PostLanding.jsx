@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import JobListing from "./JobListing";
 import StatsDashboardInfluencer from "./StatsDashboardInfluencer";
+import ChatPage from "./ChatPage";
+import CollabComplete from "./CollabComplete";
+import InfluencerDashboard from "./Influencer Dashboard/InfluencerDashboard";
 
 const PostLanding = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -73,15 +76,20 @@ const PostLanding = () => {
       case "Search":
         return <div> <JobListing /> </div>;
       case "Message":
-        return <div>Message Content</div>;
+        return <div> < ChatPage/> </div>;
       case "OngoingCollab":
         return <div>Ongoing Collaboration Content</div>;
       case "CompletedCollab":
-        return <div>Completed Collaboration Content</div>;
+        return <div> <CollabComplete /> </div>;
       case "Setup":
-        return <div>Setup Content</div>;
+        return <div> <InfluencerDashboard /> </div>;
       default:
-        return <div>Home Content</div>;
+        return (
+          <div>
+            {" "}
+            <StatsDashboardInfluencer />{" "}
+          </div>
+        );
     }
   };
 
