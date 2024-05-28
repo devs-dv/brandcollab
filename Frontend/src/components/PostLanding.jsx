@@ -7,7 +7,7 @@ import InfluencerDashboard from "./Influencer Dashboard/InfluencerDashboard";
 
 const PostLanding = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("Home"); // New state for selected option
+  const [selectedOption, setSelectedOption] = useState("Home");
 
   useEffect(() => {
     const setDark = (val) => {
@@ -87,8 +87,8 @@ const PostLanding = () => {
       default:
         return (
           <div>
-            {" "}
-            <StatsDashboardInfluencer />{" "}
+            
+            <StatsDashboardInfluencer />
           </div>
         );
     }
