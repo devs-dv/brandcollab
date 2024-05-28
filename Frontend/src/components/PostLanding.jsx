@@ -19,6 +19,7 @@ const PostLanding = () => {
     };
 
     // Initially set the theme based on the state
+    // hi this is dv
     setDark(isDarkMode ? "dark" : "light");
   }, [isDarkMode]);
 
