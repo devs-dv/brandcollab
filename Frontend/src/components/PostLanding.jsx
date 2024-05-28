@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import JobListing from "./JobListing";
+import StatsDashboardInfluencer from "./StatsDashboardInfluencer";
 
 const PostLanding = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -68,7 +69,7 @@ const PostLanding = () => {
   const renderMainContent = () => {
     switch (selectedOption) {
       case "Home":
-        return <div>Home Content</div>;
+        return <div> <StatsDashboardInfluencer /> </div>;
       case "Search":
         return <div> <JobListing /> </div>;
       case "Message":
