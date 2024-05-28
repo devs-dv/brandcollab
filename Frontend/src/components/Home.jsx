@@ -15,11 +15,12 @@ function Home() {
         <Link to="/postlanding"> Post Landing </Link>
         <Link to="/topnav">Top Nav</Link>
         <Link to="/sidenav">Side Nav</Link>
-        <Link to='/infdash'>Influecer Dashboard</Link>
-        <Link to='/brandash'>Brand Dashboard</Link>
-        <Link to='/chat'>Chat</Link>
-        <Link to='/BrandPostLanding'>Brand Post Landing</Link>
-        <Link to='/Joblisting'>Job Listing</Link>
+        <Link to="/infdash">Influecer Dashboard</Link>
+        <Link to="/brandash">Brand Dashboard</Link>
+        <Link to="/chat">Chat</Link>
+        <Link to="/BrandPostLanding">Brand Post Landing</Link>
+        <Link to="/Joblisting">Job Listing</Link>
+        <Link to="/StatsDashboardInfluencer">Stats Dashboard </Link>
       </div>
     </div>
   );

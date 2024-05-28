@@ -21,6 +21,7 @@ import BranCreatePost from "../pages/BranDash Cards/BranCreatePost";
 import BrandCreatePost from "../components/Brand Dashboard/BrandCreatePost";
 import BrandPostLanding from "../components/BrandPostLanding";
 import JobListing from "../components/JobListing";
+import StatsDashboardInfluencer from "../components/StatsDashboardInfluencer";
 
 const Routing = () => {
   return (
@@ -34,6 +35,7 @@ const Routing = () => {
       <Route path="/postlanding" element={<PostLanding />} />
       <Route path='/BrandPostLanding' element={<BrandPostLanding/>} />
       <Route path= '/JobListing' element ={<JobListing />} />
+      <Route path='/StatsDashboardInfluencer' element ={<StatsDashboardInfluencer />} />
       <Route path="/topnav" element={<TopNav />} />
       <Route path="/sidenav" element={<SideNav />} />
       <Route path="/infdash">
