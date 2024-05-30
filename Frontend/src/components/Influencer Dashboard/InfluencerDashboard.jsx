@@ -8,14 +8,17 @@ import ChangePassword from "../../pages/InfDash Cards/ChangePassword";
 
 const InfluencerDashboard = () => {
   return (
-    <div className="bg-gray-100 ">
-      <TopNav />
-      <div className="flex flex-col md:flex-row">
-        <div className=" sticky top-0 md:left-0 md:h-screen ">
-          <InfNavigation />
-        </div>
-        <div className="flex-1">
-          <InfDashAbout />
+    <div className="bg-gray-100">
+      <SideNav />
+      <div className="content ml-16 transition-all ease-in-out duration-500">
+        <div className="h-16" />
+        <div className="flex flex-col md:flex-row ">
+          <div className=" md:h-screen">
+            <InfNavigation />
+          </div>
+          <div className="flex-1">
+            <InfDashAbout />
+          </div>
         </div>
       </div>
     </div>

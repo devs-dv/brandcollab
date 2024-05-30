@@ -23,7 +23,10 @@ import BrandPostLanding from "../components/BrandPostLanding";
 import JobListing from "../components/JobListing";
 import StatsDashboardInfluencer from "../components/StatsDashboardInfluencer";
 import CollabComplete from "../components/CollabComplete";
-
+import Chatbox from "../components/Chatbox";
+import MyChats from "../components/MyChats";
+import ScrollableChat from "../components/ScrollableChat";
+import CollabOngoing from '../components/CollabOngoing'
 const Routing = () => {
   return (
     <Routes>
@@ -33,11 +36,27 @@ const Routing = () => {
       <Route path="/layout" element={<AuthLayout />} />
       <Route path="/verify" element={<MailVerify />} />
       <Route path="/prelanding" element={<PreLanding />} />
-      <Route path="/postlanding" element={<PostLanding />} />
-      <Route path='/BrandPostLanding' element={<BrandPostLanding/>} />
-      <Route path= '/JobListing' element ={<JobListing />} />
-      <Route path='/StatsDashboardInfluencer' element ={<StatsDashboardInfluencer />} />
-      <Route path= '/CompleteCollab' element = {<CollabComplete />} />
+      <Route path="/postlanding">
+        <Route index={true} element={<PostLanding />} />
+        <Route path="/postlanding/chat" element={<ChatPage />} />
+        <Route path="/postlanding/collabOngoing" element={<CollabOngoing />} />
+        <Route
+          path="/postlanding/collabComplete"
+          element={<CollabComplete />}
+        />
+        <Route
+          path="/postlanding/jobListing"
+          element={<JobListing />}
+        />
+        <Route path='/postlanding/home' element={<StatsDashboardInfluencer/>} />
+      </Route>
+      <Route path="/BrandPostLanding" element={<BrandPostLanding />} />
+      <Route path="/JobListing" element={<JobListing />} />
+      <Route
+        path="/StatsDashboardInfluencer"
+        element={<StatsDashboardInfluencer />}
+      />
+      <Route path="/CompleteCollab" element={<CollabComplete />} />
       <Route path="/topnav" element={<TopNav />} />
       <Route path="/sidenav" element={<SideNav />} />
       <Route path="/infdash">
@@ -48,9 +67,9 @@ const Routing = () => {
           element={<InfluencerChangePassword />}
         />
       </Route>
-      <Route path="/brandash" >
-        <Route index={true} element={<BrandDashboard />}/>
-        <Route path="/brandash/post" element={<BrandCreatePost/>} />
+      <Route path="/brandash">
+        <Route index={true} element={<BrandDashboard />} />
+        <Route path="/brandash/post" element={<BrandCreatePost />} />
       </Route>
       <Route path="/chat" element={<ChatPage />} />
       <Route path="/changePassword" element={<ChangePassword />} />
