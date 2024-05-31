@@ -2,10 +2,11 @@ import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "../customComponents/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -24,7 +25,10 @@ const Login = () => {
       axios
         .post("http://localhost:8000/api/v1/login", values)
         .then((response) => {
-          console.log("Data sent successfully:", response.data);
+          console.log("Data sent successfully:", response.data.token);
+          localStorage.setItem("token", response.data.token);
+          // const token = localStorage.getItem('token');
+          navigate("/postlanding");
         })
         .catch((error) => {
           console.error("There was an error sending the data!", error);
@@ -58,14 +62,12 @@ const Login = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
                 className={`mt-1 p-2 w-full border-b border-gray-300 focus:outline-none focus:border-blue-500 ${
-                  formik.touched.email &&
-                  formik.errors.email
+                  formik.touched.email && formik.errors.email
                     ? "border-red-500"
                     : ""
                 }`}
               />
-              {formik.touched.email &&
-              formik.errors.email ? (
+              {formik.touched.email && formik.errors.email ? (
                 <div className="text-red-500 text-sm">
                   {formik.errors.email}
                 </div>
