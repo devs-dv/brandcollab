@@ -11,6 +11,7 @@ const Login = () => {
     initialValues: {
       email: "",
       password: "",
+      
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Username or Email is required"),

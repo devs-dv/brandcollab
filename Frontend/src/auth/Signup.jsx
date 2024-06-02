@@ -17,7 +17,7 @@ const Signup = () => {
       password: "",
       confirmPassword: "",
       consent: false,
-      role: "user",
+      role: localStorage.getItem("UserType"),
       gender: "",
     },
     validationSchema: Yup.object({
