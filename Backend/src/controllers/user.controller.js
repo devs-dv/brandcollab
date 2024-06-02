@@ -7,7 +7,7 @@ import crypto from "crypto";
 import sendEmail from "../utils/sendEmail.js";
 
 const registerUser = asyncErrorHandler(async (req, res, next) => {
-  const { firstName, lastName, email, gender, password, confirmPassword } =
+  const { firstName, lastName, email, gender, password, confirmPassword,role } =
     req.body;
 
   // Check if password and confirmPassword match
@@ -33,6 +33,7 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
     email,
     gender,
     password,
+    role
     // avatar: {
     //   public_id: myCloud.public_id,
     //   url: myCloud.secure_url,
