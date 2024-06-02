@@ -1,7 +1,7 @@
 import React from "react";
 import InfDashAbout from "../../pages/InfDash Cards/InfDashAbout";
 import InfDashSocials from "../../pages/InfDash Cards/InfDashSocials";
-import TopNav from "../navigation/TopNav";
+import TopNav from "../navigation/BrandSideNav";
 import SideNav from "../navigation/SideNav";
 import InfNavigation from "../../pages/InfDash Cards/InfNavigation";
 import ChangePassword from "../../pages/InfDash Cards/ChangePassword";

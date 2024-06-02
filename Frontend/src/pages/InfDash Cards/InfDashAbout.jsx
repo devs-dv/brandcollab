@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import SideNav from "../../components/navigation/SideNav";
-import TopNav from "../../components/navigation/TopNav";
+import TopNav from "../../components/navigation/BrandSideNav";
 import Text from "../../customComponents/Text";
 
 const InfDashAbout = () => {

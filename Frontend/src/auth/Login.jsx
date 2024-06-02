@@ -28,7 +28,12 @@ const Login = () => {
           console.log("Data sent successfully:", response.data.token);
           localStorage.setItem("token", response.data.token);
           // const token = localStorage.getItem('token');
-          navigate("/postlanding");
+          if(response.data.success){
+            if(localStorage.getItem('UserType')==='Influencer')
+              navigate("/postlanding");
+            else
+              navigate('/BrandPostLanding')
+          }
         })
         .catch((error) => {
           console.error("There was an error sending the data!", error);

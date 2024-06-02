@@ -18,8 +18,8 @@ const AuthLayout = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (selectedOption) {
-      
-      navigate(`/signup`);
+      localStorage.setItem("UserType",selectedOption)
+      navigate(`/login`);
     } else {
       console.log("Please select an option");
     }

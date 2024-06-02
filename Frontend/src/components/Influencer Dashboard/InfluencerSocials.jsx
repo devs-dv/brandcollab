@@ -1,5 +1,5 @@
 import React from "react";
-import TopNav from "../navigation/TopNav";
+import TopNav from "../navigation/BrandSideNav";
 import SideNav from "../navigation/SideNav";
 import InfNavigation from "../../pages/InfDash Cards/InfNavigation";
 import InfDashSocials from "../../pages/InfDash Cards/InfDashSocials";

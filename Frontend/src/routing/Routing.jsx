@@ -7,7 +7,7 @@ import { AuthLayout } from "../auth/AuthLayout";
 import MailVerify from "../auth/MailVerify";
 import PreLanding from "../components/PreLanding";
 import PostLanding from "../components/PostLanding";
-import TopNav from "../components/navigation/TopNav";
+import TopNav from "../components/navigation/BrandSideNav";
 import SideNav from "../components/navigation/SideNav";
 import ChatPage from "../components/ChatPage";
 import InfluencerDashboard from "../components/Influencer Dashboard/InfluencerDashboard";
@@ -26,7 +26,7 @@ import CollabComplete from "../components/CollabComplete";
 import Chatbox from "../components/Chatbox";
 import MyChats from "../components/MyChats";
 import ScrollableChat from "../components/ScrollableChat";
-import CollabOngoing from '../components/CollabOngoing'
+import CollabOngoing from "../components/CollabOngoing";
 const Routing = () => {
   return (
     <Routes>
@@ -44,11 +44,11 @@ const Routing = () => {
           path="/postlanding/collabComplete"
           element={<CollabComplete />}
         />
+        <Route path="/postlanding/jobListing" element={<JobListing />} />
         <Route
-          path="/postlanding/jobListing"
-          element={<JobListing />}
+          path="/postlanding/home"
+          element={<StatsDashboardInfluencer />}
         />
-        <Route path='/postlanding/home' element={<StatsDashboardInfluencer/>} />
       </Route>
       <Route path="/BrandPostLanding" element={<BrandPostLanding />} />
       <Route path="/JobListing" element={<JobListing />} />
