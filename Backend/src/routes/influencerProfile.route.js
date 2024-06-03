@@ -9,7 +9,7 @@ import {
   getInstagramReach,
   getEarningsFromBrandCollaboration,
   updateEarnings
-} from "../controllers/influencer.controller.js";
+} from "../controllers/influencerProfile.controller.js";
 
 const influencerRouter = express.Router();
 

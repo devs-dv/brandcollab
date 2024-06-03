@@ -4,7 +4,7 @@ import {
   updateBrandProfile,
   createBrandPost,
   changeBrandPassword
-} from "../controllers/brand.controller.js";
+} from "../controllers/brandProfile.controller.js";
 
 const brandRouter = express.Router();
 
