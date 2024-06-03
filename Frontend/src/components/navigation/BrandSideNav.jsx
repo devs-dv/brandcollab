@@ -177,7 +177,7 @@ const TopNav = () => {
             <div className="h-16" />
             {/* <div className="text-white p-3 uppercase font-bold">Full Sidebar</div> */}
             {/* MAX SIDEBAR*/}
-            <Link to="/postlanding/home">
+            <Link to="/BrandPostLanding">
               <div
                 onClick={() => handleOptionSelect("Home")}
                 className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3"
@@ -200,7 +200,7 @@ const TopNav = () => {
                 <div>Home</div>
               </div>
             </Link>
-            <Link to="/postlanding/jobListing">
+            <Link to="/brandash/post">
               <div
                 onClick={() => handleOptionSelect("Search")}
                 className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3"
@@ -326,7 +326,7 @@ const TopNav = () => {
           <div className="mini flex-col h-full w-full flex">
             <div className="h-16" />
             {/* <div className="text-white p-3 uppercase font-bold">Mini Sidebar</div> */}
-            <Link to="/postlanding/home">
+            <Link to="/BrandPostLanding">
               <div
                 onClick={() => handleOptionSelect("Home")}
                 className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex"
@@ -347,7 +347,7 @@ const TopNav = () => {
                 </svg>
               </div>
             </Link>
-            <Link to="/postlanding/jobListing">
+            <Link to="/brandash/post">
               <div
                 onClick={() => handleOptionSelect("Search")}
                 className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex"
