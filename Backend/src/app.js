@@ -6,38 +6,41 @@ import cookieParser from "cookie-parser";
 import errorHandler from "./utils/errorHandler.js";
 import fileUpload from "express-fileupload";
 import Connection from "./config/db.js";
-import userRouter from "./routes/user.route.js"
+import userRouter from "./routes/user.route.js";
 import chatRouter from "./routes/chat.route.js";
+import influencerRouter from "./routes/influencerProfile.route.js";
+import brandRouter from "./routes/brandProfile.route.js";
+import earningsRouter from "./routes/earning.route.js";
 import messageRouter from "./routes/message.route.js";
 import http from "http";
-import { Server as SocketIOServer } from "socket.io"; 
+import { Server as SocketIOServer } from "socket.io";
 dotenv.config();
 const app = express();
 
-import swaggerJsdoc from "swagger-jsdoc"
-import swaggerUi from "swagger-ui-express"
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
 const options = {
   definition: {
-    openapi: '3.0.0',
+    openapi: "3.0.0",
     info: {
-      title: 'Brand Collab by Promoter',
-      version: '1.0.0',
+      title: "Brand Collab by Promoter",
+      version: "1.0.0",
     },
-    servers:[
+    servers: [
       {
-         url:'http://localhost:8000'
+        url: "http://localhost:8000",
       },
       {
-        url:"https://digitalpaani-book-management.onrender.com"
-      }
+        url: "https://digitalpaani-book-management.onrender.com",
+      },
     ],
     components: {
       securitySchemes: {
         bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
         },
       },
     },
@@ -47,22 +50,18 @@ const options = {
       },
     ],
   },
-  apis: ['./src/routes/*.js'],
+  apis: ["./src/routes/*.js"],
 };
 
 const openapiSpecification = swaggerJsdoc(options);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
-
-
-
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
 const runServer = http.createServer(app, {
   pingTimeout: 60000,
   cors: {
     origin: "http://localhost:3000",
   },
-}); 
-
+});
 
 app.use(express.static("public"));
 app.set("view engine", "ejs");
@@ -79,15 +78,17 @@ app.use(cors());
 
 Connection();
 app.use("/api/v1", userRouter);
-app.use('/api/v1',chatRouter);
-app.use('/api/v1',messageRouter)
+app.use("/api/v1", chatRouter);
+app.use("/api/v1", messageRouter);
+app.use("/api/v1", influencerRouter);
+app.use("/api/v1", brandRouter);
+app.use("/api/v1", earningsRouter);
 
 app.get("/", (req, res) => {
   res.send("Server is Running! 🚀");
 });
 
-
-const io = new SocketIOServer(runServer); 
+const io = new SocketIOServer(runServer);
 
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
