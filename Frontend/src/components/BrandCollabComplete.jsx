@@ -1,8 +1,9 @@
-import React from 'react'
-import BrandSideNav from '../components/navigation/BrandSideNav'
+import React from "react";
+import BrandSideNav from "../components/navigation/BrandSideNav";
 const BrandCollabComplete = () => {
   return (
-    <div><div>
+    <div>
+      <div>
         <BrandSideNav />
         <main className="content ml-12 transition-all ease-in-out duration-500 ">
           <div className="h-16" />
@@ -99,8 +100,9 @@ const BrandCollabComplete = () => {
           </div>
           {/* Your main content ends here */}
         </main>
-      </div></div>
-  )
-}
+      </div>
+    </div>
+  );
+};
 
-export default BrandCollabComplete
+export default BrandCollabComplete;
