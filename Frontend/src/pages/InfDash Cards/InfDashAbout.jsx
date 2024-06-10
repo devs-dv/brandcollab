@@ -3,11 +3,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Text from "../../customComponents/Text";
 import axios from "axios";
-import {Country, State} from 'country-state-city'
+import { Country, State, City } from "country-state-city";
 
 const InfDashAbout = () => {
-
-
   const initialValues = {
     firstName: "John",
     lastName: "Doe",
@@ -15,7 +13,7 @@ const InfDashAbout = () => {
     state: "",
     city: "",
     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    gmail: "example@gmail.com",
+    gmail: "sarangisatya2002@gmail.com",
     profilePicture: "",
   };
 
@@ -28,32 +26,37 @@ const InfDashAbout = () => {
     bio: Yup.string(),
   });
 
-  let countryData = Country.getAllCountries();
-  
+  const countryData = Country.getAllCountries();
 
-  const [stateData,setStateData] = useState()
-  const [showPopup, setShowPopup] = useState(false);
-  const [countries, setCountries] = useState(countryData[0]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    setStateData(State.getStatesOfCountry(countries?.isoCode));
-    console.log(State.getStatesOfCountry(countries?.isoCode));
-  }, [countries]);
+    if (initialValues.country) {
+      const selectedCountry = Country.getCountryByCode(initialValues.country);
+      setStates(State.getStatesOfCountry(selectedCountry?.isoCode));
+    }
+  }, [initialValues.country]);
 
   useEffect(() => {
-    stateData && setStateData(stateData[0]);
-  }, [stateData]);
-
-  
+    if (initialValues.state) {
+      const selectedState = State.getStateByCodeAndCountry(
+        initialValues.state,
+        initialValues.country
+      );
+      setCities(
+        City.getCitiesOfState(initialValues.country, selectedState?.isoCode)
+      );
+    }
+  }, [initialValues.state, initialValues.country]);
 
   const handleSubmit = (values, { setSubmitting }) => {
-    const location = `${values.country}, ${values.state}, ${values.city}`;
-    const data = { ...values, location };
-
+    
+    console.log(values);
     axios
-      .post("http://localhost:8000/api/v1/influencer/profile", data)
+      .post("http://localhost:8000/api/v1/influencer/profile", values)
+
       .then((response) => {
         console.log("Data sent successfully:", response.data);
       })
@@ -184,14 +187,17 @@ const InfDashAbout = () => {
                       name="country"
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
                       onChange={(e) => {
-                        setFieldValue("country", e.target.value);
-                        setCountries(e.target.value)
+                        const selectedCountry = e.target.value;
+                        setFieldValue("country", selectedCountry);
+                        setFieldValue("state", ""); // Reset state
+                        setFieldValue("city", ""); // Reset city
+                        setStates(State.getStatesOfCountry(selectedCountry));
                       }}
                     >
                       <option value="">Select Country</option>
-                      {countryData.map((countryData) => (
-                        <option key={countryData.code} value={countryData.code}>
-                          {countryData.name}
+                      {countryData.map((country) => (
+                        <option key={country.isoCode} value={country.isoCode}>
+                          {country.name}
                         </option>
                       ))}
                     </Field>
@@ -215,13 +221,17 @@ const InfDashAbout = () => {
                       name="state"
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
                       onChange={(e) => {
-                        setFieldValue("state", e.target.value);
-                        
+                        const selectedState = e.target.value;
+                        setFieldValue("state", selectedState);
+                        setFieldValue("city", ""); // Reset city
+                        setCities(
+                          City.getCitiesOfState(values.country, selectedState)
+                        );
                       }}
                     >
                       <option value="">Select State</option>
                       {states.map((state) => (
-                        <option key={state.code} value={state.code}>
+                        <option key={state.isoCode} value={state.isoCode}>
                           {state.name}
                         </option>
                       ))}
@@ -248,7 +258,7 @@ const InfDashAbout = () => {
                     >
                       <option value="">Select City</option>
                       {cities.map((city) => (
-                        <option key={city.code} value={city.code}>
+                        <option key={city.name} value={city.name}>
                           {city.name}
                         </option>
                       ))}
