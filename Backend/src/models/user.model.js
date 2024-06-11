@@ -39,6 +39,25 @@ const userSchema = new Schema({
       type: String,
     },
   },
+  country: {
+    type: String,
+    default: null,
+  },
+  state: {
+    type: String,
+    default: null,
+  },
+  city: {
+    type: String,
+    default: null,
+  },
+  bio: {
+    type: String,
+    default: null,
+  },
+  consent: {
+    type: Boolean,
+  },
   role: {
     type: String,
     default: "user",
@@ -48,7 +67,6 @@ const userSchema = new Schema({
     required: true,
     default: false,
   },
-
   createdAt: {
     type: Date,
     default: Date.now,
