@@ -7,8 +7,16 @@ import crypto from "crypto";
 import sendEmail from "../utils/sendEmail.js";
 
 const registerUser = asyncErrorHandler(async (req, res, next) => {
-  const { firstName, lastName, email, gender, password, confirmPassword,role } =
-    req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    gender,
+    password,
+    confirmPassword,
+    role,
+    consent,
+  } = req.body;
 
   // Check if password and confirmPassword match
   if (password !== confirmPassword) {
@@ -19,25 +27,18 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
   if (userExist) {
     return next(new ErrorHandler("User with this email already exists", 400));
   }
-  // const myCloud = await cloudinary.uploader.upload(
-  //   req.files.avatar.tempFilePath,
-  //   {
-  //     folder: "avatars",
-  //     width: 150,
-  //     crop: "scale",
-  //   }
-  // );
   const user = await User.create({
     firstName,
     lastName,
     email,
     gender,
     password,
-    role
-    // avatar: {
-    //   public_id: myCloud.public_id,
-    //   url: myCloud.secure_url,
-    // },
+    role,
+    consent,
+    avatar: {
+      public_id: "",
+      url: "",
+    },
   });
   sendToken(user, 200, res);
 });
@@ -60,7 +61,7 @@ const loginUser = asyncErrorHandler(async (req, res, next) => {
 
 const updateAvatar = asyncErrorHandler(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-
+   console.log(user)
   if (!user) {
     return next(new ErrorHandler("User not found", 404));
   }
@@ -91,7 +92,6 @@ const updateAvatar = asyncErrorHandler(async (req, res, next) => {
     avatar: user.avatar,
   });
 });
-
 
 const logoutUser = asyncErrorHandler(async (req, res, next) => {
   res.cookie("token", null, {
@@ -218,5 +218,5 @@ export {
   resetPassword,
   updatePassword,
   getAllUsersExceptCurrentUser,
-  updateAvatar 
+  updateAvatar,
 };
