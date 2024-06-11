@@ -7,7 +7,8 @@ import {
   resetPassword,
   updatePassword,
   getAllUsersExceptCurrentUser,
-  updateAvatar 
+  updateAvatar,
+  influencerProfileUpdate,
 } from "../controllers/user.controller.js";
 import { isAuthenticatedUser } from "../middlewares/auth.js";
 
@@ -261,7 +262,9 @@ userRouter.route("/updatePassword").patch(isAuthenticatedUser, updatePassword);
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-userRouter.route("/getUser").get(isAuthenticatedUser, getAllUsersExceptCurrentUser);
+userRouter
+  .route("/getUser")
+  .get(isAuthenticatedUser, getAllUsersExceptCurrentUser);
 
 /**
  * @swagger
@@ -334,5 +337,8 @@ userRouter.route("/getUser").get(isAuthenticatedUser, getAllUsersExceptCurrentUs
  */
 userRouter.route("/avatar/update").put(isAuthenticatedUser, updateAvatar);
 
+userRouter
+  .route("/influencer/update")
+  .put(isAuthenticatedUser, influencerProfileUpdate);
 
 export default userRouter;

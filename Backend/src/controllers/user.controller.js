@@ -93,6 +93,65 @@ const updateAvatar = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
+
+const influencerProfileUpdate = asyncErrorHandler(async (req, res, next) => {
+  const {
+    firstName,
+    lastName,
+    gender,
+    role,
+    consent,
+    country,
+    state,
+    city,
+    bio
+  } = req.body;
+
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+
+  const updatedFields = {
+    firstName,
+    lastName,
+    gender,
+    role,
+    consent,
+    country,
+    state,
+    city,
+    bio
+  };
+
+  if (req.files && req.files.avatar) {
+    if (user.avatar.public_id) {
+      await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+    }
+    const result = await cloudinary.v2.uploader.upload(req.files.avatar.tempFilePath, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    });
+
+    updatedFields.avatar = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  }
+  const updatedUser = await User.findByIdAndUpdate(req.user._id, updatedFields, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "User updated successfully",
+    user: updatedUser,
+  });
+});
+
 const logoutUser = asyncErrorHandler(async (req, res, next) => {
   res.cookie("token", null, {
     expires: new Date(Date.now()),
@@ -219,4 +278,5 @@ export {
   updatePassword,
   getAllUsersExceptCurrentUser,
   updateAvatar,
+  influencerProfileUpdate
 };
