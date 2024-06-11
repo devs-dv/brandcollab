@@ -7,7 +7,6 @@ function Home() {
     <div>
       <h1>Home</h1>
       <div className=" flex gap-10">
-        <Link to="/layout">Layout</Link>
         <Link to="/login">Login</Link>
         <Link to="/signup">Signup</Link>
         <Link to="/verify">Verification</Link>
@@ -21,6 +20,7 @@ function Home() {
         <Link to="/BrandPostLanding">Brand Post Landing</Link>
         <Link to="/Joblisting">Job Listing</Link>
         <Link to="/StatsDashboardInfluencer">Stats Dashboard </Link>
+        <Link to='/brandSignup'>Brand Signup</Link>
       </div>
     </div>
   );

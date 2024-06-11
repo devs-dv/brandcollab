@@ -3,7 +3,6 @@ import Home from "../components/Home";
 import { Route, Routes } from "react-router-dom";
 import Signup from "../auth/Signup";
 import Login from "../auth/Login";
-import { AuthLayout } from "../auth/AuthLayout";
 import MailVerify from "../auth/MailVerify";
 import PreLanding from "../components/PreLanding";
 import PostLanding from "../components/PostLanding";
@@ -29,13 +28,14 @@ import ScrollableChat from "../components/ScrollableChat";
 import CollabOngoing from "../components/CollabOngoing";
 import BrandCollabComplete from "../components/BrandCollabComplete";
 import BrandCollabOngoing from "../components/BrandCollabOngoing";
+import BrandSignup from "../auth/BrandSignup";
 const Routing = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path='/brandSignup' element={<BrandSignup/>} />
       <Route path="/login" element={<Login />} />
-      <Route path="/layout" element={<AuthLayout />} />
       <Route path="/verify" element={<MailVerify />} />
       <Route path="/prelanding" element={<PreLanding />} />
       <Route path="/postlanding">
