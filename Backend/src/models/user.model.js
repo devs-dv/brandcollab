@@ -43,6 +43,10 @@ const userSchema = new Schema({
     type: String,
     default: null,
   },
+  brandName: {
+    type: String,
+    default: null,
+  },
   state: {
     type: String,
     default: null,
