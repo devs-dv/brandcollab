@@ -1,29 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Text from "../../customComponents/Text";
+import axios from "axios";
+import { Country, State, City } from "country-state-city";
 
 const BranDashAbout = () => {
   const initialValues = {
     brandName: "ABC Brand",
-    industry: "Fashion",
-    location: "New York",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    firstName: "",
+    lastName: "",
     email: "example@example.com",
+    industry: "Fashion",
+    country: "",
+    state: "",
+    city: "",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     logo: "",
   };
 
   const validationSchema = Yup.object().shape({
     brandName: Yup.string().required("Brand Name is required"),
+    firstName: Yup.string().required("First Name is required"),
+    lastName: Yup.string().required("Last Name is required"),
     industry: Yup.string().required("Industry is required"),
-    location: Yup.string().required("Location is required"),
+    country: Yup.string().required("Country is required"),
+    state: Yup.string().required("State is required"),
+    city: Yup.string().required("City is required"),
     description: Yup.string(),
   });
 
+  const countryData = Country.getAllCountries();
+
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+
+  const handleCountryChange = (e, setFieldValue) => {
+    const selectedCountry = e.target.value;
+    setFieldValue("country", selectedCountry);
+    setFieldValue("state", ""); // Reset state
+    setFieldValue("city", ""); // Reset city
+    setStates(State.getStatesOfCountry(selectedCountry));
+    setCities([]); // Reset cities
+  };
+
+  const handleStateChange = (e, values, setFieldValue) => {
+    const selectedState = e.target.value;
+    setFieldValue("state", selectedState);
+    setFieldValue("city", ""); // Reset city
+    setCities(City.getCitiesOfState(values.country, selectedState));
+  };
 
   const handleSubmit = (values, { setSubmitting }) => {
     console.log(values);
+    axios
+      .post("http://localhost:8000/api/v1/brand/profile", values)
+      .then((response) => {
+        console.log("Data sent successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error sending the data!", error);
+      });
+
     setSubmitting(false);
     setShowPopup(true);
     setTimeout(() => {
@@ -46,12 +85,10 @@ const BranDashAbout = () => {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
-            className=""
           >
             {({ isSubmitting, setFieldValue, values }) => (
               <Form className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="lg:col-span-1 flex flex-col items-center justify-center ">
-                  {/* Logo Section */}
+                <div className="lg:col-span-1 flex flex-col items-center justify-center">
                   <label
                     htmlFor="logo"
                     className="block text-sm font-medium text-gray-700 mb-2"
@@ -116,6 +153,59 @@ const BranDashAbout = () => {
                   </div>
                   <div className="mb-4">
                     <label
+                      htmlFor="firstName"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      First Name
+                    </label>
+                    <Field
+                      type="text"
+                      id="firstName"
+                      name="firstName"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                    <ErrorMessage
+                      name="firstName"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="lastName"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Last Name
+                    </label>
+                    <Field
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                    <ErrorMessage
+                      name="lastName"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Email
+                    </label>
+                    <Field
+                      type="email"
+                      id="email"
+                      name="email"
+                      disabled
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
                       htmlFor="industry"
                       className="block text-sm font-medium text-gray-700"
                     >
@@ -135,36 +225,84 @@ const BranDashAbout = () => {
                   </div>
                   <div className="mb-4">
                     <label
-                      htmlFor="location"
+                      htmlFor="country"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Location
+                      Country
                     </label>
                     <Field
-                      type="text"
-                      id="location"
-                      name="location"
+                      as="select"
+                      id="country"
+                      name="country"
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    />
+                      onChange={(e) => handleCountryChange(e, setFieldValue)}
+                    >
+                      <option value="">Select Country</option>
+                      {countryData.map((country) => (
+                        <option key={country.isoCode} value={country.isoCode}>
+                          {country.name}
+                        </option>
+                      ))}
+                    </Field>
                     <ErrorMessage
-                      name="location"
+                      name="country"
                       component="div"
                       className="text-red-500 text-sm"
                     />
                   </div>
                   <div className="mb-4">
                     <label
-                      htmlFor="email"
+                      htmlFor="state"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Email
+                      State
                     </label>
                     <Field
-                      type="email"
-                      id="email"
-                      name="email"
-                      disabled
-                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100"
+                      as="select"
+                      id="state"
+                      name="state"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      onChange={(e) =>
+                        handleStateChange(e, values, setFieldValue)
+                      }
+                    >
+                      <option value="">Select State</option>
+                      {states.map((state) => (
+                        <option key={state.isoCode} value={state.isoCode}>
+                          {state.name}
+                        </option>
+                      ))}
+                    </Field>
+                    <ErrorMessage
+                      name="state"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="city"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      City
+                    </label>
+                    <Field
+                      as="select"
+                      id="city"
+                      name="city"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    >
+                      <option value="">Select City</option>
+                      {cities.map((city) => (
+                        <option key={city.name} value={city.name}>
+                          {city.name}
+                        </option>
+                      ))}
+                    </Field>
+                    <ErrorMessage
+                      name="city"
+                      component="div"
+                      className="text-red-500 text-sm"
                     />
                   </div>
                   <div className="mb-4">
@@ -187,15 +325,16 @@ const BranDashAbout = () => {
                       className="text-red-500 text-sm"
                     />
                   </div>
-                  <div className="text-center">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="bg-blue-500 text-white px-6 py-3 rounded-md disabled:bg-gray-400 disabled:cursor-not-allowed"
-                    >
-                      Submit
-                    </button>
-                  </div>
+                </div>
+
+                <div className="text-center lg:col-span-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="bg-blue-500 text-white px-6 py-3 rounded-md disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  >
+                    Submit
+                  </button>
                 </div>
               </Form>
             )}
@@ -203,7 +342,6 @@ const BranDashAbout = () => {
         </div>
       </div>
 
-      {/* Popup */}
       {showPopup && (
         <div className="fixed bottom-0 right-0 m-4 bg-white p-4 rounded-md shadow-md">
           Changes are being saved...

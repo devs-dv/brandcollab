@@ -7,12 +7,12 @@ import Button from "../../customComponents/Button";
 const ChangePassword = () => {
   const formik = useFormik({
     initialValues: {
-      currentPassword: "",
+      password: "",
       newPassword: "",
       confirmNewPassword: "",
     },
     validationSchema: Yup.object({
-      currentPassword: Yup.string().required("Current password is required"),
+      password: Yup.string().required("Current password is required"),
       newPassword: Yup.string()
         .required("New password is required")
         .min(8, "Password must be at least 8 characters"),
@@ -35,29 +35,29 @@ const ChangePassword = () => {
           <form onSubmit={formik.handleSubmit} className="space-y-4">
             <div className="mb-4">
               <label
-                htmlFor="currentPassword"
+                htmlFor="password"
                 className="block text-sm font-medium text-gray-700"
               >
                 Current Password
               </label>
               <input
-                id="currentPassword"
-                name="currentPassword"
+                id="password"
+                name="password"
                 type="password"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.currentPassword}
+                value={formik.values.password}
                 className={`mt-1 p-2 w-full border-b border-gray-300 focus:outline-none rounded-md ${
-                  formik.touched.currentPassword &&
-                  formik.errors.currentPassword
+                  formik.touched.password &&
+                  formik.errors.password
                     ? "border-red-500"
                     : ""
                 }`}
               />
-              {formik.touched.currentPassword &&
-              formik.errors.currentPassword ? (
+              {formik.touched.password &&
+              formik.errors.password ? (
                 <div className="text-red-500 text-sm">
-                  {formik.errors.currentPassword}
+                  {formik.errors.password}
                 </div>
               ) : null}
             </div>

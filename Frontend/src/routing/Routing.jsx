@@ -27,6 +27,8 @@ import Chatbox from "../components/Chatbox";
 import MyChats from "../components/MyChats";
 import ScrollableChat from "../components/ScrollableChat";
 import CollabOngoing from "../components/CollabOngoing";
+import BrandCollabComplete from "../components/BrandCollabComplete";
+import BrandCollabOngoing from "../components/BrandCollabOngoing";
 const Routing = () => {
   return (
     <Routes>
@@ -50,7 +52,17 @@ const Routing = () => {
           element={<StatsDashboardInfluencer />}
         />
       </Route>
-      <Route path="/BrandPostLanding" element={<BrandPostLanding />} />
+      <Route path="/BrandPostLanding">
+        <Route index={true} element={<BrandPostLanding />} />
+        <Route
+          path="/BrandPostLanding/BrandCollabComplete"
+          element={<BrandCollabComplete />}
+        />
+        <Route
+          path="/BrandPostLanding/BrandCollabOngoing"
+          element={<BrandCollabOngoing />}
+        />
+      </Route>
       <Route path="/JobListing" element={<JobListing />} />
       <Route
         path="/StatsDashboardInfluencer"
