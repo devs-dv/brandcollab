@@ -42,11 +42,10 @@ const Signup = () => {
         [true],
         "You must accept the terms and conditions"
       ),
-      gender: Yup.string().required("Gender is required"), // Added gender validation
+      gender: Yup.string().required("Gender is required"),
     }),
     onSubmit: (values, { resetForm }) => {
       console.log(values);
-      // Reset the form to its initial state
       resetForm();
 
       axios
