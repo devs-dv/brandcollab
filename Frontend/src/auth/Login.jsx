@@ -27,7 +27,7 @@ const Login = () => {
       axios
         .post("http://localhost:8000/api/v1/login", values)
         .then((response) => {
-          console.log("Data sent successfully:", response.data.token);
+          console.log("Data sent successfully:", response.data);
           localStorage.setItem("token", response.data.token);
           if (response.data.success) {
             if (values.role === "Influencer") navigate("/postlanding");

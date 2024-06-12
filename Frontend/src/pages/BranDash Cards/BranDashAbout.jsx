@@ -17,6 +17,7 @@ const BranDashAbout = () => {
     city: "",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     logo: "",
+    token: localStorage.getItem('token')
   };
 
   const validationSchema = Yup.object().shape({

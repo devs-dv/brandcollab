@@ -13,8 +13,9 @@ const InfDashAbout = () => {
     state: "",
     city: "",
     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    gmail: "sarangisatya2002@gmail.com",
+    gmail: "abhi@gmail.com",
     profilePicture: "",
+    token: localStorage.getItem('token')
   };
 
   const validationSchema = Yup.object().shape({
@@ -52,11 +53,16 @@ const InfDashAbout = () => {
   }, [initialValues.state, initialValues.country]);
 
   const handleSubmit = (values, { setSubmitting }) => {
-    
-    console.log(values);
-    axios
-      .post("http://localhost:8000/api/v1/influencer/profile", values)
+    const token = localStorage.getItem("token");
 
+    const config = {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    };
+
+    axios
+      .post("http://localhost:8000/api/v1/influencer/update", values, config)
       .then((response) => {
         console.log("Data sent successfully:", response.data);
       })
