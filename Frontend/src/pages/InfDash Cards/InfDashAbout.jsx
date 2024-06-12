@@ -59,9 +59,9 @@ const InfDashAbout = () => {
         "Content-Type": "multipart/form-data",
       },
     };
-    console.log(token, values, config);
+    console.log(token, values, config,formData);
     axios
-      .post("http://localhost:8000/api/v1/influencer/update", formData, config)
+      .post("http://localhost:8000/api/v1/influencer/update", values, config)
       .then((response) => {
         console.log("Data sent successfully:", response.data);
       })
