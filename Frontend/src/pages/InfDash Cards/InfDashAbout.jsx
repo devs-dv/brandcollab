@@ -13,7 +13,7 @@ const InfDashAbout = () => {
     state: "",
     city: "",
     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    profilePicture: ""
+    profilePicture: "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -31,45 +31,43 @@ const InfDashAbout = () => {
   const [cities, setCities] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
 
-  useEffect(() => {
-    if (initialValues.country) {
-      const selectedCountry = Country.getCountryByCode(initialValues.country);
-      setStates(State.getStatesOfCountry(selectedCountry?.isoCode));
-    }
-  }, [initialValues.country]);
+  const handleCountryChange = (selectedCountry, setFieldValue) => {
+    setFieldValue("country", selectedCountry);
+    setFieldValue("state", ""); // Reset state
+    setFieldValue("city", ""); // Reset city
+    setStates(State.getStatesOfCountry(selectedCountry));
+    setCities([]);
+  };
 
-  useEffect(() => {
-    if (initialValues.state) {
-      const selectedState = State.getStateByCodeAndCountry(
-        initialValues.state,
-        initialValues.country
-      );
-      setCities(
-        City.getCitiesOfState(initialValues.country, selectedState?.isoCode)
-      );
-    }
-  }, [initialValues.state, initialValues.country]);
+  const handleStateChange = (selectedState, values, setFieldValue) => {
+    setFieldValue("state", selectedState);
+    setFieldValue("city", ""); // Reset city
+    setCities(City.getCitiesOfState(values.country, selectedState));
+  };
 
   const handleSubmit = (values, { setSubmitting }) => {
     const token = localStorage.getItem("token");
 
+    const formData = new FormData();
+    Object.keys(values).forEach((key) => {
+      formData.append(key, values[key]);
+    });
+
     const config = {
       headers: {
         authorization: `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data'
+        "Content-Type": "multipart/form-data",
       },
     };
-
-    console.log("values:",value,"config:",config)
-
-    // axios
-    //   .post("http://localhost:8000/api/v1/influencer/update", values, config)
-    //   .then((response) => {
-    //     console.log("Data sent successfully:", response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("There was an error sending the data!", error);
-    //   });
+    console.log(token, values, config);
+    axios
+      .post("http://localhost:8000/api/v1/influencer/update", formData, config)
+      .then((response) => {
+        console.log("Data sent successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error sending the data!", error);
+      });
 
     setSubmitting(false);
     setShowPopup(true);
@@ -122,9 +120,11 @@ const InfDashAbout = () => {
                       accept="image/*"
                       className="sr-only"
                       onChange={(event) => {
+                        const file = event.target.files[0];
+                        setFieldValue("profilePicture", file);
                         setFieldValue(
-                          "profilePicture",
-                          URL.createObjectURL(event.target.files[0])
+                          "profilePicturePreview",
+                          URL.createObjectURL(file)
                         );
                       }}
                     />
@@ -193,13 +193,9 @@ const InfDashAbout = () => {
                       id="country"
                       name="country"
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const selectedCountry = e.target.value;
-                        setFieldValue("country", selectedCountry);
-                        setFieldValue("state", ""); // Reset state
-                        setFieldValue("city", ""); // Reset city
-                        setStates(State.getStatesOfCountry(selectedCountry));
-                      }}
+                      onChange={(e) =>
+                        handleCountryChange(e.target.value, setFieldValue)
+                      }
                     >
                       <option value="">Select Country</option>
                       {countryData.map((country) => (
@@ -227,14 +223,9 @@ const InfDashAbout = () => {
                       id="state"
                       name="state"
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const selectedState = e.target.value;
-                        setFieldValue("state", selectedState);
-                        setFieldValue("city", ""); // Reset city
-                        setCities(
-                          City.getCitiesOfState(values.country, selectedState)
-                        );
-                      }}
+                      onChange={(e) =>
+                        handleStateChange(e.target.value, values, setFieldValue)
+                      }
                     >
                       <option value="">Select State</option>
                       {states.map((state) => (
