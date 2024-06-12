@@ -16,6 +16,7 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
     confirmPassword,
     role,
     consent,
+    brandName
   } = req.body;
 
   // Check if password and confirmPassword match
@@ -35,6 +36,7 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
     password,
     role,
     consent,
+    brandName,
     avatar: {
       public_id: "",
       url: "",

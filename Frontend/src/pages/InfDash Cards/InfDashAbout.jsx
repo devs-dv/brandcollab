@@ -13,9 +13,7 @@ const InfDashAbout = () => {
     state: "",
     city: "",
     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    gmail: "abhi@gmail.com",
-    profilePicture: "",
-    token: localStorage.getItem('token')
+    profilePicture: ""
   };
 
   const validationSchema = Yup.object().shape({
@@ -58,17 +56,20 @@ const InfDashAbout = () => {
     const config = {
       headers: {
         authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
       },
     };
 
-    axios
-      .post("http://localhost:8000/api/v1/influencer/update", values, config)
-      .then((response) => {
-        console.log("Data sent successfully:", response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error sending the data!", error);
-      });
+    console.log("values:",value,"config:",config)
+
+    // axios
+    //   .post("http://localhost:8000/api/v1/influencer/update", values, config)
+    //   .then((response) => {
+    //     console.log("Data sent successfully:", response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("There was an error sending the data!", error);
+    //   });
 
     setSubmitting(false);
     setShowPopup(true);
