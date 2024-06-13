@@ -29,6 +29,8 @@ const Login = () => {
         .then((response) => {
           console.log("Data sent successfully:", response.data);
           localStorage.setItem("token", response.data.token);
+          let myObject = JSON.stringify(response.data.user)
+          localStorage.setItem('userData',myObject)
           if (response.data.success) {
             if (values.role === "Influencer") navigate("/postlanding");
             else navigate("/BrandPostLanding");

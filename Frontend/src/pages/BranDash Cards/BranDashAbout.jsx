@@ -10,14 +10,13 @@ const BranDashAbout = () => {
     brandName: "ABC Brand",
     firstName: "",
     lastName: "",
-    email: "example@example.com",
+email:"abc@gmail.com",
     industry: "Fashion",
     country: "",
     state: "",
     city: "",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     logo: "",
-    token: localStorage.getItem('token')
   };
 
   const validationSchema = Yup.object().shape({
@@ -54,9 +53,22 @@ const BranDashAbout = () => {
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
-    console.log(values);
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+    Object.keys(values).forEach((key) => {
+      formData.append(key, values[key]);
+    });
+
+    const config = {
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    console.log(values, config);
     axios
-      .post("http://localhost:8000/api/v1/brand/profile", values)
+      .put("http://localhost:8000/api/v1/influencer/update", formData, config)
       .then((response) => {
         console.log("Data sent successfully:", response.data);
       })
@@ -115,10 +127,9 @@ const BranDashAbout = () => {
                       accept="image/*"
                       className="sr-only"
                       onChange={(event) => {
-                        setFieldValue(
-                          "logo",
-                          URL.createObjectURL(event.target.files[0])
-                        );
+                        const file = event.target.files[0];
+                        setFieldValue("logo", file);
+                        setFieldValue("logoPreview", URL.createObjectURL(file));
                       }}
                     />
                     {values.logo && (
@@ -306,7 +317,7 @@ const BranDashAbout = () => {
                       className="text-red-500 text-sm"
                     />
                   </div>
-                  <div className="mb-4">
+                  <div className="mb-4 lg:col-span-2">
                     <label
                       htmlFor="description"
                       className="block text-sm font-medium text-gray-700"
@@ -317,8 +328,8 @@ const BranDashAbout = () => {
                       as="textarea"
                       id="description"
                       name="description"
-                      rows="3"
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      rows="3"
                     />
                     <ErrorMessage
                       name="description"
@@ -326,28 +337,26 @@ const BranDashAbout = () => {
                       className="text-red-500 text-sm"
                     />
                   </div>
-                </div>
-
-                <div className="text-center lg:col-span-2">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="bg-blue-500 text-white px-6 py-3 rounded-md disabled:bg-gray-400 disabled:cursor-not-allowed"
-                  >
-                    Submit
-                  </button>
+                  <div className="lg:col-span-2 flex justify-end">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
                 </div>
               </Form>
             )}
           </Formik>
+          {showPopup && (
+            <div className="fixed top-4 right-4 bg-green-500 text-white p-4 rounded-md shadow-lg">
+              Profile updated successfully!
+            </div>
+          )}
         </div>
       </div>
-
-      {showPopup && (
-        <div className="fixed bottom-0 right-0 m-4 bg-white p-4 rounded-md shadow-md">
-          Changes are being saved...
-        </div>
-      )}
     </div>
   );
 };

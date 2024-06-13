@@ -6,14 +6,20 @@ import axios from "axios";
 import { Country, State, City } from "country-state-city";
 
 const InfDashAbout = () => {
+  const dataString = localStorage.getItem("userData");
+  const dataObject = dataString ? JSON.parse(dataString) : {};
+
+  console.log("Data Object from localStorage:", dataObject);
+
   const initialValues = {
-    firstName: "John",
-    lastName: "Doe",
-    country: "",
-    state: "",
-    city: "",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    profilePicture: "",
+    firstName: dataObject.firstName || "",
+    lastName: dataObject.lastName || "",
+    country: dataObject.country || "",
+    state: dataObject.state || "",
+    city: dataObject.city || "",
+    bio: dataObject.bio || "",
+    gmail: dataObject.email || "",
+    profilePicture: dataObject.profilePicture || "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -30,6 +36,15 @@ const InfDashAbout = () => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (dataObject.country) {
+      setStates(State.getStatesOfCountry(dataObject.country));
+    }
+    if (dataObject.state && dataObject.country) {
+      setCities(City.getCitiesOfState(dataObject.country, dataObject.state));
+    }
+  }, [dataObject.country, dataObject.state]);
 
   const handleCountryChange = (selectedCountry, setFieldValue) => {
     setFieldValue("country", selectedCountry);
@@ -59,11 +74,13 @@ const InfDashAbout = () => {
         "Content-Type": "multipart/form-data",
       },
     };
-    console.log(token, values, config,formData);
+    //console.log(token, values, config,formData);
     axios
-      .post("http://localhost:8000/api/v1/influencer/update", values, config)
+      .put("http://localhost:8000/api/v1/influencer/update", values, config)
       .then((response) => {
-        console.log("Data sent successfully:", response.data);
+        let myObject = JSON.stringify(response.data.user);
+        localStorage.setItem("userData", myObject);
+        console.log("Data sent successfully:", response.data.user);
       })
       .catch((error) => {
         console.error("There was an error sending the data!", error);

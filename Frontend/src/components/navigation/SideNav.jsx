@@ -61,7 +61,7 @@ const SideNav = () => {
     };
 
     const handleOptionSelect = (option) => {
-      setSelectedOption(option);
+      
     };
     
   return (
@@ -93,7 +93,7 @@ const SideNav = () => {
         <aside className="w-60 -translate-x-48 fixed transition transform ease-in-out duration-1000 z-50 flex h-screen bg-[#1E293B] ">
           {/* open sidebar button */}
           <div className="max-toolbar translate-x-24 scale-x-0 w-full -right-6 transition transform ease-in duration-300 flex items-center justify-between border-4 border-white dark:border-[#0F172A] bg-[#1E293B] absolute top-2 rounded-full h-12">
-            <div className="flex pl-4 items-center space-x-2 ">
+            <div className="flex pl-4 items-center space-x-2">
               <div>
                 <div
                   onClick={() => handleDarkModeToggle("dark")}
@@ -189,14 +189,13 @@ const SideNav = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  strokewidth="{2}"
+                  strokeWidth="2"
                   stroke="currentColor"
                   className="w-5 h-5"
                 >
                   <path
-                    strokelinecap="round"
-                    strokelinejoin="round"
-                    strokewidth="{2}"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
                   />
                 </svg>
@@ -269,7 +268,7 @@ const SideNav = () => {
                     d="M6 4h12M6 8h12m-6 4h6M4 4h1m0 8h1m0 8h1m2-16h10a2 2 0 012 2v12a2 2 0 01-2 2H8a2 2 0 01-2-2V6a2 2 0 012-2z"
                   />
                 </svg>
-                <div>On going Collab</div>
+                <div>Ongoing Collab</div>
               </div>
             </Link>
 
@@ -338,13 +337,13 @@ const SideNav = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  strokewidth="{2}"
+                  strokeWidth="2"
                   stroke="currentColor"
                   className="w-5 h-5"
                 >
                   <path
-                    strokelinecap="round"
-                    strokelinejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
                   />
                 </svg>
@@ -413,7 +412,6 @@ const SideNav = () => {
                 </svg>
               </div>
             </Link>
-
             <Link to="/postlanding/collabComplete">
               <div
                 onClick={() => handleOptionSelect("CompletedCollab")}
@@ -457,7 +455,6 @@ const SideNav = () => {
                 </svg>
               </div>
             </Link>
-
             <div className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
