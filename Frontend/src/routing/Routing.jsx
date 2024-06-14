@@ -37,6 +37,7 @@ const Routing = () => {
       <Route path='/brandSignup' element={<BrandSignup/>} />
       <Route path="/login" element={<Login />} />
       <Route path="/verify" element={<MailVerify />} />
+
       <Route path="/prelanding" element={<PreLanding />} />
       <Route path="/postlanding">
         <Route index={true} element={<PostLanding />} />
