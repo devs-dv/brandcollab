@@ -1,7 +1,161 @@
-import React from "react";
+import React, { useState } from "react";
 import SideNav from "./navigation/SideNav";
 
 const StatsDashboardInfluencer = () => {
+  const [channelName, setChannelName] = useState("");
+  const [channelInfo, setChannelInfo] = useState(null);
+  const [recentVideoLikes, setRecentVideoLikes] = useState(null);
+  const [profileAnalysis, setProfileAnalysis] = useState("");
+  const [totalVideos, setTotalVideos] = useState(null);
+  const [totalShorts, setTotalShorts] = useState(null); // Placeholder, needs specific logic to fetch
+
+  const fetchChannelId = async (channelName) => {
+    const apiKey = "AIzaSyBixAjM9sGY7u-GdsG1q0Dh_ez9eG7o7c4"; // we are using google apis for fetching the basic data of the youtube channel for our dashboard
+    const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${encodeURIComponent(
+      channelName
+    )}&key=${apiKey}`;
+
+    try {
+      const response = await fetch(searchUrl);
+      const data = await response.json();
+      console.log("Search Response:", data); // Debugging log
+      if (data.items && data.items.length > 0) {
+        const channelId = data.items[0].id.channelId;
+        fetchChannelData(channelId, apiKey);
+      } else {
+        alert("Channel not found.");
+      }
+    } catch (error) {
+      console.error("Error fetching channel ID:", error);
+    }
+  };
+
+  const fetchChannelData = async (channelId, apiKey) => {
+    const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics,contentDetails&id=${channelId}&key=${apiKey}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log("Channel Data Response:", data); // Debugging log
+      if (data.items && data.items.length > 0) {
+        const channel = data.items[0];
+        setChannelInfo(channel);
+        setTotalVideos(channel.statistics.videoCount); // Total videos count
+        fetchRecentVideoData(
+          channel.contentDetails.relatedPlaylists.uploads,
+          apiKey
+        );
+        // Call a function to fetch shorts data if applicable
+        fetchShortsData(channelId, apiKey);
+      } else {
+        alert("Channel not found.");
+      }
+    } catch (error) {
+      console.error("Error fetching channel data:", error);
+    }
+  };
+
+  const fetchRecentVideoData = async (playlistId, apiKey) => {
+    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&maxResults=1&key=${apiKey}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log("Playlist Items Response:", data); // Debugging log
+      if (data.items && data.items.length > 0) {
+        const recentVideoId = data.items[0].snippet.resourceId.videoId;
+        fetchVideoData(recentVideoId, apiKey);
+      }
+    } catch (error) {
+      console.error("Error fetching recent video data:", error);
+    }
+  };
+
+  const fetchVideoData = async (videoId, apiKey) => {
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${apiKey}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log("Video Data Response:", data); // Debugging log
+      if (data.items && data.items.length > 0) {
+        const video = data.items[0];
+        setRecentVideoLikes(video.statistics.likeCount);
+        setProfileAnalysis("Recent video engagement is positive.");
+      }
+    } catch (error) {
+      console.error("Error fetching video data:", error);
+    }
+  };
+
+  const fetchShortsData = async (channelId, apiKey) => {
+    // Placeholder function to fetch shorts data, if applicable
+    // This logic will depend on how shorts are identified in your channel
+    // For instance, if they are part of a specific playlist
+    const shortsPlaylistId = "YOUR_SHORTS_PLAYLIST_ID"; // Replace with actual playlist ID if known
+    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${shortsPlaylistId}&key=${apiKey}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log("Shorts Playlist Response:", data); // Debugging log
+      if (data.items) {
+        setTotalShorts(data.items.length); // Count the number of shorts
+      }
+    } catch (error) {
+      console.error("Error fetching shorts data:", error);
+    }
+  };
+
+  const handleConnectClick = () => {
+    if (channelName) {
+      fetchChannelId(channelName);
+    } else {
+      alert("Please enter a channel name.");
+    }
+  };
+
+  // function for the instagram and api calling through it starts here
+   const [showForm, setShowForm] = useState(false);
+   const [instagramId, setInstagramId] = useState("");
+   const [profileData, setProfileData] = useState(null);
+   const [error, setError] = useState(null);
+
+   const showConnectForm = () => {
+     setShowForm(true);
+   };
+
+const handleFetchData = async () => {
+  if (instagramId) {
+    try {
+      const accessToken =
+        "EAAP87uPd8PEBO6ZCZA4loTNZCFdTGMFaPS5VPjdHvqzsVSJtFByms1EGhoBmO5WfiiODMc7bHthHGFaNZCEoMUk7q88SRQb78eNL3bzo1hCb4aqanXPDI2IBvsoNztrb47Ju8xWd6RrBP53ymZC0IcuE7AtZBaWjdDqxZB31xi6EyHrvbSnvWiomTJVOgJnP1YPp0FHyg0OQXPpZCCzBfsJ2YtzCbgDFaahmV4nl"; // Replacing with my actual access token
+
+      const response = await fetch(
+        `https://graph.instagram.com/${instagramId}?fields=id,username,followers_count,media_count,account_type&access_token=${accessToken}`
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error fetching Instagram data: ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log("Instagram Data:", data); // Log the fetched data for debugging
+      setProfileData(data);
+      setError(null); // Clear any previous errors
+    } catch (error) {
+      console.error("Error fetching Instagram data:", error);
+      setError(error.message); // Set error message
+    }
+  } else {
+    alert("Please enter an Instagram ID");
+  }
+};
+
+
+  // function for the instagram and api calling through it ends  here
+
   return (
     <div>
       <div>
@@ -1128,6 +1282,102 @@ const StatsDashboardInfluencer = () => {
           </div>
 
           {/* Your main content ends here */}
+          <div className="flex items-center justify-center h-screen bg-gray-100">
+            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+              <div className="mb-4">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/4/4c/YouTube_icon_%282013-2017%29.png"
+                  className="w-16 mx-auto"
+                  alt="YouTube Icon"
+                />
+              </div>
+              <div className="mb-4">
+                <input
+                  type="text"
+                  value={channelName}
+                  onChange={(e) => setChannelName(e.target.value)}
+                  className="border border-gray-300 p-2 w-full rounded"
+                  placeholder="Enter YouTube Channel Name"
+                />
+              </div>
+              <button
+                onClick={handleConnectClick}
+                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+              >
+                Connect
+              </button>
+
+              {channelInfo && (
+                <div id="channelInfo" className="mt-6">
+                  <h2 className="text-xl font-bold mb-4">
+                    {channelInfo.snippet.title}
+                  </h2>
+                  <p className="mb-2">
+                    Subscribers: {channelInfo.statistics.subscriberCount}
+                  </p>
+                  <p className="mb-2">Total Videos: {totalVideos}</p>
+                  <p className="mb-2">Total Shorts: {totalShorts}</p>
+                  <p className="mb-2">Recent Video Likes: {recentVideoLikes}</p>
+                  <p>{profileAnalysis}</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* this is for instagram  starts here  */}
+          <div className="bg-gray-100 flex items-center justify-center h-screen">
+            <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
+              <div
+                id="card"
+                className="flex items-center justify-center p-4 cursor-pointer"
+                onClick={showConnectForm}
+              >
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png"
+                  alt="Instagram"
+                  className="h-16 w-16"
+                />
+              </div>
+              {showForm && (
+                <div id="connectForm">
+                  <input
+                    id="instagramId"
+                    type="text"
+                    placeholder="Enter Instagram ID"
+                    className="mt-4 p-2 border rounded w-full"
+                    value={instagramId}
+                    onChange={(e) => setInstagramId(e.target.value)}
+                  />
+                  <button
+                    id="connectButton"
+                    className="mt-4 w-full p-2 bg-blue-500 text-white rounded"
+                    onClick={handleFetchData}
+                  >
+                    Connect
+                  </button>
+                </div>
+              )}
+              {error && (
+                <div className="mt-4 text-red-500">
+                  <p>{error}</p>
+                </div>
+              )}
+              {profileData && (
+                <div id="profileData" className="mt-4">
+                  <h3 className="text-lg font-bold">Profile Data</h3>
+                  <p id="followers" className="mt-2">
+                    Followers: {profileData.followers}
+                  </p>
+                  <p id="posts">Posts: {profileData.posts}</p>
+                  <p id="likes">Likes: {profileData.likes}</p>
+                  <p id="views">Views: {profileData.views}</p>
+                  <p id="analysis">Analysis: {profileData.analysis}</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* this is for instagram  ends here  */}
         </main>
       </div>
       {/* Dashboard with the numbers starts here  */}
