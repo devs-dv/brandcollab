@@ -1,23 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "../../customComponents/Button";
 import axios from "axios";
 
 const ChangePassword = () => {
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    if (isSuccess) {
+      const timer = setTimeout(() => {
+        setIsSuccess(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      const timer = setTimeout(() => {
+        setIsError(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
   const formik = useFormik({
     initialValues: {
+      currentPassword: "",
       password: "",
-      newPassword: "",
-      confirmNewPassword: "",
+      confirmPassword: "",
     },
     validationSchema: Yup.object({
-      password: Yup.string().required("Current password is required"),
-      newPassword: Yup.string()
+      currentPassword: Yup.string().required("Current password is required"),
+      password: Yup.string()
         .required("New password is required")
         .min(8, "Password must be at least 8 characters"),
-      confirmNewPassword: Yup.string()
-        .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("password"), null], "Passwords must match")
         .required("Confirm new password is required"),
     }),
     onSubmit: (values, { resetForm }) => {
@@ -33,11 +54,17 @@ const ChangePassword = () => {
       axios
         .patch("http://localhost:8000/api/v1/updatePassword", values, config)
         .then((response) => {
-          console.log("Password changed successfully:", response.data);
-          resetForm();
+          console.log(response.data);
+          if (response.data.success) {
+            setIsSuccess(true);
+            resetForm();
+          } else {
+            setIsError(true);
+          }
         })
         .catch((error) => {
           console.error("There was an error changing the password!", error);
+          setIsError(true);
         });
     },
   });
@@ -50,10 +77,38 @@ const ChangePassword = () => {
           <form onSubmit={formik.handleSubmit} className="space-y-4">
             <div className="mb-4">
               <label
-                htmlFor="password"
+                htmlFor="currentPassword"
                 className="block text-sm font-medium text-gray-700"
               >
                 Current Password
+              </label>
+              <input
+                id="currentPassword"
+                name="currentPassword"
+                type="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.currentPassword}
+                className={`mt-1 p-2 w-full border-b border-gray-300 focus:outline-none rounded-md ${
+                  formik.touched.currentPassword &&
+                  formik.errors.currentPassword
+                    ? "border-red-500"
+                    : ""
+                }`}
+              />
+              {formik.touched.currentPassword &&
+              formik.errors.currentPassword ? (
+                <div className="text-red-500 text-sm">
+                  {formik.errors.currentPassword}
+                </div>
+              ) : null}
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                New Password
               </label>
               <input
                 id="password"
@@ -76,55 +131,29 @@ const ChangePassword = () => {
             </div>
             <div className="mb-4">
               <label
-                htmlFor="newPassword"
-                className="block text-sm font-medium text-gray-700"
-              >
-                New Password
-              </label>
-              <input
-                id="newPassword"
-                name="newPassword"
-                type="password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.newPassword}
-                className={`mt-1 p-2 w-full border-b border-gray-300 focus:outline-none rounded-md ${
-                  formik.touched.newPassword && formik.errors.newPassword
-                    ? "border-red-500"
-                    : ""
-                }`}
-              />
-              {formik.touched.newPassword && formik.errors.newPassword ? (
-                <div className="text-red-500 text-sm">
-                  {formik.errors.newPassword}
-                </div>
-              ) : null}
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="confirmNewPassword"
+                htmlFor="confirmPassword"
                 className="block text-sm font-medium text-gray-700"
               >
                 Confirm New Password
               </label>
               <input
-                id="confirmNewPassword"
-                name="confirmNewPassword"
+                id="confirmPassword"
+                name="confirmPassword"
                 type="password"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.confirmNewPassword}
+                value={formik.values.confirmPassword}
                 className={`mt-1 p-2 w-full border-b border-gray-300 focus:outline-none rounded-md ${
-                  formik.touched.confirmNewPassword &&
-                  formik.errors.confirmNewPassword
+                  formik.touched.confirmPassword &&
+                  formik.errors.confirmPassword
                     ? "border-red-500"
                     : ""
                 }`}
               />
-              {formik.touched.confirmNewPassword &&
-              formik.errors.confirmNewPassword ? (
+              {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword ? (
                 <div className="text-red-500 text-sm">
-                  {formik.errors.confirmNewPassword}
+                  {formik.errors.confirmPassword}
                 </div>
               ) : null}
             </div>
@@ -138,6 +167,16 @@ const ChangePassword = () => {
               Change Password
             </Button>
           </form>
+          {isSuccess && (
+            <div className="mt-4 p-4 bg-green-100 text-green-800 rounded-lg">
+              Password changed successfully!
+            </div>
+          )}
+          {isError && (
+            <div className="mt-4 p-4 bg-red-100 text-red-800 rounded-lg">
+              Invalid credentials!
+            </div>
+          )}
         </div>
       </div>
     </div>
