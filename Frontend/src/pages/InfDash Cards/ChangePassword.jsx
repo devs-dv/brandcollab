@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "../../customComponents/Button";
-
+import axios from "axios";
 
 const ChangePassword = () => {
   const formik = useFormik({
@@ -21,16 +21,31 @@ const ChangePassword = () => {
         .required("Confirm new password is required"),
     }),
     onSubmit: (values, { resetForm }) => {
-      console.log(values);
-      // Your password change logic here
-      resetForm();
+      const token = localStorage.getItem("token");
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      };
+
+      axios
+        .patch("http://localhost:8000/api/v1/updatePassword", values, config)
+        .then((response) => {
+          console.log("Password changed successfully:", response.data);
+          resetForm();
+        })
+        .catch((error) => {
+          console.error("There was an error changing the password!", error);
+        });
     },
   });
 
   return (
     <div className="w-full p-6 lg:p-10">
       <div className="bg-white rounded-lg shadow-lg p-6 lg:p-10">
-        <div className="max-w-md mx-auto ">
+        <div className="max-w-md mx-auto">
           <h2 className="text-2xl font-semibold mb-4">Change Password</h2>
           <form onSubmit={formik.handleSubmit} className="space-y-4">
             <div className="mb-4">
@@ -48,14 +63,12 @@ const ChangePassword = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
                 className={`mt-1 p-2 w-full border-b border-gray-300 focus:outline-none rounded-md ${
-                  formik.touched.password &&
-                  formik.errors.password
+                  formik.touched.password && formik.errors.password
                     ? "border-red-500"
                     : ""
                 }`}
               />
-              {formik.touched.password &&
-              formik.errors.password ? (
+              {formik.touched.password && formik.errors.password ? (
                 <div className="text-red-500 text-sm">
                   {formik.errors.password}
                 </div>

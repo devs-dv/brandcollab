@@ -5,22 +5,25 @@ import Button from "../customComponents/Button";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Signup = () => {
-
+const BrandSignup = () => {
   const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
+      brandName: "",
       firstName: "",
       lastName: "",
       email: "",
       password: "",
       confirmPassword: "",
       consent: false,
-      role: "Influencer",
+      role: "Promoter",
       gender: "",
     },
     validationSchema: Yup.object({
+      brandName: Yup.string()
+        .max(30, "Must be 30 characters or less")
+        .required("Required"),
       firstName: Yup.string()
         .max(15, "Must be 15 characters or less")
         .required("Required"),
@@ -53,7 +56,7 @@ const Signup = () => {
         .then((response) => {
           console.log("Data sent successfully:", response.data);
           if (response.data.success) {
-            navigate("/postlanding");
+            navigate("/BrandPostLanding");
           }
         })
         .catch((error) => {
@@ -63,19 +66,45 @@ const Signup = () => {
   });
 
   return (
-    <div className="lg:grid lg:grid-cols-3">
-      <div className="max-lg:hidden bg-[url('/assets/signup.jpg')] bg-cover bg-center bg-no-repeat"></div>
-      <div className="lg:col-start-2 lg:col-end-4">
-        <div className="flex flex-col items-center justify-center h-screen max-lg:bg-[url('/assets/signup.jpg')] bg-cover bg-center bg-no-repeat">
-          <div className="relative w-full max-w-md">
+    <div className="lg:grid lg:grid-cols-3 h-screen overflow-auto">
+      <div className="hidden lg:block bg-[url('/assets/signup.jpg')] bg-cover bg-center bg-no-repeat"></div>
+      <div className="lg:col-start-2 lg:col-end-4 flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          <div className="relative w-full">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-500 rounded-3xl shadow-md transform -rotate-6"></div>
-            <div className="relative z-10 bg-white rounded-3xl shadow-md overflow-hidden max-w-md">
+            <div className="relative z-10 bg-white rounded-3xl shadow-md overflow-hidden">
               <div className="p-8">
                 <h2 className="text-gray-800 text-2xl font-semibold mb-4">
-                  Sign Up
+                  Brand Sign Up
                 </h2>
                 <form onSubmit={formik.handleSubmit} className="space-y-4">
-                  <div className="flex gap-2 mb-4">
+                  <div className="mb-4">
+                    <label
+                      htmlFor="brandName"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Brand Name
+                    </label>
+                    <input
+                      id="brandName"
+                      name="brandName"
+                      type="text"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.brandName}
+                      className={`mt-1 p-2 w-full border-b border-gray-300 focus:outline-none ${
+                        formik.touched.brandName && formik.errors.brandName
+                          ? "border-red-500"
+                          : ""
+                      }`}
+                    />
+                    {formik.touched.brandName && formik.errors.brandName ? (
+                      <div className="text-red-500 text-sm">
+                        {formik.errors.brandName}
+                      </div>
+                    ) : null}
+                  </div>
+                  <div className="flex flex-col lg:flex-row gap-2 mb-4">
                     <div className="flex-1">
                       <label
                         htmlFor="firstName"
@@ -293,4 +322,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default BrandSignup;

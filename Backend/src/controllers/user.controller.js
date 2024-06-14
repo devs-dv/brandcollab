@@ -16,6 +16,7 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
     confirmPassword,
     role,
     consent,
+    brandName
   } = req.body;
 
   // Check if password and confirmPassword match
@@ -35,6 +36,7 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
     password,
     role,
     consent,
+    brandName,
     avatar: {
       public_id: "",
       url: "",
@@ -90,6 +92,65 @@ const updateAvatar = asyncErrorHandler(async (req, res, next) => {
     success: true,
     message: "Avatar updated successfully",
     avatar: user.avatar,
+  });
+});
+
+
+const influencerProfileUpdate = asyncErrorHandler(async (req, res, next) => {
+  const {
+    firstName,
+    lastName,
+    gender,
+    role,
+    consent,
+    country,
+    state,
+    city,
+    bio
+  } = req.body;
+
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+
+  const updatedFields = {
+    firstName,
+    lastName,
+    gender,
+    role,
+    consent,
+    country,
+    state,
+    city,
+    bio
+  };
+
+  if (req.files && req.files.avatar) {
+    if (user.avatar.public_id) {
+      await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+    }
+    const result = await cloudinary.v2.uploader.upload(req.files.avatar.tempFilePath, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    });
+
+    updatedFields.avatar = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  }
+  const updatedUser = await User.findByIdAndUpdate(req.user._id, updatedFields, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "User updated successfully",
+    user: updatedUser,
   });
 });
 
@@ -219,4 +280,5 @@ export {
   updatePassword,
   getAllUsersExceptCurrentUser,
   updateAvatar,
+  influencerProfileUpdate
 };
