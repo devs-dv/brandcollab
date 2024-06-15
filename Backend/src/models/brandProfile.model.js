@@ -3,12 +3,20 @@ import mongoose from "mongoose";
 const brandProfileSchema = mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    brandName: { type: String, required: true },
-    industry: { type: String, required: true },
-    location: { type: String, required: true },
-    description: { type: String, required: true },
-    email: { type: String, required: true },
-    logo: { type: String, required: true },
+    brandName: { type: String },
+    industry: { type: String },
+    location: { type: String },
+    targetAudiance: { type: String },
+    description: { type: String },
+    budget: { type: String },
+    duration: { type: String },
+    followersRequired: { type: Number },
+    email: { type: String },
+    country: { type: String },
+    state: { type: String },
+    city: { type: String },
+    format: { type: String },
+    logo: { type: String },
   },
   { timestamps: true }
 );
