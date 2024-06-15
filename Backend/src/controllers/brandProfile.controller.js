@@ -1,93 +1,88 @@
-import BrandProfile from "../models/brandProfile.model.js";
 import asyncErrorHandler from "../middlewares/asyncErrorHandler.js";
+import ErrorHandler from "../utils/errorHandler.js";
+import BrandProfile from "../models/brandProfile.model.js";
 
-// Brand Profile Update
-const updateBrandProfile = asyncErrorHandler(async (req, res) => {
-  const { brandName, industry, location, description, email, logo } = req.body;
 
-  const updatedProfile = await BrandProfile.findOneAndUpdate(
-    { user: req.user._id },
-    { brandName, industry, location, description, email, logo },
-    { new: true }
-  );
+ const createBrandProfile = asyncErrorHandler(async (req, res, next) => {
+  const { brandName, industry, location, targetAudiance, description, budget, duration, followersRequired, email, format } = req.body;
 
-  if (!updatedProfile) {
-    return res.status(404).json({ 
-      Message: "Brand Profile not found",
-      Status: 404,
-      Success: false
-    });
-  }
-
-  res.status(201).json({
-    Message: "Brand Profile Update successful",
-    Status: 201,
-    Success: true,
-    Data: updatedProfile,
-  });
-});
-
-// Brand Create Post
-const createBrandPost = asyncErrorHandler(async (req, res) => {
-  const { brandName, productDescription, targetAudience, advertisementObjective, budget, duration } = req.body;
-
-  const newPost = new BrandProfile({
+  const brandProfile = new BrandProfile({
+    user: req.user._id,
     brandName,
-    productDescription,
-    targetAudience,
-    advertisementObjective,
+    industry,
+    location,
+    targetAudiance,
+    description,
     budget,
     duration,
-    user: req.user._id,
+    followersRequired,
+    country,
+    state,
+    city,
+    email,
+    format,
   });
 
-  await newPost.save();
+  if (req.files && req.files.logo) {
+    const result = await cloudinary.v2.uploader.upload(req.files.logo.tempFilePath, {
+      folder: "brand_logos",
+      width: 150,
+      crop: "scale",
+    });
+
+    brandProfile.logo = result.secure_url;
+  }
+
+  await brandProfile.save();
 
   res.status(201).json({
-    Message: "Brand Post Creation successful",
-    Status: 201,
-    Success: true,
-    Data: newPost,
+    success: true,
+    message: "Brand profile created successfully",
+    brandProfile,
   });
 });
 
-// Brand Change Password
-const changeBrandPassword = asyncErrorHandler(async (req, res) => {
-  const { currentPassword, newPassword, confirmNewPassword } = req.body;
+// Get a single brand profile
+const getBrandProfile = asyncErrorHandler(async (req, res, next) => {
+  const brandProfile = await BrandProfile.findById(req.params.id).populate('user', 'name email');
 
-  if (newPassword !== confirmNewPassword) {
-    return res.status(400).json({
-      Message: "New Password and Confirm Password do not match",
-      Status: 400,
-      Success: false
-    });
+  if (!brandProfile) {
+    return next(new ErrorHandler("Brand profile not found", 404));
   }
 
-  const brand = await BrandProfile.findOne({ user: req.user._id }).populate("user");
-  const user = brand.user;
-
-  const isMatch = await user.matchPassword(currentPassword);
-  if (!isMatch) {
-    return res.status(401).json({
-      Message: "Incorrect current password",
-      Status: 401,
-      Success: false
-    });
-  }
-
-  user.password = newPassword;
-  await user.save();
-
-  res.status(201).json({
-    Message: "Brand Password Update successful",
-    Status: 201,
-    Success: true,
-    Data: { currentPassword, newPassword, confirmNewPassword },
+  res.status(200).json({
+    success: true,
+    brandProfile,
   });
 });
 
-export {
-  updateBrandProfile,
-  createBrandPost,
-  changeBrandPassword
-};
+// Update a brand profile
+const updateBrandProfile = asyncErrorHandler(async (req, res, next) => {
+  let brandProfile = await BrandProfile.findById(req.params.id);
+
+  if (!brandProfile) {
+    return next(new ErrorHandler("Brand profile not found", 404));
+  }
+
+  const updates = req.body;
+
+  if (req.files && req.files.logo) {
+    const result = await cloudinary.v2.uploader.upload(req.files.logo.tempFilePath, {
+      folder: "brand_logos",
+      width: 150,
+      crop: "scale",
+    });
+
+    updates.logo = result.secure_url;
+  }
+
+  brandProfile = await BrandProfile.findByIdAndUpdate(req.params.id, updates, { new: true, runValidators: true });
+
+  res.status(200).json({
+    success: true,
+    message: "Brand profile updated successfully",
+    brandProfile,
+  });
+});
+
+export {createBrandProfile,getBrandProfile,updateBrandProfile}
