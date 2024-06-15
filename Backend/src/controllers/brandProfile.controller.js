@@ -12,6 +12,9 @@ const createBrandProfile = asyncErrorHandler(async (req, res, next) => {
     budget,
     duration,
     followersRequired,
+    country,
+    state,
+    city,
     email,
     format,
   } = req.body;
