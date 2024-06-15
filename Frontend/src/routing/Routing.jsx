@@ -29,6 +29,7 @@ import CollabOngoing from "../components/CollabOngoing";
 import BrandCollabComplete from "../components/BrandCollabComplete";
 import BrandCollabOngoing from "../components/BrandCollabOngoing";
 import BrandSignup from "../auth/BrandSignup";
+import BrandChangePassword from '../components/Brand Dashboard/BrandChangePassword'
 const Routing = () => {
   return (
     <Routes>
@@ -37,6 +38,7 @@ const Routing = () => {
       <Route path='/brandSignup' element={<BrandSignup/>} />
       <Route path="/login" element={<Login />} />
       <Route path="/verify" element={<MailVerify />} />
+
       <Route path="/prelanding" element={<PreLanding />} />
       <Route path="/postlanding">
         <Route index={true} element={<PostLanding />} />
@@ -82,6 +84,7 @@ const Routing = () => {
       <Route path="/brandash">
         <Route index={true} element={<BrandDashboard />} />
         <Route path="/brandash/post" element={<BrandCreatePost />} />
+        <Route path='/brandash/brandChangePassword' element={<BrandChangePassword/>} />
       </Route>
       <Route path="/chat" element={<ChatPage />} />
       <Route path="/changePassword" element={<ChangePassword />} />

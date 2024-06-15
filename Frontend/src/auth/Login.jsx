@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "../customComponents/Button";
@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
+  const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -29,13 +30,24 @@ const Login = () => {
         .then((response) => {
           console.log("Data sent successfully:", response.data);
           localStorage.setItem("token", response.data.token);
+          let myObject = JSON.stringify(response.data.user);
+          localStorage.setItem("userData", myObject);
           if (response.data.success) {
             if (values.role === "Influencer") navigate("/postlanding");
             else navigate("/BrandPostLanding");
+          } else {
+            setShowPopup(true);
+            setTimeout(() => {
+              setShowPopup(false);
+            }, 3000);
           }
         })
         .catch((error) => {
           console.error("There was an error sending the data!", error);
+          setShowPopup(true);
+          setTimeout(() => {
+            setShowPopup(false);
+          }, 3000);
         });
     },
   });
@@ -50,6 +62,11 @@ const Login = () => {
             onSubmit={formik.handleSubmit}
             className="relative z-10 w-full max-w-md p-6 bg-white rounded-3xl shadow-md"
           >
+            {showPopup && (
+              <div className="absolute top-0 left-0 right-0 bg-red-500 text-white text-center p-2 rounded-t-3xl">
+                Invalid credentials!
+              </div>
+            )}
             <div className="mb-4">
               <label
                 htmlFor="email"

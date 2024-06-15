@@ -25,7 +25,7 @@ const BranNavigation = () => {
           <p className="text-xs text-center">Create Post</p>
         </Link>
         <Link
-          to="/infdash/changePassword"
+          to="/brandash/brandChangePassword"
           className="flex flex-col items-center  space-y-2"
         >
           <MdOutlinePassword className="lg:text-3xl text-4xl" />

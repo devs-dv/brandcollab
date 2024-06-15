@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-
 const TopNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [name, setName] = useState("");
+
+
+  const dataString = localStorage.getItem("userData");
+  const dataObject = dataString ? JSON.parse(dataString) : {};
+
 
   useEffect(() => {
     const setDark = (val) => {
@@ -13,6 +18,7 @@ const TopNav = () => {
       } else {
         document.documentElement.classList.remove("dark");
       }
+      setName(dataObject.firstName)
     };
 
     // Initially set the theme based on the state
@@ -60,7 +66,6 @@ const TopNav = () => {
     }
   };
 
-
   return (
     <>
       <div>
@@ -82,7 +87,7 @@ const TopNav = () => {
                 </div>
               </div>
               <div className="hidden md:block text-sm md:text-md text-black dark:text-white">
-                John Doe
+                {name}
               </div>
             </div>
           </div>
