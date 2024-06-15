@@ -6,7 +6,6 @@ const createBrandProfile = asyncErrorHandler(async (req, res, next) => {
   const {
     brandName,
     industry,
-    location,
     targetAudiance,
     description,
     budget,
@@ -23,7 +22,6 @@ const createBrandProfile = asyncErrorHandler(async (req, res, next) => {
     user: req.user._id,
     brandName,
     industry,
-    location,
     targetAudiance,
     description,
     budget,
