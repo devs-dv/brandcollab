@@ -2,9 +2,19 @@ import asyncErrorHandler from "../middlewares/asyncErrorHandler.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import BrandProfile from "../models/brandProfile.model.js";
 
-
- const createBrandProfile = asyncErrorHandler(async (req, res, next) => {
-  const { brandName, industry, location, targetAudiance, description, budget, duration, followersRequired, email, format } = req.body;
+const createBrandProfile = asyncErrorHandler(async (req, res, next) => {
+  const {
+    brandName,
+    industry,
+    location,
+    targetAudiance,
+    description,
+    budget,
+    duration,
+    followersRequired,
+    email,
+    format,
+  } = req.body;
 
   const brandProfile = new BrandProfile({
     user: req.user._id,
@@ -24,11 +34,14 @@ import BrandProfile from "../models/brandProfile.model.js";
   });
 
   if (req.files && req.files.logo) {
-    const result = await cloudinary.v2.uploader.upload(req.files.logo.tempFilePath, {
-      folder: "brand_logos",
-      width: 150,
-      crop: "scale",
-    });
+    const result = await cloudinary.v2.uploader.upload(
+      req.files.logo.tempFilePath,
+      {
+        folder: "brand_logos",
+        width: 150,
+        crop: "scale",
+      }
+    );
 
     brandProfile.logo = result.secure_url;
   }
@@ -44,7 +57,10 @@ import BrandProfile from "../models/brandProfile.model.js";
 
 // Get a single brand profile
 const getBrandProfile = asyncErrorHandler(async (req, res, next) => {
-  const brandProfile = await BrandProfile.findById(req.params.id).populate('user', 'name email');
+  const brandProfile = await BrandProfile.findById(req.params.id).populate(
+    "user",
+    "name email"
+  );
 
   if (!brandProfile) {
     return next(new ErrorHandler("Brand profile not found", 404));
@@ -67,16 +83,22 @@ const updateBrandProfile = asyncErrorHandler(async (req, res, next) => {
   const updates = req.body;
 
   if (req.files && req.files.logo) {
-    const result = await cloudinary.v2.uploader.upload(req.files.logo.tempFilePath, {
-      folder: "brand_logos",
-      width: 150,
-      crop: "scale",
-    });
+    const result = await cloudinary.v2.uploader.upload(
+      req.files.logo.tempFilePath,
+      {
+        folder: "brand_logos",
+        width: 150,
+        crop: "scale",
+      }
+    );
 
     updates.logo = result.secure_url;
   }
 
-  brandProfile = await BrandProfile.findByIdAndUpdate(req.params.id, updates, { new: true, runValidators: true });
+  brandProfile = await BrandProfile.findByIdAndUpdate(req.params.id, updates, {
+    new: true,
+    runValidators: true,
+  });
 
   res.status(200).json({
     success: true,
@@ -85,4 +107,4 @@ const updateBrandProfile = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-export {createBrandProfile,getBrandProfile,updateBrandProfile}
+export { createBrandProfile, getBrandProfile, updateBrandProfile };
