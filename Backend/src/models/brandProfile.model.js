@@ -16,7 +16,14 @@ const brandProfileSchema = mongoose.Schema(
     state: { type: String },
     city: { type: String },
     format: { type: String },
-    logo: { type: String },
+    logo: {
+      public_id: {
+        type: String,
+      },
+      url: {
+        type: String,
+      },
+    },
   },
   { timestamps: true }
 );
