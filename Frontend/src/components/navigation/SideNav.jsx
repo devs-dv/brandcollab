@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 
 const SideNav = () => {
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const [name, setName] = useState("");
+
+    const dataString = localStorage.getItem("userData");
+    const dataObject = dataString ? JSON.parse(dataString) : {};
 
     useEffect(() => {
       const setDark = (val) => {
@@ -13,6 +17,7 @@ const SideNav = () => {
         } else {
           document.documentElement.classList.remove("dark");
         }
+        setName(dataObject.firstName)
       };
 
       // Initially set the theme based on the state
@@ -85,7 +90,7 @@ const SideNav = () => {
                 </div>
               </div>
               <div className="hidden md:block text-sm md:text-md text-black dark:text-white">
-                John Doe
+                {name}
               </div>
             </div>
           </div>
