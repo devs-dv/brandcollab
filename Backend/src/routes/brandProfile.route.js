@@ -9,6 +9,6 @@ import {
 const brandRouter = express.Router();
 brandRouter.route("/profile/save").post(isAuthenticatedUser, createBrandProfile);
 brandRouter.route("/profile/get").get(isAuthenticatedUser, getBrandProfile);
-brandRouter.route("/profile/update").put(isAuthenticatedUser, updateBrandProfile);
+brandRouter.route("/profile/update/:id").put(isAuthenticatedUser, updateBrandProfile);
 
 export default brandRouter;
