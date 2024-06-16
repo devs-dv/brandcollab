@@ -82,6 +82,9 @@ const BranDashAbout = () => {
     axios
       .put("http://localhost:8000/api/v1/influencer/update", formData, config)
       .then((response) => {
+        localStorage.setItem("token", response.data.token);
+        let myObject = JSON.stringify(response.data.user);
+        localStorage.setItem("userData", myObject);
         console.log("Data sent successfully:", response.data);
       })
       .catch((error) => {

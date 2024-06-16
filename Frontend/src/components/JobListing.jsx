@@ -23,11 +23,9 @@ const JobListing = () => {
       .post("http://localhost:8000/api/v1/apply", { profileId, userId })
       .then((response) => {
         console.log("Application submitted:", response.data);
-        // You can add a success message or additional actions here
       })
       .catch((error) => {
         console.error("Error submitting application:", error);
-        // You can add an error message or additional actions here
       });
   };
 
@@ -157,7 +155,7 @@ const JobListing = () => {
                           +
                         </span>
                         <span className="text-zinc-600 dark:text-zinc-400">
-                          Engagement
+                          {profile.duration}
                         </span>
                       </div>
                     </div>
