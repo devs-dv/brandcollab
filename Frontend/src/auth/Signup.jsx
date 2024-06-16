@@ -51,6 +51,9 @@ const Signup = () => {
       axios
         .post("http://localhost:8000/api/v1/register", values)
         .then((response) => {
+          localStorage.setItem("token", response.data.token);
+          let myObject = JSON.stringify(response.data.user);
+          localStorage.setItem("userData", myObject);
           console.log("Data sent successfully:", response.data);
           if (response.data.success) {
             navigate("/postlanding");
