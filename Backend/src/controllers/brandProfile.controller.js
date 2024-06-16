@@ -68,8 +68,7 @@ const createBrandProfile = asyncErrorHandler(async (req, res, next) => {
 
 
 const getBrandProfile = asyncErrorHandler(async (req, res, next) => {
-    const user = await User.findById(req.user._id);
-    console.log(user)
+
   const { country, state, city, minFollowers, maxFollowers, sort } = req.query;
 
   const query = {};
