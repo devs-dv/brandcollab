@@ -7,18 +7,18 @@ import { Country, State, City } from "country-state-city";
 const JobListing = () => {
   const [profiles, setProfiles] = useState([]);
   const [country, setCountry] = useState("");
-  const [sortByFollowers, setSortByFollowers] = useState("");
+  const [minFollowers, setSortByFollowers] = useState(0);
   const countryData = Country.getAllCountries();
   useEffect(() => {
     fetchProfiles();
-  }, [country, sortByFollowers]);
+  }, [country, minFollowers]);
 
   const fetchProfiles = () => {
     const params = {
       country,
-      sortByFollowers,
+      minFollowers,
     };
-
+    console.log(params);
     axios
       .get("http://localhost:8000/api/v1/profile/get", { params })
       .then((response) => {
@@ -47,7 +47,8 @@ const JobListing = () => {
   };
 
   const handleChangeSortByFollowers = (event) => {
-    setSortByFollowers(event.target.value);
+    const value = parseInt(event.target.value, 10);
+    setSortByFollowers(value);
   };
 
   return (
@@ -76,13 +77,16 @@ const JobListing = () => {
                 .
               </select>
 
-              <select className="p-2 border border-zinc-300 rounded-md w-full sm:w-auto">
+              <select
+                className="p-2 border border-zinc-300 rounded-md w-full sm:w-auto"
+                onChange={handleChangeSortByFollowers}
+              >
                 <option value="">Sort by Followers</option>
-                <option value="">50k - 100K</option>
-                <option value="">100k - 500k</option>
-                <option value="">500k - 1M</option>
-                <option value="">1M - 10M</option>
-                <option value="">10M+</option>
+                <option value="10000">Minimun 10K</option>
+                <option value="100000">Minimun 100K</option>
+                <option value="500000">Minimun 50K</option>
+                <option value="1000000">Minimun 1M</option>
+                <option value="10000000">Minimun 10M</option>
               </select>
               <select className="p-2 border border-zinc-300 rounded-md w-full sm:w-auto">
                 <option value="">Engagement</option>
