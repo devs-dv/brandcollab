@@ -65,6 +65,9 @@ const TopNav = () => {
       content.classList.add("ml-12");
     }
   };
+  const handleOptionSelect = () =>{
+    
+  }
 
   return (
     <>
@@ -178,10 +181,10 @@ const TopNav = () => {
               />
             </svg>
           </div>
+          {/* MAX SIDEBAR*/}
           <div className="max hidden flex-col h-full w-full">
             <div className="h-16" />
-            {/* <div className="text-white p-3 uppercase font-bold">Full Sidebar</div> */}
-            {/* MAX SIDEBAR*/}
+
             <Link to="/BrandPostLanding">
               <div
                 onClick={() => handleOptionSelect("Home")}
@@ -191,14 +194,14 @@ const TopNav = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  strokewidth="{2}"
+                  strokeWidth={2}
                   stroke="currentColor"
                   className="w-5 h-5"
                 >
                   <path
-                    strokelinecap="round"
-                    strokelinejoin="round"
-                    strokewidth="{2}"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
                     d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
                   />
                 </svg>
@@ -221,7 +224,7 @@ const TopNav = () => {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth="2"
+                    strokeWidth={2}
                     d="M21 21l-5.192-5.192m-8.192 0A7.75 7.75 0 1119.243 6.75 7.75 7.75 0 0112 17.5zm0 0l-5.192-5.192"
                   />
                 </svg>
@@ -330,7 +333,6 @@ const TopNav = () => {
           {/* Mini sidebar starts here  */}
           <div className="mini flex-col h-full w-full flex">
             <div className="h-16" />
-            {/* <div className="text-white p-3 uppercase font-bold">Mini Sidebar</div> */}
             <Link to="/BrandPostLanding">
               <div
                 onClick={() => handleOptionSelect("Home")}
@@ -340,13 +342,14 @@ const TopNav = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  strokewidth="{2}"
+                  strokeWidth={2}
                   stroke="currentColor"
                   className="w-5 h-5"
                 >
                   <path
-                    strokelinecap="round"
-                    strokelinejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
                     d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
                   />
                 </svg>
@@ -367,7 +370,7 @@ const TopNav = () => {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth="2"
+                    strokeWidth={2}
                     d="M21 21l-5.192-5.192m-8.192 0A7.75 7.75 0 1119.243 6.75 7.75 7.75 0 0112 17.5zm0 0l-5.192-5.192"
                   />
                 </svg>
@@ -388,7 +391,7 @@ const TopNav = () => {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth="2"
+                    strokeWidth={2}
                     d="M21 10c0 5.523-4.477 10-10 10S1 15.523 1 10 5.477 0 11 0s10 4.477 10 10zm-3.25-1.625l-5.5-3.25-5.5 3.25M3.257 7.86L12 12.25l8.743-4.39"
                   />
                 </svg>
@@ -409,7 +412,7 @@ const TopNav = () => {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth="2"
+                    strokeWidth={2}
                     d="M6 4h12M6 8h12m-6 4h6M4 4h1m0 8h1m0 8h1m2-16h10a2 2 0 012 2v12a2 2 0 01-2 2H8a2 2 0 01-2-2V6a2 2 0 012-2z"
                   />
                 </svg>
@@ -431,7 +434,7 @@ const TopNav = () => {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth="2"
+                    strokeWidth={2}
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
@@ -447,7 +450,7 @@ const TopNav = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  strokeWidth="2"
+                  strokeWidth={2}
                   stroke="currentColor"
                   className="w-5 h-5"
                 >
@@ -471,7 +474,7 @@ const TopNav = () => {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth="2"
+                  strokeWidth={2}
                   d="M15 19l-7-7 7-7"
                 />
               </svg>

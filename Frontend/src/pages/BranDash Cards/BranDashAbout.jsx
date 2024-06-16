@@ -6,17 +6,20 @@ import axios from "axios";
 import { Country, State, City } from "country-state-city";
 
 const BranDashAbout = () => {
+  const dataString = localStorage.getItem("userData");
+  const dataObject = dataString ? JSON.parse(dataString) : {};
+
   const initialValues = {
-    brandName: "ABC Brand",
-    firstName: "",
-    lastName: "",
-email:"abc@gmail.com",
-    industry: "Fashion",
-    country: "",
-    state: "",
-    city: "",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    logo: "",
+    brandName: dataObject.brandName || "",
+    firstName: dataObject.firstName || "",
+    lastName: dataObject.lastName || "",
+    email: dataObject.email || "",
+    industry: dataObject.industry || "",
+    country: dataObject.country || "",
+    state: dataObject.state || "",
+    city: dataObject.city || "",
+    bio: dataObject.bio || "",
+    logo: dataObject.logo || "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -27,7 +30,7 @@ email:"abc@gmail.com",
     country: Yup.string().required("Country is required"),
     state: Yup.string().required("State is required"),
     city: Yup.string().required("City is required"),
-    description: Yup.string(),
+    bio: Yup.string(), // Changed description to bio
   });
 
   const countryData = Country.getAllCountries();
@@ -35,6 +38,15 @@ email:"abc@gmail.com",
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (dataObject.country) {
+      setStates(State.getStatesOfCountry(dataObject.country));
+    }
+    if (dataObject.state && dataObject.country) {
+      setCities(City.getCitiesOfState(dataObject.country, dataObject.state));
+    }
+  }, [dataObject.country, dataObject.state]);
 
   const handleCountryChange = (e, setFieldValue) => {
     const selectedCountry = e.target.value;
@@ -54,7 +66,7 @@ email:"abc@gmail.com",
 
   const handleSubmit = (values, { setSubmitting }) => {
     const token = localStorage.getItem("token");
-console.log(values);
+    console.log(values);
     const formData = new FormData();
     Object.keys(values).forEach((key) => {
       formData.append(key, values[key]);
@@ -227,6 +239,7 @@ console.log(values);
                       type="text"
                       id="industry"
                       name="industry"
+                      placeholder='eg. Technology, Fashion, Beauty, etc.'
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                     <ErrorMessage
@@ -319,20 +332,20 @@ console.log(values);
                   </div>
                   <div className="mb-4 lg:col-span-2">
                     <label
-                      htmlFor="description"
+                      htmlFor="bio" // Changed description to bio
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Description
+                      Bio
                     </label>
                     <Field
                       as="textarea"
-                      id="description"
-                      name="description"
+                      id="bio" // Changed description to bio
+                      name="bio" // Changed description to bio
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
                       rows="3"
                     />
                     <ErrorMessage
-                      name="description"
+                      name="bio" // Changed description to bio
                       component="div"
                       className="text-red-500 text-sm"
                     />
