@@ -16,6 +16,7 @@ const createBrandProfile = asyncErrorHandler(async (req, res, next) => {
     city,
     email,
     format,
+    platform
   } = req.body;
 
   const brandProfile = new BrandProfile({
@@ -32,6 +33,8 @@ const createBrandProfile = asyncErrorHandler(async (req, res, next) => {
     city,
     email,
     format,
+    platform
+
   });
 
   if (req.files && req.files.logo) {
