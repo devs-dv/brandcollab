@@ -65,6 +65,9 @@ const TopNav = () => {
       content.classList.add("ml-12");
     }
   };
+  const handleOptionSelect = () =>{
+    
+  }
 
   return (
     <>

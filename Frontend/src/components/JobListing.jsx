@@ -1,7 +1,23 @@
 import React from "react";
 import SideNav from "./navigation/SideNav";
+import axios from "axios";
 
 const JobListing = () => {
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  };
+  console.log(config)
+  axios
+    .get("http://localhost:8000/api/v1/profile/get",config)
+    .then((response) => {
+      console.log("Data received:", response.data);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
   return (
     <div>
       <div>
