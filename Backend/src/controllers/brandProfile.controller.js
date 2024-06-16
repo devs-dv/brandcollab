@@ -1,4 +1,5 @@
 import asyncErrorHandler from "../middlewares/asyncErrorHandler.js";
+import User from "../models/user.model.js"
 import ErrorHandler from "../utils/errorHandler.js";
 import BrandProfile from "../models/brandProfile.model.js";
 import cloudinary from "cloudinary";
@@ -65,12 +66,47 @@ const createBrandProfile = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-// Get a single brand profile
+
 const getBrandProfile = asyncErrorHandler(async (req, res, next) => {
-  const brandProfile = await BrandProfile.find();
+    const user = await User.findById(req.user._id);
+    console.log(user)
+  const { country, state, city, minFollowers, maxFollowers, sort } = req.query;
+
+  const query = {};
+
+  if (country) {
+    query.country = country;
+  }
+
+  if (state) {
+    query.state = state;
+  }
+
+  if (city) {
+    query.city = city;
+  }
+
+  if (minFollowers && maxFollowers) {
+    query.followersRequired = { $gte: Number(minFollowers), $lte: Number(maxFollowers) };
+  } else if (minFollowers) {
+    query.followersRequired = { $gte: Number(minFollowers) };
+  } else if (maxFollowers) {
+    query.followersRequired = { $lte: Number(maxFollowers) };
+  }
+
+  let sortOption = { createdAt: -1 }; // Default sorting by newest
+
+  if (sort) {
+    if (sort === "followers") {
+      sortOption = { followersRequired: -1 };
+    }
+  }
+
+  const brandProfiles = await BrandProfile.find(query).sort(sortOption);
+
   res.status(200).json({
     success: true,
-    brandProfile,
+    brandProfiles,
   });
 });
 
