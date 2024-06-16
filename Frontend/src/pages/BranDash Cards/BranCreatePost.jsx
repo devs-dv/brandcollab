@@ -89,6 +89,9 @@ const BrandCreatePost = () => {
         config
       );
       if (response.data.success) {
+        localStorage.setItem("token", response.data.token);
+        let myObject = JSON.stringify(response.data.user);
+        localStorage.setItem("userData", myObject);
         console.log("Form submission successful:", response.data);
         resetForm();
         setShowPopup(true);
