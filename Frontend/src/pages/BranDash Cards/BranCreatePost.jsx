@@ -4,22 +4,21 @@ import * as Yup from "yup";
 import { Country, State, City } from "country-state-city";
 import axios from "axios";
 
-
 const BrandCreatePost = () => {
   const dataString = localStorage.getItem("userData");
   const dataObject = dataString ? JSON.parse(dataString) : {};
   const initialValues = {
-    brandName: dataObject.brandName,
+    brandName: dataObject.brandName || "",
     industry: "",
     targetAudience: "",
     description: "",
     budget: "",
     duration: "",
     followersRequired: "",
-    country: dataObject.country,
-    state: dataObject.state,
-    city: dataObject.city,
-    email: dataObject.email,
+    country: dataObject.country || "",
+    state: dataObject.state || "",
+    city: dataObject.city || "",
+    email: dataObject.email || "",
     format: "",
   };
 
@@ -57,7 +56,6 @@ const BrandCreatePost = () => {
   const validationSchema = Yup.object().shape({
     brandName: Yup.string().required("Brand name is required"),
     industry: Yup.string().required("Industry is required"),
-
     targetAudience: Yup.string().required("Target audience is required"),
     description: Yup.string().required("Description is required"),
     budget: Yup.number()
@@ -76,25 +74,45 @@ const BrandCreatePost = () => {
     format: Yup.string().required("Format is required"),
   });
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     const token = localStorage.getItem("token");
     const config = {
       headers: {
         authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
       },
     };
     try {
       const response = await axios.post(
         "http://localhost:8000/api/v1/profile/save",
-        values,config
+        values,
+        config
       );
-      console.log("Form submission successful:", response.data);
+      if (response.data.success) {
+        
+        console.log("Form submission successful:", response.data);
+        resetForm();
+        setShowPopup(true);
+        setTimeout(() => {
+          setShowPopup(false);
+        }, 6000);
+      } else {
+        console.error("Form submission failed:", response.data.message);
+      }
     } catch (error) {
       console.error("Form submission error:", error);
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const Popup = ({ message, show }) => {
+    if (!show) return null;
+    return (
+      <div className="fixed bottom-4 right-4 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg">
+        {message}
+      </div>
+    );
   };
 
   return (
@@ -107,7 +125,7 @@ const BrandCreatePost = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, setFieldValue, values }) => (
           <Form className="space-y-4">
             <div>
               <label
@@ -407,6 +425,11 @@ const BrandCreatePost = () => {
           </Form>
         )}
       </Formik>
+
+      <Popup
+        message="Post requirement created successfully!"
+        show={showPopup}
+      />
     </div>
   );
 };
