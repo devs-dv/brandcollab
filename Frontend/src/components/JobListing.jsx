@@ -4,19 +4,16 @@ import axios from "axios";
 import moment from "moment";
 import { Country, State, City } from "country-state-city";
 
-
 const JobListing = () => {
   const [profiles, setProfiles] = useState([]);
-  const [country, setCountry] = useState(""); // State for selected country
-  const [sortByFollowers, setSortByFollowers] = useState(""); // State for sorting
+  const [country, setCountry] = useState("");
+  const [sortByFollowers, setSortByFollowers] = useState("");
   const countryData = Country.getAllCountries();
   useEffect(() => {
-    // Fetch profiles based on initial load or when dependencies change
     fetchProfiles();
-  }, [country, sortByFollowers]); // Add dependencies here
+  }, [country, sortByFollowers]);
 
   const fetchProfiles = () => {
-    // Prepare params object to send to backend
     const params = {
       country,
       sortByFollowers,
@@ -26,7 +23,7 @@ const JobListing = () => {
       .get("http://localhost:8000/api/v1/profile/get", { params })
       .then((response) => {
         console.log("Data received:", response.data);
-        setProfiles(response.data.brandProfiles); // Assuming the data is in response.data.brandProfile
+        setProfiles(response.data.brandProfiles);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -46,11 +43,11 @@ const JobListing = () => {
   };
 
   const handleChangeCountry = (event) => {
-    setCountry(event.target.value); // Update selected country
+    setCountry(event.target.value);
   };
 
   const handleChangeSortByFollowers = (event) => {
-    setSortByFollowers(event.target.value); // Update sorting option
+    setSortByFollowers(event.target.value);
   };
 
   return (
@@ -66,15 +63,19 @@ const JobListing = () => {
                 <option value="">Most Relevant</option>
                 <option value="">Most Recent</option>
               </select>
-              <select onChange={handleChangeCountry} className="p-2 border border-zinc-300 rounded-md w-full sm:w-auto">
+              <select
+                onChange={handleChangeCountry}
+                className="p-2 border border-zinc-300 rounded-md w-full sm:w-auto"
+              >
                 <option value="">Select Country</option>
                 {countryData.map((country) => (
                   <option key={country.isoCode} value={country.isoCode}>
                     {country.name}
                   </option>
-                ))}.
+                ))}
+                .
               </select>
-              
+
               <select className="p-2 border border-zinc-300 rounded-md w-full sm:w-auto">
                 <option value="">Sort by Followers</option>
                 <option value="">50k - 100K</option>
@@ -226,8 +227,7 @@ const ProfileCard = ({ profile, handleApply }) => {
         </div>
       </div>
     </div>
-    // this is comment 
-    
+    // this is comment
   );
 };
 
