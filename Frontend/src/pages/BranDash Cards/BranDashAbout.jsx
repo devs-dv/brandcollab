@@ -64,13 +64,10 @@ const BranDashAbout = () => {
     setCities(City.getCitiesOfState(values.country, selectedState));
   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleLogoUpload = async (file) => {
     const token = localStorage.getItem("token");
-    console.log(values);
     const formData = new FormData();
-    Object.keys(values).forEach((key) => {
-      formData.append(key, values[key]);
-    });
+    formData.append("avatar", file);
 
     const config = {
       headers: {
@@ -78,24 +75,61 @@ const BranDashAbout = () => {
         "Content-Type": "multipart/form-data",
       },
     };
-    console.log(values, config);
-    axios
-      .put("http://localhost:8000/api/v1/influencer/update", formData, config)
-      .then((response) => {
-        localStorage.setItem("token", response.data.token);
-        let myObject = JSON.stringify(response.data.user);
-        localStorage.setItem("userData", myObject);
-        console.log("Data sent successfully:", response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error sending the data!", error);
-      });
 
-    setSubmitting(false);
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-    }, 3000);
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/avatar/update",
+        formData,
+        config
+      );
+      return response.data.url; // Assuming the server returns the URL of the uploaded logo
+    } catch (error) {
+      console.error("There was an error uploading the logo!", error);
+      throw error;
+    }
+  };
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    const token = localStorage.getItem("token");
+    let logoUrl = values.logo;
+
+    try {
+      if (values.logo && values.logo instanceof File) {
+        logoUrl = await handleLogoUpload(values.logo);
+      }
+
+      const formData = {
+        ...values,
+        logo: logoUrl,
+      };
+
+      const config = {
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      };
+
+      const response = await axios.put(
+        "http://localhost:8000/api/v1/influencer/update",
+        formData,
+        config
+      );
+
+      localStorage.setItem("token", response.data.token);
+      let myObject = JSON.stringify(response.data.user);
+      localStorage.setItem("userData", myObject);
+      console.log("Data sent successfully:", response.data);
+
+      setSubmitting(false);
+      setShowPopup(true);
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 3000);
+    } catch (error) {
+      console.error("There was an error sending the data!", error);
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -125,7 +159,9 @@ const BranDashAbout = () => {
                   </label>
                   <div className="relative w-48 h-48 mb-4 overflow-hidden border">
                     <img
-                      src={values.logo || "/placeholder.jpg"}
+                      src={
+                        values.logoPreview || values.logo || "/placeholder.jpg"
+                      }
                       alt="Logo"
                       className="w-full h-full object-cover"
                     />
@@ -147,7 +183,7 @@ const BranDashAbout = () => {
                         setFieldValue("logoPreview", URL.createObjectURL(file));
                       }}
                     />
-                    {values.logo && (
+                    {values.logo && !(values.logo instanceof File) && (
                       <button
                         type="button"
                         onClick={() => setFieldValue("logo", "")}
@@ -242,7 +278,7 @@ const BranDashAbout = () => {
                       type="text"
                       id="industry"
                       name="industry"
-                      placeholder='eg. Technology, Fashion, Beauty, etc.'
+                      placeholder="eg. Technology, Fashion, Beauty, etc."
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                     <ErrorMessage
