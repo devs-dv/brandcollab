@@ -64,12 +64,7 @@ const createBrandProfile = asyncErrorHandler(async (req, res, next) => {
 
 // Get a single brand profile
 const getBrandProfile = asyncErrorHandler(async (req, res, next) => {
-  const brandProfile = await BrandProfile.findOne({ user: req.user._id });
-
-  if (!brandProfile) {
-    return next(new ErrorHandler("Brand profile not found", 404));
-  }
-
+  const brandProfile = await BrandProfile.find();
   res.status(200).json({
     success: true,
     brandProfile,
