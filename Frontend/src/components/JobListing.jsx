@@ -94,6 +94,7 @@ const JobListing = () => {
           </div>
         </div>
         {/* Your main content ends here */}
+        {/* here it will for commit and pull */}
       </main>
     </div>
   );
