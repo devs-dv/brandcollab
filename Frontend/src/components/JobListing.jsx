@@ -11,7 +11,7 @@ const JobListing = () => {
       .get("http://localhost:8000/api/v1/profile/get")
       .then((response) => {
         console.log("Data received:", response.data);
-        setProfiles(response.data.brandProfile); // Assuming the data is in response.data.brandProfile
+        setProfiles(response.data.brandProfiles); // Assuming the data is in response.data.brandProfile
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -94,7 +94,6 @@ const JobListing = () => {
           </div>
         </div>
         {/* Your main content ends here */}
-        {/* here it will for commit and pull */}
       </main>
     </div>
   );
