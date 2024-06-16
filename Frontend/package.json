@@ -24,6 +24,7 @@
     "country-state-city": "^3.2.1",
     "formik": "^2.4.6",
     "framer-motion": "^11.2.6",
+    "moment": "^2.30.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet": "^6.1.0",

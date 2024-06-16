@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SideNav from "./navigation/SideNav";
 import axios from "axios";
+import moment from "moment";
 
 const JobListing = () => {
   const [profiles, setProfiles] = useState([]);
@@ -84,109 +85,125 @@ const JobListing = () => {
           </div>
           <div className="flex flex-wrap justify-center p-4">
             {profiles.map((profile) => (
-              <div
+              <ProfileCard
                 key={profile._id}
-                className="max-w-sm w-full sm:w-1/2 lg:w-1/3 p-4"
-              >
-                <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-md overflow-hidden">
-                  <div className="relative">
-                    <img
-                      className="w-full h-48 object-cover"
-                      src="https://placehold.co/600x400"
-                      alt="Campaign Image"
-                    />
-                    <div className="absolute top-2 left-2 bg-green-200 text-green-800 text-xs font-semibold px-2 py-1 rounded">
-                      {profile.brandName}
-                    </div>
-                    <div className="absolute top-2 right-2">
-                      <svg
-                        className="w-6 h-6 text-green-600"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="p-4">
-                    <div className="flex justify-center -mt-12">
-                      <img
-                        className="w-24 h-24 rounded-full border-4 border-white dark:border-zinc-800"
-                        src="https://placehold.co/100x100"
-                        alt="Company Logo"
-                      />
-                    </div>
-                    <div className="text-center mt-2">
-                      <h2 className="text-lg font-semibold text-zinc-800 dark:text-white">
-                        {profile.description}
-                      </h2>
-                    </div>
-                    <div className="mt-4 flex justify-around">
-                      <div className="text-center">
-                        <span className="text-zinc-600 dark:text-zinc-400">
-                          Formats
-                        </span>
-                        <div className="mt-1 bg-green-200 text-green-800 text-xs font-semibold px-2 py-1 rounded">
-                          {profile.format}
-                        </div>
-                      </div>
-                      <div className="text-center">
-                        <span className="text-zinc-600 dark:text-zinc-400">
-                          Industries
-                        </span>
-                        <div className="mt-1 flex flex-wrap justify-center space-x-1">
-                          <div className="bg-green-200 text-green-800 text-xs font-semibold px-2 py-1 rounded">
-                            {profile.industry}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex justify-around">
-                      <div className="text-center">
-                        <span className="text-lg font-semibold text-zinc-800 dark:text-white">
-                          {profile.followersRequired}+
-                        </span>
-                        <span className="text-zinc-600 dark:text-zinc-400">
-                          Followers
-                        </span>
-                      </div>
-                      <div className="text-center">
-                        <span className="text-lg font-semibold text-zinc-800 dark:text-white">
-                          +
-                        </span>
-                        <span className="text-zinc-600 dark:text-zinc-400">
-                          {profile.duration}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="mt-4 text-center">
-                      <span className="text-zinc-600 dark:text-zinc-400">
-                        Platforms
-                      </span>
-                      <div className="mt-1">
-                        <img
-                          className="w-8 h-8 inline"
-                          src="https://placehold.co/32x32"
-                          alt="Platform Icons"
-                        />
-                      </div>
-                    </div>
-                    <div className="mt-4 text-center">
-                      <button
-                        className="bg-green-200 text-green-800 px-4 py-2 rounded"
-                        onClick={() => handleApply(profile._id, profile.user)}
-                      >
-                        Apply Now
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                profile={profile}
+                handleApply={handleApply}
+              />
             ))}
           </div>
         </div>
         {/* Your main content ends here */}
       </main>
+    </div>
+  );
+};
+
+const ProfileCard = ({ profile, handleApply }) => {
+  const [showDescription, setShowDescription] = useState(false);
+
+  return (
+    <div className="max-w-sm w-full sm:w-1/2 lg:w-1/3 p-4">
+      <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-md overflow-hidden">
+        <div className="relative">
+          <img
+            className="w-full h-48 object-cover"
+            src="https://placehold.co/600x400"
+            alt="Campaign Image"
+          />
+          <div className="absolute top-2 left-2 bg-green-200 text-green-800 text-xs font-semibold px-2 py-1 rounded">
+            {moment(profile.createdAt).fromNow()}
+          </div>
+          <div className="absolute top-2 right-2">
+            <svg
+              className="w-6 h-6 text-green-600"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+          </div>
+        </div>
+        <div className="p-4">
+          <div className="flex justify-center -mt-12">
+            <img
+              className="w-24 h-24 rounded-full border-4 border-white dark:border-zinc-800"
+              src="https://placehold.co/100x100"
+              alt="Company Logo"
+            />
+          </div>
+          <div className="text-center mt-2">
+            <h2 className="text-lg font-semibold text-zinc-800 dark:text-white">
+              {profile.brandName}
+            </h2>
+          </div>
+          <div className="mt-4 flex justify-around">
+            <div className="text-center">
+              <span className="text-zinc-600 dark:text-zinc-400">Formats</span>
+              <div className="mt-1 bg-green-200 text-green-800 text-xs font-semibold px-2 py-1 rounded">
+                {profile.format}
+              </div>
+            </div>
+            <div className="text-center">
+              <span className="text-zinc-600 dark:text-zinc-400">
+                Industries
+              </span>
+              <div className="mt-1 flex flex-wrap justify-center space-x-1">
+                <div className="bg-green-200 text-green-800 text-xs font-semibold px-2 py-1 rounded">
+                  {profile.industry}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 flex justify-around">
+            <div className="text-center">
+              <span className="text-lg font-semibold text-zinc-800 dark:text-white">
+                {profile.followersRequired}+
+              </span>
+              <span className="text-zinc-600 dark:text-zinc-400">
+                Followers
+              </span>
+            </div>
+            <div className="text-center">
+              <span className="text-lg font-semibold text-zinc-800 dark:text-white">
+                {profile.duration}
+              </span>
+              <span className="text-zinc-600 dark:text-zinc-400">Duration</span>
+            </div>
+          </div>
+          <div className="mt-4 text-center">
+            <span className="text-zinc-600 dark:text-zinc-400">Platforms</span>
+            <div className="mt-1">
+              <img
+                className="w-8 h-8 inline"
+                src="https://placehold.co/32x32"
+                alt="Platform Icons"
+              />
+            </div>
+          </div>
+          <div className="mt-4 text-center">
+            {showDescription && (
+              <p className="text-zinc-600 dark:text-zinc-400">
+                {profile.description}
+              </p>
+            )}
+            <button
+              className="text-blue-500"
+              onClick={() => setShowDescription(!showDescription)}
+            >
+              {showDescription ? "Read Less" : "Read More"}
+            </button>
+          </div>
+          <div className="mt-4 text-center">
+            <button
+              className="bg-green-200 text-green-800 px-4 py-2 rounded"
+              onClick={() => handleApply(profile._id, profile.user)}
+            >
+              Apply Now
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
