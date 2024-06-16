@@ -12,6 +12,7 @@ import influencerRouter from "./routes/influencerProfile.route.js";
 import brandRouter from "./routes/brandProfile.route.js";
 import earningsRouter from "./routes/earning.route.js";
 import messageRouter from "./routes/message.route.js";
+import socialMediaRouter from "./routes/social.route.js";
 import http from "http";
 import { Server as SocketIOServer } from "socket.io";
 dotenv.config();
@@ -83,6 +84,7 @@ app.use("/api/v1", messageRouter);
 app.use("/api/v1", influencerRouter);
 app.use("/api/v1", brandRouter);
 app.use("/api/v1", earningsRouter);
+app.use("/api/v1", socialMediaRouter);
 
 app.get("/", (req, res) => {
   res.send("Server is Running! 🚀");
