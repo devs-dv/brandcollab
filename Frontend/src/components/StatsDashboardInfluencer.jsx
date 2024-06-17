@@ -149,6 +149,9 @@ const handleFetchData = async () => {
   }
 };
 
+if (!data) {
+  return <p>Loading...</p>;
+}
 
   return (
     <div>
@@ -170,7 +173,7 @@ const handleFetchData = async () => {
                         Followers
                       </p>
                       <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                        {/* {data.socialMediaProfile.youtubeFollowers} */}
+                        {data.socialMediaProfile.youtubeFollowers}
                       </h4>
                     </div>
                     <div className="border-t border-blue-gray-50 p-4">
@@ -189,7 +192,7 @@ const handleFetchData = async () => {
                         Followers
                       </p>
                       <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                        {/* {data.socialMediaProfile.instagramFollowers} */}
+                        {data.socialMediaProfile.instagramFollowers}
                       </h4>
                     </div>
                     <div className="border-t border-blue-gray-50 p-4">
@@ -208,7 +211,7 @@ const handleFetchData = async () => {
                         Followers
                       </p>
                       <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                        {/* {data.socialMediaProfile.twitterFollowers} */}
+                        {data.socialMediaProfile.twitterFollowers}
                       </h4>
                     </div>
                     <div className="border-t border-blue-gray-50 p-4">
@@ -227,7 +230,7 @@ const handleFetchData = async () => {
                         Followers
                       </p>
                       <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                        {/* {data.socialMediaProfile.facebookFollowers} */}
+                        {data.socialMediaProfile.facebookFollowers}
                       </h4>
                     </div>
                     <div className="border-t border-blue-gray-50 p-4">
