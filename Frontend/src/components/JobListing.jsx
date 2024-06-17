@@ -79,10 +79,7 @@ const JobListing = () => {
           )}
           <div className="flex flex-col md:flex-row justify-between items-center mb-4">
             <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4">
-              <select className="p-2 border border-zinc-300 rounded-md w-full sm:w-auto">
-                <option value="">Most Relevant</option>
-                <option value="">Most Recent</option>
-              </select>
+              
               <select
                 onChange={handleChangeCountry}
                 className="p-2 border border-zinc-300 rounded-md w-full sm:w-auto"
@@ -107,23 +104,12 @@ const JobListing = () => {
                 <option value="1000000">Minimun 1M</option>
                 <option value="10000000">Minimun 10M</option>
               </select>
-              <select className="p-2 border border-zinc-300 rounded-md w-full sm:w-auto">
-                <option value="">Engagement</option>
-                <option value="">Low to High</option>
-                <option value="">High to Low</option>
-              </select>
+              
             </div>
-            <button
-              type="button"
-              className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-            >
-              Modify Your Search
-            </button>
+            
           </div>
           <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-            <button className="p-2 bg-green-500 text-white rounded-md mb-4 md:mb-0">
-              Favourites ❤️
-            </button>
+            
             <span className="text-zinc-700 dark:text-zinc-300 text-center md:text-left">
               BrandCollab found {profiles.length} campaigns
             </span>
@@ -159,15 +145,7 @@ const ProfileCard = ({ profile, handleApply }) => {
           <div className="absolute top-2 left-2 bg-green-200 text-green-800 text-xs font-semibold px-2 py-1 rounded">
             {moment(profile.createdAt).fromNow()}
           </div>
-          <div className="absolute top-2 right-2">
-            <svg
-              className="w-6 h-6 text-green-600"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-            </svg>
-          </div>
+          
         </div>
         <div className="p-4">
           <div className="flex justify-center -mt-12">
@@ -216,14 +194,12 @@ const ProfileCard = ({ profile, handleApply }) => {
               <span className="text-zinc-600 dark:text-zinc-400">Duration</span>
             </div>
           </div>
-          <div className="mt-4 text-center">
-            <span className="text-zinc-600 dark:text-zinc-400">Platforms</span>
-            <div className="mt-1">
-              <img
-                className="w-8 h-8 inline"
-                src="https://placehold.co/32x32"
-                alt="Platform Icons"
-              />
+          <div className="mt-4 text-center ">
+            <span className="text-zinc-600 dark:text-zinc-400">
+              Content Type
+            </span>
+            <div className="bg-green-200 text-green-800 text-xs font-semibold px-2 py-1 rounded">
+              {profile.format}
             </div>
           </div>
           <div className="mt-4 text-center">
