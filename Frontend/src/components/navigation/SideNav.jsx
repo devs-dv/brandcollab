@@ -4,6 +4,7 @@ import { CgProfile } from "react-icons/cg";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+
 const SideNav = () => {
   const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -73,7 +74,7 @@ const SideNav = () => {
     localStorage.removeItem('token')
     localStorage.removeItem("userData");
     localStorage.removeItem('socialsData');
-    
+
     try {
       const response = await axios.get("http://localhost:8000/api/v1/logout");
       console.log("Logout successful:", response.data);

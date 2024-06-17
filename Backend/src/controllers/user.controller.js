@@ -6,6 +6,7 @@ import cloudinary from "cloudinary";
 import crypto from "crypto";
 import sendEmail from "../utils/sendEmail.js";
 import InfluencerProfile from "../models/influencerProfile.model.js";
+import SocialMediaProfile from "../models/social.model.js"
 
 const registerUser = asyncErrorHandler(async (req, res, next) => {
   const {
@@ -29,6 +30,7 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
   if (userExist) {
     return next(new ErrorHandler("User with this email already exists", 400));
   }
+
   const user = await User.create({
     firstName,
     lastName,
@@ -43,6 +45,12 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
       url: "",
     },
   });
+
+  const socialMediaProfile = await SocialMediaProfile.create({
+    user: user._id,
+  });
+  
+  console.log(socialMediaProfile)
   sendToken(user, 200, res);
 });
 
