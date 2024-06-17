@@ -70,6 +70,9 @@ const SideNav = () => {
   const handleOptionSelect = (option) => {};
 
   const handleLogout = async () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem("userData");
+    localStorage.removeItem('socialsData');
     try {
       const response = await axios.get("http://localhost:8000/api/v1/logout");
       console.log("Logout successful:", response.data);
@@ -79,6 +82,7 @@ const SideNav = () => {
     } catch (error) {
       console.error("Error logging out:", error);
     }
+
   };
 
   return (
