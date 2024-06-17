@@ -32,8 +32,6 @@ const createAppliedJob = asyncErrorHandler(async (req, res, next) => {
   //     consent: userdata.consent,
   //     role: userdata.role,
 
-  //     influencerFirstName: influencerdata.firstName,
-  //     influencerLastName: influencerdata.lastName,
   //     influencerBio: influencerdata.bio,
   //     profilePicture: influencerdata.profilePicture,
   //     instagram: influencerdata.instagram,
@@ -47,18 +45,13 @@ const createAppliedJob = asyncErrorHandler(async (req, res, next) => {
 
   //     brandName: branddata.brandName,
   //     brandIndustry: branddata.industry,
-  //     brandTargetAudience: branddata.targetAudiance,
   //     brandDescription: branddata.description,
   //     brandBudget: branddata.budget,
   //     brandDuration: branddata.duration,
   //     followersRequired: branddata.followersRequired,
   //     brandEmail: branddata.email,
-  //     brandCountry: branddata.country,
-  //     brandState: branddata.state,
-  //     brandCity: branddata.city,
   //     format: branddata.format,
   //     platform: branddata.platform,
-  //     logo: branddata.logo,
   //   });
 
   //   await appliedJob.save();
@@ -100,8 +93,6 @@ const getAppliedJobs = asyncErrorHandler(async (req, res, next) => {
       },
       influencer: {
         influencerId: job.influencer,
-        firstName: job.influencerFirstName,
-        lastName: job.influencerLastName,
         location: job.location,
         bio: job.influencerBio,
         profilePicture: job.profilePicture,
@@ -115,21 +106,18 @@ const getAppliedJobs = asyncErrorHandler(async (req, res, next) => {
       brand: {
         brandName: job.brandName,
         industry: job.brandIndustry,
-        targetAudience: job.brandTargetAudience,
         description: job.brandDescription,
         budget: job.brandBudget,
         duration: job.brandDuration,
         followersRequired: job.followersRequired,
-        email: job.brandEmail,
-        country: job.brandCountry,
-        state: job.brandState,
-        city: job.brandCity,
         format: job.format,
         platform: job.platform,
-        logo: job.logo,
       },
     })),
   });
 });
+
+
+
 
 export { createAppliedJob, getAppliedJobs };
