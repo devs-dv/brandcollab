@@ -8,70 +8,73 @@ import ErrorHandler from "../utils/errorHandler.js";
 const createAppliedJob = asyncErrorHandler(async (req, res, next) => {
   // Fetch data from User, InfluencerProfile, and BrandProfile
   const userdata = await User.findById(req.user._id);
-  const influencerdata = await InfluencerProfile.findById(req.user._id);
-  const branddata = await BrandProfile.findById(req.params.id);
-  console.log(req.user._id);
-  console.log("influencerdata", influencerdata);
+  const influencerdata = await InfluencerProfile.findOne({
+    user: req.user._id,
+  });
+  const branddata = await BrandProfile.findById(req.query.brandId);
+  console.log(branddata);
+  if (!userdata || !influencerdata || !branddata) {
+    return next(new ErrorHandler("Invalid data provided", 400));
+  }
 
-  //   if (!userdata || !influencerdata || !branddata) {
-  //     return next(new ErrorHandler("Invalid data provided", 400));
-  //   }
+  const appliedJob = new AppliedJob({
+    user: req.user._id,
+    influencer: req.user._id,
+    brand: branddata._id,
+    firstName: userdata.firstName,
+    lastName: userdata.lastName,
+    gender: userdata.gender,
+    avatar: userdata.avatar,
+    country: userdata.country,
+    state: userdata.state,
+    city: userdata.city,
+    bio: userdata.bio,
+    consent: userdata.consent,
+    role: userdata.role,
 
-  //   // Create new AppliedJob with the gathered data
-  //   const appliedJob = new AppliedJob({
-  //     user: req.user._id,
-  //     influencer: req.user._id,
-  //     firstName: userdata.firstName,
-  //     lastName: userdata.lastName,
-  //     gender: userdata.gender,
-  //     avatar: userdata.avatar,
-  //     country: userdata.country,
-  //     state: userdata.state,
-  //     city: userdata.city,
-  //     bio: userdata.bio,
-  //     consent: userdata.consent,
-  //     role: userdata.role,
+    influencerBio: influencerdata.bio,
+    profilePicture: influencerdata.profilePicture,
+    instagram: influencerdata.instagram,
+    instagramFollowers: influencerdata.instagramFollowers,
+    twitter: influencerdata.twitter,
+    twitterFollowers: influencerdata.twitterFollowers,
+    facebook: influencerdata.facebook,
+    facebookFollowers: influencerdata.facebookFollowers,
+    youtube: influencerdata.youtube,
+    youtubeFollowers: influencerdata.youtubeFollowers,
 
-  //     influencerBio: influencerdata.bio,
-  //     profilePicture: influencerdata.profilePicture,
-  //     instagram: influencerdata.instagram,
-  //     instagramFollowers: influencerdata.instagramFollowers,
-  //     twitter: influencerdata.twitter,
-  //     twitterFollowers: influencerdata.twitterFollowers,
-  //     facebook: influencerdata.facebook,
-  //     facebookFollowers: influencerdata.facebookFollowers,
-  //     youtube:influencerdata.youtube,
-  //     youtubeFollowers:influencerdata.youtubeFollowers,
+    brandName: branddata.brandName,
+    brandIndustry: branddata.industry,
+    brandDescription: branddata.description,
+    brandBudget: branddata.budget,
+    brandDuration: branddata.duration,
+    followersRequired: branddata.followersRequired,
+    brandEmail: branddata.email,
+    format: branddata.format,
+    platform: branddata.platform,
+  });
 
-  //     brandName: branddata.brandName,
-  //     brandIndustry: branddata.industry,
-  //     brandDescription: branddata.description,
-  //     brandBudget: branddata.budget,
-  //     brandDuration: branddata.duration,
-  //     followersRequired: branddata.followersRequired,
-  //     brandEmail: branddata.email,
-  //     format: branddata.format,
-  //     platform: branddata.platform,
-  //   });
+  await appliedJob.save();
 
-  //   await appliedJob.save();
-
-  //   res.status(201).json({
-  //     success: true,
-  //     message: "Applied job created successfully",
-  //     appliedJob,
-  //   });
+  res.status(201).json({
+    success: true,
+    message: "Applied job created successfully",
+    appliedJob,
+  });
 });
 
-const getAppliedJobs = asyncErrorHandler(async (req, res, next) => {
-  const { userId, influencerId, brandId } = req.params;
+const getAppliedJobsByBrandId = asyncErrorHandler(async (req, res, next) => {
+  const { brandId } = req.params;
 
-  const query = {};
-  if (userId) query.user = userId;
-  if (influencerId) query.influencer = influencerId;
-  if (brandId) query.brandName = brandId;
+  if (!brandId) {
+    return next(new ErrorHandler("Brand ID is required", 400));
+  }
 
-  const appliedJobs = await AppliedJob.find(query);
+  const appliedJobs = await AppliedJob.find({ brand: brandId });
+
+  if (!appliedJobs.length) {
+    return next(new ErrorHandler("No jobs found for this brand ID", 404));
+  }
 
   res.status(200).json({
     success: true,
@@ -117,7 +120,28 @@ const getAppliedJobs = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
+const deleteAppliedJobsByBrandId = asyncErrorHandler(async (req, res, next) => {
+  const { brandId } = req.params;
+  console.log(brandId);
+  if (!brandId) {
+    return next(new ErrorHandler("Brand ID is required", 400));
+  }
 
+  const result = await AppliedJob.deleteMany({ brand: brandId });
 
+  if (result.deletedCount === 0) {
+    return next(new ErrorHandler("No jobs found for this brand ID", 404));
+  }
 
-export { createAppliedJob, getAppliedJobs };
+  res.status(200).json({
+    success: true,
+    message: "Applied jobs deleted successfully",
+    deletedCount: result.deletedCount,
+  });
+});
+
+export {
+  createAppliedJob,
+  getAppliedJobsByBrandId,
+  deleteAppliedJobsByBrandId,
+};

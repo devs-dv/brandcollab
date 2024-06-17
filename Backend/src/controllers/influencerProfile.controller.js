@@ -77,35 +77,33 @@ const createInfluencerProfile = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-const getInfluencerProfiles = asyncErrorHandler(async (req, res) => {
-  console.log("profiles");
-  const profiles = await InfluencerProfile.find();
-  console.log(profiles)
+const getAllInfluencerProfiles = asyncErrorHandler(async (req, res, next) => {
+  const profiles = await InfluencerProfile.find(); // Fetch all profiles
   res.status(200).json({
-    Message: "Influencer Profiles retrieved successfully",
+    Message: "Influencer Profiles fetched successfully",
     Status: 200,
     Success: true,
     Data: profiles,
   });
 });
 
-const getInfluencerProfileById = asyncErrorHandler(async (req, res) => {
-  const profile = await InfluencerProfile.findOne({ user: req.user._id }); 
+// Get influencer profile by ID (with authorization)
+const getInfluencerProfileById = asyncErrorHandler(async (req, res, next) => {
+  const profile = await InfluencerProfile.findOne({
+    user: req.user._id, // Filter by current user's ID
+  });
+
   if (!profile) {
-    return res.status(404).json({
-      Message: "Influencer Profile not found",
-      Status: 404,
-      Success: false,
-    });
+    return next(new ErrorHandler("Influencer Profile not found", 404));
   }
+
   res.status(200).json({
-    Message: "Influencer Profile retrieved successfully",
+    Message: "Influencer Profile fetched successfully",
     Status: 200,
     Success: true,
     Data: profile,
   });
 });
-
 
 const updateInfluencerProfile = asyncErrorHandler(async (req, res) => {
   const { firstName, lastName, location, bio, email } = req.body;
@@ -155,7 +153,7 @@ const updateInfluencerProfile = asyncErrorHandler(async (req, res) => {
 
 export {
   createInfluencerProfile,
-  getInfluencerProfiles,
+  getAllInfluencerProfiles,
   getInfluencerProfileById,
   updateInfluencerProfile,
 };

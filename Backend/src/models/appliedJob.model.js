@@ -10,6 +10,11 @@ const appliedJobSchema = mongoose.Schema(
       ref: "InfluencerProfile",
       required: true,
     },
+    brand: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "BrandProfile",
+      required: true,
+    },
 
     /**user schema data */
     firstName: {

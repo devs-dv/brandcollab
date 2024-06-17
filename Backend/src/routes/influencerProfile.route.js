@@ -2,7 +2,7 @@ import express from "express";
 import { isAuthenticatedUser } from "../middlewares/auth.js";
 import {
   createInfluencerProfile,
-  getInfluencerProfiles,
+  getAllInfluencerProfiles,
   getInfluencerProfileById,
   updateInfluencerProfile,
 } from "../controllers/influencerProfile.controller.js";
@@ -12,13 +12,12 @@ const influencerRouter = express.Router();
 influencerRouter
   .route("/influencerProfile/create")
   .post(isAuthenticatedUser, createInfluencerProfile);
-
 influencerRouter
   .route("/influencerProfiles")
-  .get(getInfluencerProfiles);
+  .get(isAuthenticatedUser, getAllInfluencerProfiles);
 
 influencerRouter
-  .route("/influencerProfileById")
+  .route("/influencerProfile")
   .get(isAuthenticatedUser, getInfluencerProfileById);
 
 influencerRouter

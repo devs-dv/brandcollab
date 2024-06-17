@@ -1,10 +1,26 @@
 import express from "express";
-import { createAppliedJob, getAppliedJobs } from "../controllers/appliedJob.controller.js";
+import {
+  createAppliedJob,
+  getAppliedJobsByBrandId,
+  deleteAppliedJobsByBrandId,
+} from "../controllers/appliedJob.controller.js";
 import { isAuthenticatedUser } from "../middlewares/auth.js";
 
 const appliedJobRouter = express.Router();
 
-appliedJobRouter.route("/appliedJob/create").post(isAuthenticatedUser, createAppliedJob);
-appliedJobRouter.route("/appliedJob/get/:userId?/:influencerId?/:brandId?").get(isAuthenticatedUser, getAppliedJobs);
-
+appliedJobRouter.post(
+  "/apply",
+  isAuthenticatedUser,
+  createAppliedJob
+);
+appliedJobRouter.get(
+  "/appliedJobs/brand/:brandId",
+  isAuthenticatedUser,
+  getAppliedJobsByBrandId
+);
+appliedJobRouter.delete(
+  "/appliedJobs/brand/:brandId",
+  isAuthenticatedUser,
+  deleteAppliedJobsByBrandId
+);
 export default appliedJobRouter;

@@ -49,10 +49,13 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
   const socialMediaProfile = await SocialMediaProfile.create({
     user: user._id,
   });
-  
+
   console.log(socialMediaProfile)
   sendToken(user, 200, res);
 });
+
+// 66708f571e982ef481156490
+// 66708f571e982ef481156490
 
 const loginUser = asyncErrorHandler(async (req, res, next) => {
   const { email, password } = req.body;
@@ -114,6 +117,7 @@ const influencerProfileUpdate = asyncErrorHandler(async (req, res, next) => {
     role,
     brandName,
     consent,
+    
     country,
     state,
     city,
