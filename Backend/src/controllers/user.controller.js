@@ -60,11 +60,7 @@ const loginUser = asyncErrorHandler(async (req, res, next) => {
     return next(new ErrorHandler("Incorrect Password", 401));
   }
 
-  res.status(201).json({
-    success: true,
-    message: "Avatar updated successfully",
-    user,
-  });
+  sendToken(user, 201, res);
 });
 
 const updateAvatar = asyncErrorHandler(async (req, res, next) => {

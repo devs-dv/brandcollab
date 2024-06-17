@@ -1,26 +1,15 @@
 import InfluencerProfile from "../models/influencerProfile.model.js";
 import asyncErrorHandler from "../middlewares/asyncErrorHandler.js";
-
+import ErrorHandler from "../utils/errorHandler.js";
+import cloudinary from "cloudinary";
 
 const createInfluencerProfile = asyncErrorHandler(async (req, res, next) => {
-  const { firstName, lastName, location, bio, email, profilePicture, instagram, instagramFollowers, twitter, twitterFollowers, facebook, facebookFollowers, youtube, youtubeFollowers } = req.body;
-
-  // Check if the user already has an influencer profile
-  const existingProfile = await InfluencerProfile.findOne({ user: req.user._id });
-
-  if (existingProfile) {
-    return next(new ErrorHandler("Influencer Profile already exists for this user", 400));
-  }
-
-  // Create a new influencer profile
-  const newProfile = new InfluencerProfile({
-    user: req.user._id,
+  const {
     firstName,
     lastName,
     location,
     bio,
     email,
-    profilePicture,
     instagram,
     instagramFollowers,
     twitter,
@@ -28,8 +17,55 @@ const createInfluencerProfile = asyncErrorHandler(async (req, res, next) => {
     facebook,
     facebookFollowers,
     youtube,
-    youtubeFollowers
+    youtubeFollowers,
+  } = req.body;
+
+  // Check if the user already has an influencer profile
+  const existingProfile = await InfluencerProfile.findOne({
+    user: req.user._id,
   });
+
+  if (existingProfile) {
+    return next(
+      new ErrorHandler("Influencer Profile already exists for this user", 400)
+    );
+  }
+
+  const newProfile = new InfluencerProfile({
+    user: req.user._id,
+    firstName,
+    lastName,
+    location,
+    bio,
+    email,
+    instagram,
+    instagramFollowers,
+    twitter,
+    twitterFollowers,
+    facebook,
+    facebookFollowers,
+    youtube,
+    youtubeFollowers,
+  });
+
+  if (req.files && req.files.profilePicture) {
+    try {
+      const result = await cloudinary.v2.uploader.upload(
+        req.files.profilePicture.tempFilePath,
+        {
+          folder: "profile_pictures",
+          width: 150,
+          crop: "scale",
+        }
+      );
+      newProfile.profilePicture = {
+        public_id: result.public_id,
+        url: result.secure_url,
+      };
+    } catch (error) {
+      return next(new ErrorHandler("Profile picture upload failed", 500));
+    }
+  }
 
   await newProfile.save();
 
@@ -41,96 +77,84 @@ const createInfluencerProfile = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-// Influencer Profile Update
+const getInfluencerProfiles = asyncErrorHandler(async (req, res) => {
+  console.log("profiles");
+  const profiles = await InfluencerProfile.find();
+
+  res.status(200).json({
+    Message: "Influencer Profiles retrieved successfully",
+    Status: 200,
+    Success: true,
+    Data: profiles,
+  });
+});
+
+const getInfluencerProfileById = asyncErrorHandler(async (req, res) => {
+  const profile = await InfluencerProfile.findById(req.user._id);
+  if (!profile) {
+    return res.status(404).json({
+      Message: "Influencer Profile not found",
+      Status: 404,
+      Success: false,
+    });
+  }
+  res.status(200).json({
+    Message: "Influencer Profile retrieved successfully",
+    Status: 200,
+    Success: true,
+    Data: profile,
+  });
+});
+
 const updateInfluencerProfile = asyncErrorHandler(async (req, res) => {
-  const { firstName, lastName, location, bio, email, profilePicture } = req.body;
+  const { firstName, lastName, location, bio, email } = req.body;
+
+  const updates = { firstName, lastName, location, bio, email };
+
+  if (req.files && req.files.profilePicture) {
+    try {
+      const result = await cloudinary.v2.uploader.upload(
+        req.files.profilePicture.tempFilePath,
+        {
+          folder: "profile_pictures",
+          width: 150,
+          crop: "scale",
+        }
+      );
+      updates.profilePicture = {
+        public_id: result.public_id,
+        url: result.secure_url,
+      };
+    } catch (error) {
+      return next(new ErrorHandler("Profile picture upload failed", 500));
+    }
+  }
 
   const updatedProfile = await InfluencerProfile.findOneAndUpdate(
     { user: req.user._id },
-    { firstName, lastName, location, bio, email, profilePicture },
+    updates,
     { new: true }
   );
 
   if (!updatedProfile) {
-    return res.status(404).json({ 
+    return res.status(404).json({
       Message: "Influencer Profile not found",
       Status: 404,
-      Success: false
+      Success: false,
     });
   }
 
-  res.status(201).json({
+  res.status(200).json({
     Message: "Influencer Profile Update successful",
-    Status: 201,
+    Status: 200,
     Success: true,
     Data: updatedProfile,
   });
 });
 
-// Influencer Social Update
-const updateInfluencerSocials = asyncErrorHandler(async (req, res) => {
-  const { instagram, instagramFollowers, twitter, twitterFollowers, facebook, facebookFollowers } = req.body;
-
-  const updatedSocials = await InfluencerProfile.findOneAndUpdate(
-    { user: req.user._id },
-    { instagram, instagramFollowers, twitter, twitterFollowers, facebook, facebookFollowers },
-    { new: true }
-  );
-
-  if (!updatedSocials) {
-    return res.status(404).json({ 
-      Message: "Influencer Profile not found",
-      Status: 404,
-      Success: false
-    });
-  }
-
-  res.status(201).json({
-    Message: "Influencer Social Update successful",
-    Status: 201,
-    Success: true,
-    Data: updatedSocials,
-  });
-});
-
-// Influencer Change Password
-const changeInfluencerPassword = asyncErrorHandler(async (req, res) => {
-  const { currentPassword, newPassword, confirmNewPassword } = req.body;
-
-  if (newPassword !== confirmNewPassword) {
-    return res.status(400).json({
-      Message: "New Password and Confirm Password do not match",
-      Status: 400,
-      Success: false
-    });
-  }
-
-  const influencer = await InfluencerProfile.findOne({ user: req.user._id }).populate("user");
-  const user = influencer.user;
-
-  const isMatch = await user.matchPassword(currentPassword);
-  if (!isMatch) {
-    return res.status(401).json({
-      Message: "Incorrect current password",
-      Status: 401,
-      Success: false
-    });
-  }
-
-  user.password = newPassword;
-  await user.save();
-
-  res.status(201).json({
-    Message: "Influencer Password Update successful",
-    Status: 201,
-    Success: true,
-    Data: { currentPassword, newPassword, confirmNewPassword },
-  });
-});
-
 export {
   createInfluencerProfile,
+  getInfluencerProfiles,
+  getInfluencerProfileById,
   updateInfluencerProfile,
-  updateInfluencerSocials,
-  changeInfluencerPassword
 };

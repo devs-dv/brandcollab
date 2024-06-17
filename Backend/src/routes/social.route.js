@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  createSocialMediaProfile,
+  createOrUpdateSocialMediaProfile,
   getUserSocialMediaProfile,
   updateSocialMediaProfile,
 } from "../controllers/social.controller.js";
@@ -10,7 +10,7 @@ const socialMediaRouter = express.Router();
 
 socialMediaRouter
   .route("/profile/socialMedia")
-  .post(isAuthenticatedUser, createSocialMediaProfile);
+  .post(isAuthenticatedUser, createOrUpdateSocialMediaProfile);
 socialMediaRouter
   .route("/profile/socialMedia/me")
   .get(isAuthenticatedUser, getUserSocialMediaProfile);
