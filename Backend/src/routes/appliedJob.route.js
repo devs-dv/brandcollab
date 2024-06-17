@@ -9,7 +9,7 @@ import { isAuthenticatedUser } from "../middlewares/auth.js";
 const appliedJobRouter = express.Router();
 
 appliedJobRouter.post(
-  "/apply",
+  "/appliedJob/create",
   isAuthenticatedUser,
   createAppliedJob
 );
