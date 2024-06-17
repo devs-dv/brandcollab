@@ -33,7 +33,10 @@ const JobListing = () => {
   const handleApply = (profileId, userId) => {
     console.log(profileId, userId);
     axios
-      .post("http://localhost:8000/api/v1/apply", { profileId, userId })
+      .post(
+        `http://localhost:8000/api/v1/appliedJob/create?brandId=${profileId}`,
+        {}
+      )
       .then((response) => {
         console.log("Application submitted:", response.data);
       })
@@ -218,7 +221,7 @@ const ProfileCard = ({ profile, handleApply }) => {
           <div className="mt-4 text-center">
             <button
               className="bg-green-200 text-green-800 px-4 py-2 rounded"
-              onClick={() => handleApply(profile._id, profile.user)}
+              onClick={() => handleApply(profile._id,profile.user)}
             >
               Apply Now
             </button>
