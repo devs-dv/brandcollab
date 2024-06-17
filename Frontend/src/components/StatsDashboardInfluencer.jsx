@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideNav from "./navigation/SideNav";
+import axios from "axios";
 
 const StatsDashboardInfluencer = () => {
   const [channelName, setChannelName] = useState("");
@@ -54,6 +55,27 @@ const StatsDashboardInfluencer = () => {
       console.error("Error fetching channel data:", error);
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log(token)
+      try {
+        const response =  axios.get(
+          "http://localhost:8000/api/v1/profile/socialMedia",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, 
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(response);
+      } catch (err) {
+        console.log(err)
+      }
+    
+    
+  }, []);
 
   const fetchRecentVideoData = async (playlistId, apiKey) => {
     const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&maxResults=1&key=${apiKey}`;
