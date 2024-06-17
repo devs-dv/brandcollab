@@ -1,6 +1,46 @@
 import InfluencerProfile from "../models/influencerProfile.model.js";
 import asyncErrorHandler from "../middlewares/asyncErrorHandler.js";
 
+
+const createInfluencerProfile = asyncErrorHandler(async (req, res, next) => {
+  const { firstName, lastName, location, bio, email, profilePicture, instagram, instagramFollowers, twitter, twitterFollowers, facebook, facebookFollowers, youtube, youtubeFollowers } = req.body;
+
+  // Check if the user already has an influencer profile
+  const existingProfile = await InfluencerProfile.findOne({ user: req.user._id });
+
+  if (existingProfile) {
+    return next(new ErrorHandler("Influencer Profile already exists for this user", 400));
+  }
+
+  // Create a new influencer profile
+  const newProfile = new InfluencerProfile({
+    user: req.user._id,
+    firstName,
+    lastName,
+    location,
+    bio,
+    email,
+    profilePicture,
+    instagram,
+    instagramFollowers,
+    twitter,
+    twitterFollowers,
+    facebook,
+    facebookFollowers,
+    youtube,
+    youtubeFollowers
+  });
+
+  await newProfile.save();
+
+  res.status(201).json({
+    Message: "Influencer Profile created successfully",
+    Status: 201,
+    Success: true,
+    Data: newProfile,
+  });
+});
+
 // Influencer Profile Update
 const updateInfluencerProfile = asyncErrorHandler(async (req, res) => {
   const { firstName, lastName, location, bio, email, profilePicture } = req.body;
@@ -89,6 +129,7 @@ const changeInfluencerPassword = asyncErrorHandler(async (req, res) => {
 });
 
 export {
+  createInfluencerProfile,
   updateInfluencerProfile,
   updateInfluencerSocials,
   changeInfluencerPassword

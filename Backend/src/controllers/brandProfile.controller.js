@@ -1,5 +1,5 @@
 import asyncErrorHandler from "../middlewares/asyncErrorHandler.js";
-import User from "../models/user.model.js"
+import User from "../models/user.model.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import BrandProfile from "../models/brandProfile.model.js";
 import cloudinary from "cloudinary";
@@ -17,7 +17,7 @@ const createBrandProfile = asyncErrorHandler(async (req, res, next) => {
     city,
     email,
     format,
-    platform
+    platform,
   } = req.body;
 
   const brandProfile = new BrandProfile({
@@ -34,8 +34,7 @@ const createBrandProfile = asyncErrorHandler(async (req, res, next) => {
     city,
     email,
     format,
-    platform
-
+    platform,
   });
 
   if (req.files && req.files.logo) {
@@ -66,9 +65,7 @@ const createBrandProfile = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-
 const getBrandProfile = asyncErrorHandler(async (req, res, next) => {
-
   const { country, state, city, minFollowers, maxFollowers, sort } = req.query;
 
   const query = {};
@@ -86,14 +83,17 @@ const getBrandProfile = asyncErrorHandler(async (req, res, next) => {
   }
 
   if (minFollowers && maxFollowers) {
-    query.followersRequired = { $gte: Number(minFollowers), $lte: Number(maxFollowers) };
+    query.followersRequired = {
+      $gte: Number(minFollowers),
+      $lte: Number(maxFollowers),
+    };
   } else if (minFollowers) {
     query.followersRequired = { $gte: Number(minFollowers) };
   } else if (maxFollowers) {
     query.followersRequired = { $lte: Number(maxFollowers) };
   }
 
-  let sortOption = { createdAt: -1 }; // Default sorting by newest
+  let sortOption = { createdAt: -1 };
 
   if (sort) {
     if (sort === "followers") {
@@ -112,13 +112,10 @@ const getBrandProfile = asyncErrorHandler(async (req, res, next) => {
 // Update a brand profile
 const updateBrandProfile = asyncErrorHandler(async (req, res, next) => {
   let brandProfile = await BrandProfile.findById(req.params.id);
-
   if (!brandProfile) {
     return next(new ErrorHandler("Brand profile not found", 404));
   }
-
   const updates = req.body;
-
   if (req.files && req.files.logo) {
     try {
       const result = await cloudinary.v2.uploader.upload(

@@ -1,7 +1,7 @@
 import express from "express";
 import {
-    createSocialMediaProfile,
-  getAllSocialMediaProfiles,
+  createSocialMediaProfile,
+  getUserSocialMediaProfile,
   updateSocialMediaProfile,
 } from "../controllers/social.controller.js";
 import { isAuthenticatedUser } from "../middlewares/auth.js";
@@ -12,8 +12,8 @@ socialMediaRouter
   .route("/profile/socialMedia")
   .post(isAuthenticatedUser, createSocialMediaProfile);
 socialMediaRouter
-  .route("/profile/socialMedia")
-  .get(isAuthenticatedUser, getAllSocialMediaProfiles);
+  .route("/profile/socialMedia/me")
+  .get(isAuthenticatedUser, getUserSocialMediaProfile);
 socialMediaRouter
   .route("/profile/socialMedia/update/:id")
   .put(isAuthenticatedUser, updateSocialMediaProfile);

@@ -14,8 +14,7 @@ const createSocialMediaProfile = asyncErrorHandler(async (req, res, next) => {
     youtube,
     youtubeFollowers,
   } = req.body;
-   console.log(req.body)
-
+  
   const socialMediaProfile = new SocialMediaProfile({
     user: req.user._id,
     instagram,
@@ -37,15 +36,20 @@ const createSocialMediaProfile = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-// Get social media profiles by brand profile ID
-const getAllSocialMediaProfiles = asyncErrorHandler(async (req, res, next) => {
-    const socialMediaProfiles = await SocialMediaProfile.find();
-  
-    res.status(200).json({
-      success: true,
-      socialMediaProfiles,
-    });
+// Get social media profile of the logged-in user
+const getUserSocialMediaProfile = asyncErrorHandler(async (req, res, next) => {
+  const userId = req.user._id;
+  const socialMediaProfile = await SocialMediaProfile.findOne({ user: userId });
+
+  if (!socialMediaProfile) {
+    return next(new ErrorHandler("Social media profile not found", 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    socialMediaProfile,
   });
+});
 
 // Update a social media profile by ID
 const updateSocialMediaProfile = asyncErrorHandler(async (req, res, next) => {
@@ -75,4 +79,4 @@ const updateSocialMediaProfile = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-export { createSocialMediaProfile, getAllSocialMediaProfiles, updateSocialMediaProfile };
+export { createSocialMediaProfile, getUserSocialMediaProfile, updateSocialMediaProfile };
