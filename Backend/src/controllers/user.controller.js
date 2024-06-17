@@ -5,6 +5,7 @@ import ErrorHandler from "../utils/errorHandler.js";
 import cloudinary from "cloudinary";
 import crypto from "crypto";
 import sendEmail from "../utils/sendEmail.js";
+import InfluencerProfile from "../models/influencerProfile.model.js";
 
 const registerUser = asyncErrorHandler(async (req, res, next) => {
   const {
@@ -58,7 +59,12 @@ const loginUser = asyncErrorHandler(async (req, res, next) => {
   if (!isPasswordMatched) {
     return next(new ErrorHandler("Incorrect Password", 401));
   }
-  sendToken(user, 201, res);
+
+  res.status(201).json({
+    success: true,
+    message: "Avatar updated successfully",
+    user,
+  });
 });
 
 const updateAvatar = asyncErrorHandler(async (req, res, next) => {

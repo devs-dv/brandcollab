@@ -1,6 +1,7 @@
 import express from "express";
 import { isAuthenticatedUser } from "../middlewares/auth.js";
 import {
+  createInfluencerProfile,
   updateInfluencerProfile,
   updateInfluencerSocials,
   changeInfluencerPassword,
@@ -48,6 +49,11 @@ const influencerRouter = express.Router();
  *       400:
  *         description: Bad request
  */
+
+
+influencerRouter
+  .route("/influencerProfile/create")
+  .post(isAuthenticatedUser, createInfluencerProfile);
 influencerRouter
   .route("/profile")
   .put(isAuthenticatedUser, updateInfluencerProfile);
