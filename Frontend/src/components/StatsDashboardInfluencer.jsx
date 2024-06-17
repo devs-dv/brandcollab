@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import SideNav from "./navigation/SideNav";
 import axios from "axios";
+import { FaYoutube } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaFacebook } from "react-icons/fa6";
 
 const StatsDashboardInfluencer = () => {
   const [channelName, setChannelName] = useState("");
@@ -8,74 +12,44 @@ const StatsDashboardInfluencer = () => {
   const [recentVideoLikes, setRecentVideoLikes] = useState(null);
   const [profileAnalysis, setProfileAnalysis] = useState("");
   const [totalVideos, setTotalVideos] = useState(null);
-  const [totalShorts, setTotalShorts] = useState(null); // Placeholder, needs specific logic to fetch
+  const [totalShorts, setTotalShorts] = useState(null);
 
-  const fetchChannelId = async (channelName) => {
-    const apiKey = "AIzaSyBixAjM9sGY7u-GdsG1q0Dh_ez9eG7o7c4"; // we are using google apis for fetching the basic data of the youtube channel for our dashboard
-    const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${encodeURIComponent(
-      channelName
-    )}&key=${apiKey}`;
+  const [data, setData] = useState(null);
+  const [errorr, setErrorr] = useState(null);
 
-    try {
-      const response = await fetch(searchUrl);
-      const data = await response.json();
-      console.log("Search Response:", data); // Debugging log
-      if (data.items && data.items.length > 0) {
-        const channelId = data.items[0].id.channelId;
-        fetchChannelData(channelId, apiKey);
-      } else {
-        alert("Channel not found.");
-      }
-    } catch (error) {
-      console.error("Error fetching channel ID:", error);
-    }
+  const fetchChannelId = async (channelName) => {  
   };
 
-  const fetchChannelData = async (channelId, apiKey) => {
-    const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics,contentDetails&id=${channelId}&key=${apiKey}`;
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log("Channel Data Response:", data); // Debugging log
-      if (data.items && data.items.length > 0) {
-        const channel = data.items[0];
-        setChannelInfo(channel);
-        setTotalVideos(channel.statistics.videoCount); // Total videos count
-        fetchRecentVideoData(
-          channel.contentDetails.relatedPlaylists.uploads,
-          apiKey
-        );
-        // Call a function to fetch shorts data if applicable
-        fetchShortsData(channelId, apiKey);
-      } else {
-        alert("Channel not found.");
-      }
-    } catch (error) {
-      console.error("Error fetching channel data:", error);
-    }
+  const fetchChannelData = async (channelId, apiKey) => { 
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    console.log(token)
-      try {
-        const response =  axios.get(
-          "http://localhost:8000/api/v1/profile/socialMedia",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, 
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        console.log(response);
-      } catch (err) {
-        console.log(err)
-      }
-    
-    
-  }, []);
+   useEffect(() => {
+     const fetchData = async () => {
+       const token = localStorage.getItem("token");
+       try {
+         const response = await axios.get(
+           "http://localhost:8000/api/v1/profile/socialMedia/me",
+           {
+             headers: {
+               Authorization: `Bearer ${token}`,
+               "Content-Type": "application/json",
+             },
+           }
+         );
+         console.log("Response data:", response.data);
+         setData(response.data);
+         let myObject = JSON.stringify(response.data.socialMediaProfile);
+         localStorage.setItem("socialsData", myObject);
+       } catch (err) {
+         console.error("Error fetching data:", err);
+         setErrorr(err);
+       }
+     };
+     
+
+
+     fetchData();
+   }, []);
 
   const fetchRecentVideoData = async (playlistId, apiKey) => {
     const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&maxResults=1&key=${apiKey}`;
@@ -176,8 +150,6 @@ const handleFetchData = async () => {
 };
 
 
-  // function for the instagram and api calling through it ends  here
-
   return (
     <div>
       <div>
@@ -191,28 +163,14 @@ const handleFetchData = async () => {
                 <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
                   <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
                     <div className="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-blue-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        aria-hidden="true"
-                        className="w-6 h-6 text-white"
-                      >
-                        <path d="M12 7.5a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" />
-                        <path
-                          fillRule="evenodd"
-                          d="M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 011.5 14.625v-9.75zM8.25 9.75a3.75 3.75 0 117.5 0 3.75 3.75 0 01-7.5 0zM18.75 9a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V9.75a.75.75 0 00-.75-.75h-.008zM4.5 9.75A.75.75 0 015.25 9h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H5.25a.75.75 0 01-.75-.75V9.75z"
-                          clipRule="evenodd"
-                        />
-                        <path d="M2.25 18a.75.75 0 000 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 00-.75-.75H2.25z" />
-                      </svg>
+                      <FaYoutube className="w-8 h-8" />
                     </div>
                     <div className="p-4 text-right">
                       <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                        Collab's Earning
+                        Followers
                       </p>
                       <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                        $53k
+                        {/* {data.socialMediaProfile.youtubeFollowers} */}
                       </h4>
                     </div>
                     <div className="border-t border-blue-gray-50 p-4">
@@ -224,26 +182,14 @@ const handleFetchData = async () => {
                   </div>
                   <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
                     <div className="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-pink-600 to-pink-400 text-white shadow-pink-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        aria-hidden="true"
-                        className="w-6 h-6 text-white"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                      <FaInstagram className="w-8 h-8" />
                     </div>
                     <div className="p-4 text-right">
                       <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
                         Followers
                       </p>
                       <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                        2,300
+                        {/* {data.socialMediaProfile.instagramFollowers} */}
                       </h4>
                     </div>
                     <div className="border-t border-blue-gray-50 p-4">
@@ -255,22 +201,14 @@ const handleFetchData = async () => {
                   </div>
                   <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
                     <div className="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-green-600 to-green-400 text-white shadow-green-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        aria-hidden="true"
-                        className="w-6 h-6 text-white"
-                      >
-                        <path d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z" />
-                      </svg>
+                      <FaXTwitter className="w-8 h-8" />
                     </div>
                     <div className="p-4 text-right">
                       <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                        New Followers
+                        Followers
                       </p>
                       <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                        3,462
+                        {/* {data.socialMediaProfile.twitterFollowers} */}
                       </h4>
                     </div>
                     <div className="border-t border-blue-gray-50 p-4">
@@ -282,22 +220,14 @@ const handleFetchData = async () => {
                   </div>
                   <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
                     <div className="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-orange-600 to-orange-400 text-white shadow-orange-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        aria-hidden="true"
-                        className="w-6 h-6 text-white"
-                      >
-                        <path d="M18.375 2.25c-1.035 0-1.875.84-1.875 1.875v15.75c0 1.035.84 1.875 1.875 1.875h.75c1.035 0 1.875-.84 1.875-1.875V4.125c0-1.036-.84-1.875-1.875-1.875h-.75zM9.75 8.625c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-.75a1.875 1.875 0 01-1.875-1.875V8.625zM3 13.125c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v6.75c0 1.035-.84 1.875-1.875 1.875h-.75A1.875 1.875 0 013 19.875v-6.75z" />
-                      </svg>
+                      <FaFacebook className="w-8 h-8" />
                     </div>
                     <div className="p-4 text-right">
                       <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                        Impresions
+                        Followers
                       </p>
                       <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                        -103,430
+                        {/* {data.socialMediaProfile.facebookFollowers} */}
                       </h4>
                     </div>
                     <div className="border-t border-blue-gray-50 p-4">

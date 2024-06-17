@@ -6,16 +6,17 @@ import { FaInstagram, FaTwitter, FaFacebook, FaYoutube } from "react-icons/fa";
 import axios from "axios";
 
 const InfDashSocials = () => {
-  // Initial values for social media links and followers
+  const socialsData = JSON.parse(localStorage.getItem("socialsData"));
+  console.log(socialsData)
   const initialValues = {
-    instagram: "",
-    instagramFollowers: "",
-    twitter: "",
-    twitterFollowers: "",
-    facebook: "",
-    facebookFollowers: "",
-    youtube: "",
-    youtubeFollowers: "",
+    instagram: socialsData.instagram,
+    instagramFollowers: socialsData.instagramFollowers,
+    twitter: socialsData.twitter,
+    twitterFollowers: socialsData.twitterFollowers,
+    facebook: socialsData.facebook,
+    facebookFollowers: socialsData.facebookFollowers,
+    youtube: socialsData.youtube,
+    youtubeFollowers: socialsData.youtubeFollowers,
   };
 
   // Validation schema using Yup
