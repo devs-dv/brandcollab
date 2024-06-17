@@ -2,7 +2,8 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Text from "../../customComponents/Text";
-import { FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
+import { FaInstagram, FaTwitter, FaFacebook, FaYoutube } from "react-icons/fa";
+import axios from "axios";
 
 const InfDashSocials = () => {
   // Initial values for social media links and followers
@@ -13,6 +14,8 @@ const InfDashSocials = () => {
     twitterFollowers: "",
     facebook: "",
     facebookFollowers: "",
+    youtube: "",
+    youtubeFollowers: "",
   };
 
   // Validation schema using Yup
@@ -29,13 +32,32 @@ const InfDashSocials = () => {
     facebookFollowers: Yup.number()
       .min(0, "Followers cannot be negative")
       .required("Followers field is required"),
+    youtube: Yup.string().url("Invalid YouTube URL"),
+    youtubeFollowers: Yup.number()
+      .min(0, "Followers cannot be negative")
+      .required("Followers field is required"),
   });
 
   // Form submission handler
   const handleSubmit = (values, { setSubmitting }) => {
-    console.log(values);
-    // Submit logic goes here
-    setSubmitting(false);
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    axios
+      .post("http://localhost:8000/api/v1/profile/socialMedia", values,config)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error submitting the data!", error);
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   return (
@@ -179,7 +201,48 @@ const InfDashSocials = () => {
                   />
                 </div>
 
-                <div className="text-center">
+                <div className="mb-4">
+                  <label
+                    htmlFor="youtube"
+                    className=" text-sm font-medium text-gray-700 flex items-center"
+                  >
+                    <FaYoutube className="mr-2" />
+                    YouTube
+                  </label>
+                  <Field
+                    type="text"
+                    id="youtube"
+                    name="youtube"
+                    placeholder="https://youtube.com/yourchannel"
+                    className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  />
+                  <ErrorMessage
+                    name="youtube"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="youtubeFollowers"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    YouTube Followers
+                  </label>
+                  <Field
+                    type="number"
+                    id="youtubeFollowers"
+                    name="youtubeFollowers"
+                    className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  />
+                  <ErrorMessage
+                    name="youtubeFollowers"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+
+                <div className="text-center lg:col-span-2">
                   <button
                     type="submit"
                     disabled={isSubmitting}

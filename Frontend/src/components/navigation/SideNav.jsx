@@ -1,74 +1,86 @@
 import React, { useEffect, useState } from "react";
 import { IoHomeOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SideNav = () => {
-    const [isDarkMode, setIsDarkMode] = useState(false);
-    const [name, setName] = useState("");
+  const navigate = useNavigate();
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [name, setName] = useState("");
 
-    const dataString = localStorage.getItem("userData");
-    const dataObject = dataString ? JSON.parse(dataString) : {};
+  const dataString = localStorage.getItem("userData");
+  const dataObject = dataString ? JSON.parse(dataString) : {};
 
-    useEffect(() => {
-      const setDark = (val) => {
-        if (val === "dark") {
-          document.documentElement.classList.add("dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-        }
-        setName(dataObject.firstName)
-      };
-
-      // Initially set the theme based on the state
-      setDark(isDarkMode ? "dark" : "light");
-    }, [isDarkMode]);
-
-    const handleDarkModeToggle = (mode) => {
-      setIsDarkMode(mode === "dark");
-    };
-
-    const handleNavToggle = () => {
-      const sidebar = document.querySelector("aside");
-      const maxSidebar = document.querySelector(".max");
-      const miniSidebar = document.querySelector(".mini");
-      const maxToolbar = document.querySelector(".max-toolbar");
-      const logo = document.querySelector(".logo");
-      const content = document.querySelector(".content");
-
-      if (sidebar.classList.contains("-translate-x-48")) {
-        // max sidebar
-        sidebar.classList.remove("-translate-x-48");
-        sidebar.classList.add("translate-x-none");
-        maxSidebar.classList.remove("hidden");
-        maxSidebar.classList.add("flex");
-        miniSidebar.classList.remove("flex");
-        miniSidebar.classList.add("hidden");
-        maxToolbar.classList.add("translate-x-0");
-        maxToolbar.classList.remove("translate-x-24", "scale-x-0");
-        logo.classList.remove("ml-12");
-        content.classList.remove("ml-12");
-        content.classList.add("ml-12", "md:ml-60");
+  useEffect(() => {
+    const setDark = (val) => {
+      if (val === "dark") {
+        document.documentElement.classList.add("dark");
       } else {
-        // mini sidebar
-        sidebar.classList.add("-translate-x-48");
-        sidebar.classList.remove("translate-x-none");
-        maxSidebar.classList.add("hidden");
-        maxSidebar.classList.remove("flex");
-        miniSidebar.classList.add("flex");
-        miniSidebar.classList.remove("hidden");
-        maxToolbar.classList.add("translate-x-24", "scale-x-0");
-        maxToolbar.classList.remove("translate-x-0");
-        logo.classList.add("ml-12");
-        content.classList.remove("ml-12", "md:ml-60");
-        content.classList.add("ml-12");
+        document.documentElement.classList.remove("dark");
       }
+      setName(dataObject.firstName);
     };
 
-    const handleOptionSelect = (option) => {
-      
-    };
-    
+    // Initially set the theme based on the state
+    setDark(isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
+
+  const handleDarkModeToggle = (mode) => {
+    setIsDarkMode(mode === "dark");
+  };
+
+  const handleNavToggle = () => {
+    const sidebar = document.querySelector("aside");
+    const maxSidebar = document.querySelector(".max");
+    const miniSidebar = document.querySelector(".mini");
+    const maxToolbar = document.querySelector(".max-toolbar");
+    const logo = document.querySelector(".logo");
+    const content = document.querySelector(".content");
+
+    if (sidebar.classList.contains("-translate-x-48")) {
+      // max sidebar
+      sidebar.classList.remove("-translate-x-48");
+      sidebar.classList.add("translate-x-none");
+      maxSidebar.classList.remove("hidden");
+      maxSidebar.classList.add("flex");
+      miniSidebar.classList.remove("flex");
+      miniSidebar.classList.add("hidden");
+      maxToolbar.classList.add("translate-x-0");
+      maxToolbar.classList.remove("translate-x-24", "scale-x-0");
+      logo.classList.remove("ml-12");
+      content.classList.remove("ml-12");
+      content.classList.add("ml-12", "md:ml-60");
+    } else {
+      // mini sidebar
+      sidebar.classList.add("-translate-x-48");
+      sidebar.classList.remove("translate-x-none");
+      maxSidebar.classList.add("hidden");
+      maxSidebar.classList.remove("flex");
+      miniSidebar.classList.add("flex");
+      miniSidebar.classList.remove("hidden");
+      maxToolbar.classList.add("translate-x-24", "scale-x-0");
+      maxToolbar.classList.remove("translate-x-0");
+      logo.classList.add("ml-12");
+      content.classList.remove("ml-12", "md:ml-60");
+      content.classList.add("ml-12");
+    }
+  };
+
+  const handleOptionSelect = (option) => {};
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/v1/logout");
+      console.log("Logout successful:", response.data);
+      if(response.data.success){
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
   return (
     <>
       <div>
@@ -323,7 +335,10 @@ const SideNav = () => {
               </div>
             </Link>
             <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
-              <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+              <button
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                onClick={handleLogout}
+              >
                 Logout
               </button>
             </div>
