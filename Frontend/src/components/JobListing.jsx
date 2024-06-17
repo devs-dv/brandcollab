@@ -51,13 +51,32 @@ const JobListing = () => {
     setSortByFollowers(value);
   };
 
+  const socialData = JSON.parse(localStorage.getItem('socialsData'))
+  const [filled, setFilled] = useState(true)
+  console.log(socialData.instagramFollowers)
+  useEffect(()=>{
+    if (socialData.instagramFollowers == 0 ) {
+      setFilled(false);
+    } else {
+      setFilled(true);
+    }
+  },[])
+
   return (
     <div>
       <SideNav />
       <main className="content ml-12 transition-all ease-in-out duration-500">
         <div className="h-16" />
         {/* Your main content starts here */}
+
         <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900 p-4">
+          {filled ? (
+            <p className=" text-center text-green-500 p-2">Good to go</p>
+          ) : (
+            <p className="text-center text-red-500 p-2">
+              NOTE: Fill up Your Social media data before applying
+            </p>
+          )}
           <div className="flex flex-col md:flex-row justify-between items-center mb-4">
             <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4">
               <select className="p-2 border border-zinc-300 rounded-md w-full sm:w-auto">

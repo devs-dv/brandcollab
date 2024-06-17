@@ -26,12 +26,33 @@ const BranDashAbout = () => {
     brandName: Yup.string().required("Brand Name is required"),
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
-    industry: Yup.string().required("Industry is required"),
     country: Yup.string().required("Country is required"),
     state: Yup.string().required("State is required"),
     city: Yup.string().required("City is required"),
     bio: Yup.string(), // Changed description to bio
   });
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // Renamed showPopup
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e) => setSelectedImage(e.target.result);
+    } else {
+      console.error("Invalid file type. Please select an image.");
+    }
+  };
+
+  const handleSave = () => {
+    if (selectedImage) {
+      localStorage.setItem("profilePicture", selectedImage);
+      setShowSuccessMessage(true); // Use the new variable
+      setTimeout(() => setShowSuccessMessage(false), 3000); // Hide popup after 3 seconds
+    }
+  };
 
   const countryData = Country.getAllCountries();
 
@@ -82,7 +103,6 @@ const BranDashAbout = () => {
     axios
       .put("http://localhost:8000/api/v1/influencer/update", formData, config)
       .then((response) => {
-        localStorage.setItem("token", response.data.token);
         let myObject = JSON.stringify(response.data.user);
         localStorage.setItem("userData", myObject);
         console.log("Data sent successfully:", response.data);
@@ -107,7 +127,9 @@ const BranDashAbout = () => {
             Tell us about your brand so that influencers can know about you.
           </Text>
         </div>
+        {/* here for the profile image starts here  */}
 
+        {/* here for the profile image ends  here */}
         <div className="lg:col-start-2 lg:col-end-6">
           <Formik
             initialValues={initialValues}
@@ -117,7 +139,7 @@ const BranDashAbout = () => {
             {({ isSubmitting, setFieldValue, values }) => (
               <Form className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="lg:col-span-1 flex flex-col items-center justify-center">
-                  <label
+                  {/* <label
                     htmlFor="logo"
                     className="block text-sm font-medium text-gray-700 mb-2"
                   >
@@ -156,7 +178,43 @@ const BranDashAbout = () => {
                         Remove
                       </button>
                     )}
+                  </div> */}
+                  <div className="flex flex-col items-center">
+                    {selectedImage ? (
+                      <img
+                        src={selectedImage}
+                        alt="Profile Picture"
+                        className="w-48 h-48 object-cover rounded-full mb-4"
+                      />
+                    ) : (
+                      <p className="text-gray-500">No image selected</p>
+                    )}
+                    <input
+                      type="file"
+                      id="profilePicture"
+                      name="profilePicture"
+                      accept="image/*"
+                      className="text-sm text-gray-700 py-2 px-3 rounded-md border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      onChange={handleImageChange}
+                    />
+                    <button
+                      type="button"
+                      className="text-sm text-white bg-blue-500 hover:bg-blue-700 py-2 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-2 disabled:opacity-50"
+                      onClick={handleSave}
+                      disabled={!selectedImage}
+                    >
+                      Save Image
+                    </button>
+                    {showSuccessMessage && ( // Use the new variable
+                      <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-500 opacity-75 flex justify-center items-center z-50">
+                        <p className="text-white text-lg bg-green-500 rounded-md px-4 py-2">
+                          Image Saved!
+                        </p>
+                      </div>
+                    )}
                   </div>
+
+                  {/* end of the div  */}
                 </div>
                 <div className="lg:col-span-1 flex flex-col">
                   <div className="mb-4">
@@ -231,26 +289,7 @@ const BranDashAbout = () => {
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100"
                     />
                   </div>
-                  <div className="mb-4">
-                    <label
-                      htmlFor="industry"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Industry
-                    </label>
-                    <Field
-                      type="text"
-                      id="industry"
-                      name="industry"
-                      placeholder="eg. Technology, Fashion, Beauty, etc."
-                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    />
-                    <ErrorMessage
-                      name="industry"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </div>
+
                   <div className="mb-4">
                     <label
                       htmlFor="country"
