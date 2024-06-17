@@ -16,17 +16,20 @@ const influencerProfileSchema = new mongoose.Schema(
         type: String,
       },
     },
-    instagram: { type: String },
+    instagram: { type: String, default: null },
     instagramFollowers: { type: Number, default: 0 },
-    twitter: { type: String },
+    twitter: { type: String, default: null },
     twitterFollowers: { type: Number, default: 0 },
-    facebook: { type: String },
+    facebook: { type: String, default: null },
     facebookFollowers: { type: Number, default: 0 },
-    youtube: { type: String },
+    youtube: { type: String, default: null },
     youtubeFollowers: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
 
-const InfluencerProfile = mongoose.model("InfluencerProfile", influencerProfileSchema);
+const InfluencerProfile = mongoose.model(
+  "InfluencerProfile",
+  influencerProfileSchema
+);
 export default InfluencerProfile;
