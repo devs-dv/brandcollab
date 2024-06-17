@@ -73,6 +73,7 @@ const SideNav = () => {
     localStorage.removeItem('token')
     localStorage.removeItem("userData");
     localStorage.removeItem('socialsData');
+    
     try {
       const response = await axios.get("http://localhost:8000/api/v1/logout");
       console.log("Logout successful:", response.data);
