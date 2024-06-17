@@ -70,6 +70,7 @@ const TopNav = () => {
   const handleLogout = async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userData");
+    localStorage.removeItem('profilePicture')
 
     try {
       const response = await axios.get("http://localhost:8000/api/v1/logout");
@@ -81,6 +82,8 @@ const TopNav = () => {
       console.error("Error logging out:", error);
     }
   };
+
+  const pic = localStorage.getItem("profilePicture");
 
   return (
     <>
@@ -96,7 +99,7 @@ const TopNav = () => {
               <div className="flex-none flex justify-center">
                 <div className="w-8 h-8 flex ">
                   <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShta_GXR2xdnsxSzj_GTcJHcNykjVKrCBrZ9qouUl0usuJWG2Rpr_PbTDu3sA9auNUH64&usqp=CAU"
+                    src={pic}
                     alt="profile"
                     className="shadow rounded-full object-cover"
                   />
