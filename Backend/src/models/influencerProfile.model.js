@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const influencerProfileSchema = mongoose.Schema(
+const influencerProfileSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     firstName: { type: String, default: null },
@@ -28,8 +28,5 @@ const influencerProfileSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const InfluencerProfile = mongoose.model(
-  "InfluencerProfile",
-  influencerProfileSchema
-);
+const InfluencerProfile = mongoose.model("InfluencerProfile", influencerProfileSchema);
 export default InfluencerProfile;

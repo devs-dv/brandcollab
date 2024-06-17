@@ -2,8 +2,7 @@ import asyncErrorHandler from "../middlewares/asyncErrorHandler.js";
 import SocialMediaProfile from "../models/social.model.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
-// Create a social media profile
-const createSocialMediaProfile = asyncErrorHandler(async (req, res, next) => {
+const createOrUpdateSocialMediaProfile = asyncErrorHandler(async (req, res, next) => {
   const {
     instagram,
     instagramFollowers,
@@ -14,26 +13,52 @@ const createSocialMediaProfile = asyncErrorHandler(async (req, res, next) => {
     youtube,
     youtubeFollowers,
   } = req.body;
-  
-  const socialMediaProfile = new SocialMediaProfile({
-    user: req.user._id,
-    instagram,
-    instagramFollowers,
-    twitter,
-    twitterFollowers,
-    facebook,
-    facebookFollowers,
-    youtube,
-    youtubeFollowers,
-  });
 
-  await socialMediaProfile.save();
+  const userId = req.user._id;
 
-  res.status(201).json({
-    success: true,
-    message: "Social media profile created successfully",
-    socialMediaProfile,
-  });
+  // Check if a social media profile already exists for this user
+  let socialMediaProfile = await SocialMediaProfile.findOne({ user: userId });
+
+  if (socialMediaProfile) {
+    // Update the existing profile
+    socialMediaProfile.instagram = instagram;
+    socialMediaProfile.instagramFollowers = instagramFollowers;
+    socialMediaProfile.twitter = twitter;
+    socialMediaProfile.twitterFollowers = twitterFollowers;
+    socialMediaProfile.facebook = facebook;
+    socialMediaProfile.facebookFollowers = facebookFollowers;
+    socialMediaProfile.youtube = youtube;
+    socialMediaProfile.youtubeFollowers = youtubeFollowers;
+
+    await socialMediaProfile.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Social media profile updated successfully",
+      socialMediaProfile,
+    });
+  } else {
+    // Create a new profile
+    socialMediaProfile = new SocialMediaProfile({
+      user: userId,
+      instagram,
+      instagramFollowers,
+      twitter,
+      twitterFollowers,
+      facebook,
+      facebookFollowers,
+      youtube,
+      youtubeFollowers,
+    });
+
+    await socialMediaProfile.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Social media profile created successfully",
+      socialMediaProfile,
+    });
+  }
 });
 
 // Get social media profile of the logged-in user
@@ -79,4 +104,4 @@ const updateSocialMediaProfile = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-export { createSocialMediaProfile, getUserSocialMediaProfile, updateSocialMediaProfile };
+export { createOrUpdateSocialMediaProfile, getUserSocialMediaProfile, updateSocialMediaProfile };
