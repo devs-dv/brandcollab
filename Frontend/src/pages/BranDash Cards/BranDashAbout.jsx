@@ -26,7 +26,6 @@ const BranDashAbout = () => {
     brandName: Yup.string().required("Brand Name is required"),
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
-    industry: Yup.string().required("Industry is required"),
     country: Yup.string().required("Country is required"),
     state: Yup.string().required("State is required"),
     city: Yup.string().required("City is required"),
@@ -105,7 +104,6 @@ const handleSave = () => {
     axios
       .put("http://localhost:8000/api/v1/influencer/update", formData, config)
       .then((response) => {
-        localStorage.setItem("token", response.data.token);
         let myObject = JSON.stringify(response.data.user);
         localStorage.setItem("userData", myObject);
         console.log("Data sent successfully:", response.data);
@@ -295,26 +293,7 @@ const handleSave = () => {
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100"
                     />
                   </div>
-                  <div className="mb-4">
-                    <label
-                      htmlFor="industry"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Industry
-                    </label>
-                    <Field
-                      type="text"
-                      id="industry"
-                      name="industry"
-                      placeholder="eg. Technology, Fashion, Beauty, etc."
-                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full lg:w-80 shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    />
-                    <ErrorMessage
-                      name="industry"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </div>
+                  
                   <div className="mb-4">
                     <label
                       htmlFor="country"
