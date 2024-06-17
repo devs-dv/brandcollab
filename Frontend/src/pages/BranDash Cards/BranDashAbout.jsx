@@ -186,39 +186,34 @@ const handleSave = () => {
                     )}
                   </div> */}
                   <div className="flex flex-col items-center">
-                    {selectedImage ? (
-                      <img
-                        src={selectedImage}
-                        alt="Profile Picture"
-                        className="w-48 h-48 object-cover rounded-full mb-4"
-                      />
-                    ) : (
-                      <p className="text-gray-500">No image selected</p>
-                    )}
-                    <input
-                      type="file"
-                      id="profilePicture"
-                      name="profilePicture"
-                      accept="image/*"
-                      className="text-sm text-gray-700 py-2 px-3 rounded-md border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      onChange={handleImageChange}
-                    />
-                    <button
-                      type="button"
-                      className="text-sm text-white bg-blue-500 hover:bg-blue-700 py-2 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-2 disabled:opacity-50"
-                      onClick={handleSave}
-                      disabled={!selectedImage}
-                    >
-                      Save Image
-                    </button>
-                    {showSuccessMessage && ( // Use the new variable
-                      <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-500 opacity-75 flex justify-center items-center z-50">
-                        <p className="text-white text-lg bg-green-500 rounded-md px-4 py-2">
-                          Image Saved!
-                        </p>
-                      </div>
-                    )}
-                  </div>
+      {selectedImage ? (
+        <img src={selectedImage} alt="Profile Picture" className="w-48 h-48 object-cover rounded-full mb-4" />
+      ) : (
+        <p className="text-gray-500">No image selected</p>
+      )}
+      <input
+        type="file"
+        id="profilePicture"
+        name="profilePicture"
+        accept="image/*"
+        className="text-sm text-gray-700 py-2 px-3 rounded-md border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        onChange={handleImageChange}
+      />
+      <button
+        type="button"
+        className="text-sm text-white bg-blue-500 hover:bg-blue-700 py-2 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-2 disabled:opacity-50"
+        onClick={handleSave}
+        disabled={!selectedImage}
+      >
+        Save Image
+      </button>
+      {showSuccessMessage && ( // Use the new variable
+        <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-500 opacity-75 flex justify-center items-center z-50">
+          <p className="text-white text-lg bg-green-500 rounded-md px-4 py-2">Image Saved!</p>
+        </div>
+      )}
+    </div>
+
 
                   {/* end of the div  */}
                 </div>
