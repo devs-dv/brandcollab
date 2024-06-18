@@ -20,7 +20,7 @@ const createAppliedJob = asyncErrorHandler(async (req, res, next) => {
   const appliedJob = new AppliedJob({
     user: req.user._id,
     influencer: req.user._id,
-    brand: branddata._id,
+    brand: branddata.user,
     firstName: userdata.firstName,
     lastName: userdata.lastName,
     gender: userdata.gender,
@@ -70,7 +70,7 @@ const getAppliedJobsByBrandId = asyncErrorHandler(async (req, res, next) => {
     return next(new ErrorHandler("Brand ID is required", 400));
   }
 
-  const appliedJobs = await AppliedJob.find({ brand: brandId });
+  const appliedJobs = await AppliedJob.findOne({ brand: brandId });
 
   if (!appliedJobs.length) {
     return next(new ErrorHandler("No jobs found for this brand ID", 404));
