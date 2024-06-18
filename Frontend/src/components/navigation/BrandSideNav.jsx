@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const TopNav = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [name, setName] = useState("");
 
-
   const dataString = localStorage.getItem("userData");
   const dataObject = dataString ? JSON.parse(dataString) : {};
-
 
   useEffect(() => {
     const setDark = (val) => {
@@ -18,7 +18,7 @@ const TopNav = () => {
       } else {
         document.documentElement.classList.remove("dark");
       }
-      setName(dataObject.firstName)
+      setName(dataObject.firstName);
     };
 
     // Initially set the theme based on the state
@@ -65,14 +65,11 @@ const TopNav = () => {
       content.classList.add("ml-12");
     }
   };
-  const handleOptionSelect = () =>{
-    
-  }
+  const handleOptionSelect = () => {};
 
   const handleLogout = async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userData");
-    localStorage.removeItem("socialsData");
 
     try {
       const response = await axios.get("http://localhost:8000/api/v1/logout");
@@ -84,6 +81,8 @@ const TopNav = () => {
       console.error("Error logging out:", error);
     }
   };
+
+  const pic = localStorage.getItem("profilePicture");
 
   return (
     <>
@@ -99,7 +98,7 @@ const TopNav = () => {
               <div className="flex-none flex justify-center">
                 <div className="w-8 h-8 flex ">
                   <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShta_GXR2xdnsxSzj_GTcJHcNykjVKrCBrZ9qouUl0usuJWG2Rpr_PbTDu3sA9auNUH64&usqp=CAU"
+                    src={pic}
                     alt="profile"
                     className="shadow rounded-full object-cover"
                   />
@@ -340,7 +339,10 @@ const TopNav = () => {
               </div>
             </Link>
             <div className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
-              <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded ">
+              <button
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                onClick={handleLogout}
+              >
                 Logout
               </button>
             </div>

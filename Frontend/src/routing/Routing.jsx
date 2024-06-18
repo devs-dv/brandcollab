@@ -33,7 +33,7 @@ import BrandChangePassword from '../components/Brand Dashboard/BrandChangePasswo
 const Routing = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<PreLanding />} />
       <Route path="/signup" element={<Signup />} />
       <Route path='/brandSignup' element={<BrandSignup/>} />
       <Route path="/login" element={<Login />} />
