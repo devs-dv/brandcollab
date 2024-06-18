@@ -10,6 +10,7 @@ const JobListing = () => {
   const [minFollowers, setMinFollowers] = useState(0);
   const countryData = Country.getAllCountries();
   const [filled, setFilled] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
 
   const socialData = JSON.parse(localStorage.getItem("socialsData"));
 
@@ -50,6 +51,13 @@ const JobListing = () => {
       )
       .then((response) => {
         console.log("Application submitted:", response.data);
+        setProfiles((prevProfiles) =>
+          prevProfiles.map((profile) =>
+            profile._id === profileId ? { ...profile, applied: true } : profile
+          )
+        );
+        setShowPopup(true);
+        setTimeout(() => setShowPopup(false), 3000);
       })
       .catch((error) => {
         console.error("Error submitting application:", error);
@@ -111,6 +119,11 @@ const JobListing = () => {
             ))}
           </div>
         </div>
+        {showPopup && (
+          <div className="fixed top-4 right-4 bg-green-500 text-white p-2 rounded">
+            Application submitted successfully!
+          </div>
+        )}
       </main>
     </div>
   );
@@ -120,7 +133,11 @@ const ProfileCard = ({ profile, handleApply }) => {
   const [showDescription, setShowDescription] = useState(false);
 
   return (
-    <div className="max-w-sm w-full sm:w-1/2 lg:w-1/3 p-4">
+    <div
+      className={`max-w-sm w-full sm:w-1/2 lg:w-1/3 p-4 ${
+        profile.applied ? "opacity-50" : ""
+      }`}
+    >
       <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-md overflow-hidden">
         <div className="relative">
           <img
@@ -200,10 +217,13 @@ const ProfileCard = ({ profile, handleApply }) => {
           </div>
           <div className="mt-4 text-center">
             <button
-              className="bg-green-200 text-green-800 px-4 py-2 rounded"
-              onClick={() => handleApply(profile._id)}
+              className={`bg-green-200 text-green-800 px-4 py-2 rounded ${
+                profile.applied ? "cursor-not-allowed" : ""
+              }`}
+              onClick={() => !profile.applied && handleApply(profile.user)}
+              disabled={profile.applied}
             >
-              Apply Now
+              {profile.applied ? "Applied" : "Apply Now"}
             </button>
           </div>
         </div>
